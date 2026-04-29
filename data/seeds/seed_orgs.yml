@@ -1,0 +1,66 @@
+# Hand-curated seed organizations.
+# Edit freely - any entry without a website will have one resolved via search
+# during extraction.
+organizations:
+  # ---- Domestic & Sexual Violence ----
+  - name: "Bradley Angle"
+    website: "https://bradleyangle.org"
+    topics: ["dsv"]
+    city: "Portland"
+  - name: "Raphael House of Portland"
+    website: "https://raphaelhouse.com"
+    topics: ["dsv"]
+    city: "Portland"
+  - name: "Sexual Assault Resource Center (SARC)"
+    website: "https://www.sarcoregon.org"
+    topics: ["dsv"]
+    city: "Beaverton"
+  - name: "Volunteers of America Oregon Home Free"
+    website: "https://www.voaor.org"
+    topics: ["dsv"]
+    city: "Portland"
+  - name: "Center Against Rape and Domestic Violence (CARDV)"
+    website: "https://cardv.org"
+    topics: ["dsv"]
+    city: "Corvallis"
+  - name: "Saving Grace"
+    website: "https://www.saving-grace.org"
+    topics: ["dsv"]
+    city: "Bend"
+
+  # ---- Housing ----
+  - name: "Street Roots"
+    website: "https://www.streetroots.org"
+    topics: ["housing"]
+    city: "Portland"
+  - name: "Transition Projects"
+    website: "https://www.tprojects.org"
+    topics: ["housing"]
+    city: "Portland"
+  - name: "Central City Concern"
+    website: "https://www.centralcityconcern.org"
+    topics: ["housing"]
+    city: "Portland"
+  - name: "Habitat for Humanity Portland Region"
+    website: "https://habitatportlandregion.org"
+    topics: ["housing"]
+    city: "Portland"
+  - name: "Sponsors Inc"
+    website: "https://sponsorsinc.org"
+    topics: ["housing"]
+    city: "Eugene"
+  - name: "JOIN PDX"
+    website: "https://joinpdx.org"
+    topics: ["housing"]
+    city: "Portland"
+
+  # ---- Maternal Health ----
+  - name: "Oregon Doula Association"
+    website: "https://www.oregondoulas.org"
+    topics: ["maternal_health"]
+  - name: "Maternal Mental Health NOW"
+    topics: ["maternal_health"]
+  - name: "Birth Roots"
+    topics: ["maternal_health"]
+  - name: "Pregnancy Resource Centers of Oregon"
+    topics: ["maternal_health"]

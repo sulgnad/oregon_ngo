@@ -1,0 +1,15 @@
+organizations:
+  - name: "Bradley Angle"
+    website: "https://bradleyangle.org"
+    topics: ["dsv"]
+    city: "Portland"
+  - name: "Street Roots"
+    website: "https://www.streetroots.org"
+    topics: ["housing"]
+    city: "Portland"
+  - name: "Oregon Doula Association"
+    topics: ["maternal_health"]
+  - name: ""    # invalid, should be skipped
+    topics: ["dsv"]
+  - name: "Bad Topic Org"
+    topics: ["nope"]

@@ -1,0 +1,35 @@
+{
+  "total_results": 3,
+  "num_pages": 1,
+  "cur_page": 0,
+  "organizations": [
+    {
+      "ein": 930388110,
+      "name": "Bradley Angle",
+      "city": "Portland",
+      "state": "OR",
+      "ntee_code": "I71"
+    },
+    {
+      "ein": 930405430,
+      "name": "Habitat For Humanity Portland Region",
+      "city": "Portland",
+      "state": "OR",
+      "ntee_code": "L21"
+    },
+    {
+      "ein": 911234567,
+      "name": "Maternity Support Services Of Oregon",
+      "city": "Eugene",
+      "state": "OR",
+      "ntee_code": "E40"
+    },
+    {
+      "ein": 999999999,
+      "name": "Some Unrelated Charity",
+      "city": "Salem",
+      "state": "OR",
+      "ntee_code": "B82"
+    }
+  ]
+}
