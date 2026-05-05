@@ -15,7 +15,15 @@ from ..models import FetchedPage, MissionResult
 
 
 MISSION_HEADING_RE = re.compile(r"(?i)^\s*(our\s+)?mission(\s+statement)?\s*$")
-VALUES_HEADING_RE = re.compile(r"(?i)^\s*(our\s+)?(core\s+)?values\s*$")
+# Values come under many headings: "Our Values", "Core Values", "Our Core
+# Values", "What We Stand For", "Guiding Principles", "Our Beliefs".
+VALUES_HEADING_RE = re.compile(
+    r"(?i)^\s*(?:"
+    r"(?:our\s+|the\s+)?(?:core\s+|guiding\s+)?(?:values|principles|beliefs)"
+    r"|what\s+we\s+stand\s+for"
+    r"|our\s+commitments?"
+    r")\s*[:.]?\s*$"
+)
 MISSION_PHRASE_RE = re.compile(
     r"(?i)(our mission is[^.]+\.|the mission of [^.]+\.)"
 )

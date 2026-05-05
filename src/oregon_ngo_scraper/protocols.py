@@ -93,3 +93,16 @@ class MissionStore(Protocol):
     pointer (file path or URI) that gets stored in the database/CSV."""
 
     def write(self, org: Organization, mission: str) -> str: ...
+
+
+@runtime_checkable
+class Enricher(Protocol):
+    """Augments already-discovered organizations with additional facts.
+
+    Enrichers run between ``Pipeline.discover`` and ``Pipeline.extract`` and
+    are free to mutate organizations in place or return new instances.
+    """
+
+    name: str
+
+    def enrich(self, orgs: list[Organization]) -> list[Organization]: ...

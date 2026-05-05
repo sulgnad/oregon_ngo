@@ -18,6 +18,10 @@ from .discovery.oregon_sos import OregonSosDiscovery
 from .discovery.propublica import ProPublicaDiscovery
 from .discovery.seeds import SeedDiscovery
 from .discovery.xlsx_starter import XlsxStarterListDiscovery
+from .enrichers.propublica_website import (
+    ProPublicaDetailFetcher,
+    ProPublicaWebsiteEnricher,
+)
 from .extractors.crawler import PageCrawler
 from .extractors.mission import MissionExtractor
 from .http import RequestsHttpClient
@@ -81,6 +85,17 @@ def main(argv: list[str] | None = None) -> int:
         HousingAllianceDiscovery(http),
         MaternalHealthDiscovery(http),
     ]
+    enrichers = [
+        # Hits ProPublica's per-org detail endpoint to grab verified address
+        # info and (when present) any URL-shaped fields. Falls back to a
+        # city-scoped DDG search via the resolver, so ProPublica-discovered
+        # orgs that lacked a website at discovery time gain one here.
+        ProPublicaWebsiteEnricher(
+            ProPublicaDetailFetcher(http),
+            resolver=resolver,
+        ),
+    ]
+
     pipeline = Pipeline(
         sources=sources,
         resolver=resolver,
@@ -89,6 +104,7 @@ def main(argv: list[str] | None = None) -> int:
         storage=storage,
         clock=clock,
         mission_store=mission_store,
+        enrichers=enrichers,
     )
 
     topic_filter: set[Topic] | None = None

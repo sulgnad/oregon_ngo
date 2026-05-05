@@ -42,10 +42,17 @@ class HomepageResolver:
         self._search = search
         self._suffix = query_suffix
 
-    def resolve(self, name: str) -> str | None:
+    def resolve(self, name: str, *, city: str | None = None) -> str | None:
+        """Return the best-guess homepage URL for ``name``.
+
+        ``city`` is optional context that gets folded into the search query
+        (e.g. "\"Bienestar Inc\" Hillsboro Oregon nonprofit"); supplying it
+        makes name collisions far less likely.
+        """
         if not name:
             return None
-        results = self._search.search(f'"{name}" {self._suffix}', max_results=10)
+        query = f'"{name}" {city} {self._suffix}' if city else f'"{name}" {self._suffix}'
+        results = self._search.search(query, max_results=10)
         ranked = sorted(
             (r for r in results if _is_candidate(r)),
             key=lambda r: _score(r, name),

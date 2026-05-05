@@ -43,3 +43,27 @@ def test_returns_empty_when_no_match() -> None:
     assert result.mission is None
     assert result.values is None
     assert result.strategies == []
+
+
+def test_values_extractor_handles_alternate_headings() -> None:
+    extractor = MissionExtractor()
+    for heading, expected in (
+        ("Core Values", "Integrity"),
+        ("Our Core Values", "Integrity"),
+        ("What We Stand For", "Integrity"),
+        ("Guiding Principles", "Integrity"),
+        ("Our Beliefs", "Integrity"),
+    ):
+        html = f"""
+        <html><body>
+        <h2>{heading}</h2>
+        <ul>
+          <li>Integrity in everything we do</li>
+          <li>Compassion for the communities we serve</li>
+          <li>Equity is non-negotiable</li>
+        </ul>
+        </body></html>
+        """
+        result = extractor.extract([_page("https://x", html)])
+        assert result.values is not None, heading
+        assert expected in result.values, heading

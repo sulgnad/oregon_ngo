@@ -108,10 +108,9 @@ JSON fixtures captured from real pages live under `tests/fixtures/`.
 | `name` | Organization name |
 | `website` | Homepage URL |
 | `topics` | `;`-joined topic tags (`dsv`, `housing`, `maternal_health`) |
-| `mission` | Extracted mission statement (single line, also written to a separate .txt file) |
 | `values` | Extracted values statement |
 | `mission_source_url` | Page URL the mission/values were extracted from |
-| `mission_file` | Relative path to a `.txt` file containing the full mission text |
+| `mission_file` | Relative path to a `.txt` file containing the full mission text — the mission statement itself lives in the file, not the CSV |
 | `ein` | IRS EIN if known |
 | `city` | City |
 | `county` | Oregon county |

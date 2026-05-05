@@ -12,11 +12,13 @@ from .discovery.base import dedup_key
 from .models import Organization
 
 
+# The full mission statement is intentionally NOT a CSV column — it lives in
+# its own .txt file (path recorded in ``mission_file``). The CSV stays small
+# and easy to scan; downstream tools open the file when they need the text.
 CSV_COLUMNS = (
     "name",
     "website",
     "topics",
-    "mission",
     "values",
     "mission_source_url",
     "mission_file",
@@ -110,7 +112,6 @@ def _to_csv_row(org: Organization) -> dict[str, str]:
         "name": org.name or "",
         "website": org.website or "",
         "topics": ";".join(sorted(t.value for t in org.topics)),
-        "mission": (org.mission or "").replace("\n", " ").strip(),
         "values": (org.values or "").replace("\n", " ").strip(),
         "mission_source_url": org.mission_source_url or "",
         "mission_file": org.mission_file or "",

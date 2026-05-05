@@ -47,23 +47,34 @@ class _HostRateLimiter:
 
 
 class RequestsHttpClient:
-    """Concrete ``HttpClient`` backed by a ``requests.Session``."""
+    """Concrete ``HttpClient`` backed by a ``requests.Session``.
+
+    Defaults are tuned for a polite-but-resilient web scrape:
+    short connect/read timeouts, retry only on 5xx/429, and never retry
+    connection errors (so an unresolvable host fails fast instead of
+    blocking the whole pipeline for minutes).
+    """
 
     def __init__(
         self,
         *,
         user_agent: str = DEFAULT_USER_AGENT,
         rate_limit_per_host: float = 1.0,
-        retries: int = 3,
-        backoff_factor: float = 0.5,
+        retries: int = 1,
+        backoff_factor: float = 0.3,
+        default_timeout: float | tuple[float, float] = (5.0, 10.0),
         session: requests.Session | None = None,
     ) -> None:
         self._user_agent = user_agent
+        self._default_timeout = default_timeout
         self._session = session or requests.Session()
         self._session.headers.update({"User-Agent": user_agent})
 
         retry_cfg = Retry(
             total=retries,
+            connect=0,  # do NOT retry connection / DNS failures
+            read=retries,
+            status=retries,
             backoff_factor=backoff_factor,
             status_forcelist=(500, 502, 503, 504, 429),
             allowed_methods=("GET", "HEAD"),
@@ -77,12 +88,17 @@ class RequestsHttpClient:
         self._limiter = _HostRateLimiter(min_interval)
 
     def get(
-        self, url: str, *, timeout: float = 30.0, headers: dict[str, str] | None = None
+        self,
+        url: str,
+        *,
+        timeout: float | tuple[float, float] | None = None,
+        headers: dict[str, str] | None = None,
     ) -> HttpResponse:
         host = urlparse(url).netloc
         self._limiter.wait(host)
         merged = dict(headers or {})
-        resp = self._session.get(url, timeout=timeout, headers=merged)
+        effective_timeout = timeout if timeout is not None else self._default_timeout
+        resp = self._session.get(url, timeout=effective_timeout, headers=merged)
         return HttpResponse(status_code=resp.status_code, text=resp.text, url=resp.url)
 
     def close(self) -> None:

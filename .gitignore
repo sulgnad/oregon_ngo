@@ -10,5 +10,6 @@ htmlcov/
 data/discovery/*.jsonl
 data/output/*.csv
 data/output/*.jsonl
+data/output/*.log
 data/output/missions/
 logs/*.log

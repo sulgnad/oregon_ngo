@@ -5,11 +5,11 @@ from __future__ import annotations
 import logging
 from typing import Iterable, Sequence
 
-from .discovery.base import dedup_key
+from .discovery.base import coalesce_duplicates, dedup_key
 from .extractors.crawler import PageCrawler
 from .extractors.mission import MissionExtractor
 from .models import Organization, Topic
-from .protocols import Clock, DiscoverySource, MissionStore, Storage
+from .protocols import Clock, DiscoverySource, Enricher, MissionStore, Storage
 from .resolver import HomepageResolver
 
 
@@ -34,6 +34,7 @@ class Pipeline:
         storage: Storage,
         clock: Clock,
         mission_store: MissionStore | None = None,
+        enrichers: Sequence[Enricher] = (),
     ) -> None:
         self._sources = list(sources)
         self._resolver = resolver
@@ -42,6 +43,7 @@ class Pipeline:
         self._storage = storage
         self._clock = clock
         self._mission_store = mission_store
+        self._enrichers = list(enrichers)
 
     def discover(self, *, topic_filter: set[Topic] | None = None) -> list[Organization]:
         """Run every discovery source and return the deduped result."""
@@ -62,18 +64,46 @@ class Pipeline:
         return list(merged.values())
 
     def extract(self, orgs: Iterable[Organization]) -> list[Organization]:
-        """Resolve URLs (if missing), crawl, extract mission/values, persist."""
+        """Resolve URLs (if missing), crawl, extract mission/values, persist.
+
+        Flushes the storage backend after every org so a partial run still
+        produces usable output if interrupted.
+        """
         out: list[Organization] = []
-        for org in orgs:
+        orgs_list = list(orgs)
+        total = len(orgs_list)
+        for index, org in enumerate(orgs_list, start=1):
+            logger.info("[%d/%d] %s", index, total, org.name)
             enriched = self._enrich_one(org)
             self._storage.upsert(enriched)
             out.append(enriched)
-        self._storage.flush()
+            try:
+                self._storage.flush()
+            except Exception:  # pragma: no cover - defensive
+                logger.exception("flush failed mid-run")
         return out
 
     def run_all(self, *, topic_filter: set[Topic] | None = None) -> list[Organization]:
         discovered = self.discover(topic_filter=topic_filter)
-        return self.extract(discovered)
+        enriched = self.enrich(discovered)
+        # After enrichment some EIN-only orgs gain a website that may match
+        # an xlsx-keyed row — a second-pass union-find collapses them.
+        deduped = coalesce_duplicates(enriched)
+        if len(deduped) < len(enriched):
+            logger.info(
+                "coalesced %d -> %d organizations", len(enriched), len(deduped)
+            )
+        return self.extract(deduped)
+
+    def enrich(self, orgs: list[Organization]) -> list[Organization]:
+        """Run every registered enricher in order."""
+        result = list(orgs)
+        for enricher in self._enrichers:
+            try:
+                result = list(enricher.enrich(result))
+            except Exception:  # pragma: no cover - defensive
+                logger.exception("enricher %s failed", getattr(enricher, "name", enricher))
+        return result
 
     def _enrich_one(self, org: Organization) -> Organization:
         if not org.website:

@@ -41,6 +41,9 @@ def test_writes_csv_with_expected_columns(tmp_path: Path) -> None:
     rows = _read_rows(csv_path)
     assert len(rows) == 1
     assert list(rows[0].keys()) == list(CSV_COLUMNS)
+    # The mission text intentionally does NOT live in the CSV; only the
+    # pointer to the .txt file does.
+    assert "mission" not in rows[0]
     row = rows[0]
     assert row["name"] == "Bradley Angle"
     assert row["topics"] == "dsv"
