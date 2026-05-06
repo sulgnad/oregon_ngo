@@ -24,6 +24,7 @@ class BaseDiscoverySource(ABC):
 
 
 _NORMALIZE_RE = re.compile(r"[^a-z0-9]+")
+_PAREN_RE = re.compile(r"\([^)]*\)")
 _SUFFIXES = (
     "inc",
     "incorporated",
@@ -35,13 +36,51 @@ _SUFFIXES = (
     "of oregon",
     "oregon",
 )
+# Aggressive filler set used by ``canonical_name`` for cross-source dedup.
+# Includes ``normalize_name``'s suffixes plus connective words and the
+# common "foundation"/"formerly" tokens that orgs vary in.
+_CANONICAL_FILLERS = set(_SUFFIXES) | {
+    "a",
+    "an",
+    "and",
+    "or",
+    "of",
+    "for",
+    "to",
+    "co",
+    "company",
+    "foundation",
+    "formerly",
+}
 
 
 def normalize_name(name: str) -> str:
-    """Return a canonical form of an org name for dedup keys."""
+    """Return a canonical form of an org name for dedup keys.
+
+    Conservative: lowercases, strips punctuation, drops corporate suffixes
+    and Oregon-specific tokens. Preserves distinguishing tokens like
+    ordinals ("V", "II") and place names so genuinely different orgs keep
+    distinct keys.
+    """
     s = name.lower().strip()
     s = _NORMALIZE_RE.sub(" ", s)
     parts = [p for p in s.split() if p and p not in _SUFFIXES]
+    return " ".join(parts)
+
+
+def canonical_name(name: str) -> str:
+    """Aggressive normalization for cross-source duplicate detection.
+
+    Beyond ``normalize_name``: strips parenthesized text (acronyms like
+    ``(CHS)``), drops connective words (``and``, ``for``, ``of``), and
+    drops common framing tokens (``foundation``, ``formerly``). Used
+    only inside :func:`coalesce_duplicates` so two records that refer
+    to the same org but stylize the name differently still merge.
+    """
+    s = name.lower().strip()
+    s = _PAREN_RE.sub(" ", s)
+    s = _NORMALIZE_RE.sub(" ", s)
+    parts = [p for p in s.split() if p and p not in _CANONICAL_FILLERS]
     return " ".join(parts)
 
 
@@ -111,10 +150,14 @@ def coalesce_duplicates(orgs: list[Organization]) -> list[Organization]:
                 union(by_host[host], i)
             else:
                 by_host[host] = i
-        # Conservative name-based grouping: only used as a tiebreaker if
-        # neither EIN nor host matches anything seen so far.
-        nkey = normalize_name(org.name)
-        if nkey and not org.ein and not host:
+        # Always index by canonical_name (aggressive: strips parenthesized
+        # acronyms, drops connectives like "and"/"for") so an OCADSV record
+        # with no website merges with the xlsx_starter record that has one.
+        # canonical_name still preserves distinguishing tokens like ordinals
+        # so genuinely different orgs (e.g. "Foundation For Affordable Housing
+        # Inc" vs "… V Inc") keep distinct keys.
+        nkey = canonical_name(org.name)
+        if nkey:
             if nkey in by_name:
                 union(by_name[nkey], i)
             else:

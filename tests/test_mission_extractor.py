@@ -53,6 +53,10 @@ def test_values_extractor_handles_alternate_headings() -> None:
         ("What We Stand For", "Integrity"),
         ("Guiding Principles", "Integrity"),
         ("Our Beliefs", "Integrity"),
+        ("Our Approach", "Integrity"),
+        ("Our Promise", "Integrity"),
+        ("Our Pillars", "Integrity"),
+        ("Vision and Values", "Integrity"),
     ):
         html = f"""
         <html><body>
@@ -67,3 +71,47 @@ def test_values_extractor_handles_alternate_headings() -> None:
         result = extractor.extract([_page("https://x", html)])
         assert result.values is not None, heading
         assert expected in result.values, heading
+
+
+def test_values_extractor_phrase_scan_with_following_list() -> None:
+    """Inline values: "We believe in:" intro followed by a <ul>."""
+    html = """
+    <html><body>
+    <h1>About Us</h1>
+    <p>Acme builds homes for Oregon families. We believe in dignity, equity, and community.</p>
+    <ul>
+      <li>Dignity for every neighbor</li>
+      <li>Equity in housing access</li>
+      <li>Community-driven solutions</li>
+    </ul>
+    </body></html>
+    """
+    result = MissionExtractor().extract([_page("https://acme.org/", html)])
+    assert result.values is not None
+    assert "Dignity" in result.values
+    assert "phrase_values" in result.strategies
+
+
+def test_values_extractor_phrase_only_no_list() -> None:
+    html = """
+    <html><body>
+    <p>We are committed to ending homelessness through housing-first policies and community partnership.</p>
+    </body></html>
+    """
+    result = MissionExtractor().extract([_page("https://x", html)])
+    assert result.values is not None
+    assert "committed to" in result.values.lower()
+
+
+def test_mission_falls_back_to_og_description_when_nothing_else_fires() -> None:
+    html = """
+    <html><head>
+      <meta property="og:description" content="Acme Coalition is an Oregon nonprofit serving survivors of intimate partner violence statewide.">
+    </head><body>
+      <p>Welcome to the site.</p>
+    </body></html>
+    """
+    result = MissionExtractor().extract([_page("https://acme.org/", html)])
+    assert result.mission is not None
+    assert "Acme Coalition" in result.mission
+    assert "og_description_mission" in result.strategies

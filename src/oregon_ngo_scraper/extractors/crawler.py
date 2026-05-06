@@ -19,6 +19,8 @@ DEFAULT_CANDIDATE_PATHS: tuple[str, ...] = (
     "/about",
     "/about-us",
     "/about/mission",
+    "/about/values",
+    "/about/our-values",
     "/our-mission",
     "/mission",
     "/mission-vision-values",
@@ -26,8 +28,13 @@ DEFAULT_CANDIDATE_PATHS: tuple[str, ...] = (
     "/mission-and-values",
     "/who-we-are",
     "/what-we-do",
+    "/what-we-believe",
     "/values",
     "/our-values",
+    "/core-values",
+    "/our-approach",
+    "/principles",
+    "/our-promise",
     "/our-story",
 )
 

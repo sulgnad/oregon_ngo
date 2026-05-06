@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from oregon_ngo_scraper.discovery.base import (
     apex_host,
+    canonical_name,
     coalesce_duplicates,
     dedup_key,
 )
@@ -66,3 +67,54 @@ def test_coalesce_keeps_distinct_orgs_separate() -> None:
     ]
     result = coalesce_duplicates(orgs)
     assert len(result) == 3
+
+
+def test_canonical_name_drops_parenthesized_acronyms_and_connectives() -> None:
+    assert canonical_name("Center for Hope and Safety") == canonical_name(
+        "Center for Hope and Safety (CHS)"
+    )
+    assert canonical_name("Hope & Safety Alliance (formerly Womenspace)") == canonical_name(
+        "Hope and Safety Alliance"
+    )
+    assert canonical_name("IRCO - Refugee and Immigrant Family Strengthening (RIFS)") == canonical_name(
+        "IRCO -Refugee and Immigrant Family Strengthening"
+    )
+    # Ordinals and place names are preserved (different orgs stay separate).
+    assert canonical_name("Foundation For Affordable Housing Inc") != canonical_name(
+        "Foundation For Affordable Housing V Inc"
+    )
+    assert canonical_name("Habitat for Humanity Portland Region") != canonical_name(
+        "Benton Habitat for Humanity"
+    )
+
+
+def test_coalesce_merges_site_keyed_with_name_only_via_canonical_name() -> None:
+    """OCADSV row with no website should fold into xlsx row with the same
+    canonical name (parenthesized acronyms ignored)."""
+    orgs = [
+        Organization(
+            name="Center for Hope and Safety",
+            website="https://hopeandsafety.org",
+            discovered_via=["xlsx_starter"],
+        ),
+        Organization(
+            name="Center for Hope and Safety (CHS)",
+            discovered_via=["ocadsv"],
+        ),
+    ]
+    result = coalesce_duplicates(orgs)
+    assert len(result) == 1
+    merged = result[0]
+    assert merged.website == "https://hopeandsafety.org"
+    assert "ocadsv" in merged.discovered_via
+    assert "xlsx_starter" in merged.discovered_via
+
+
+def test_coalesce_merges_smart_quote_variants() -> None:
+    """Curly vs straight apostrophe shouldn't keep two records apart."""
+    orgs = [
+        Organization(name="Clackamas Women's Services (CWS)", website="https://www.cwsor.org"),
+        Organization(name="Clackamas Women\u2019s Services (CWS)"),
+    ]
+    result = coalesce_duplicates(orgs)
+    assert len(result) == 1
