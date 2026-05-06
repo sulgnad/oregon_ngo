@@ -29,6 +29,7 @@ The tool runs in two stages:
    HTML search if the source didn't provide one), crawl `/about`, `/about-us`,
    `/mission`, `/our-mission`, `/who-we-are`, `/what-we-do`, `/values`, etc.,
    and extract mission + values text via heading-based heuristics.
+   
 Final output:
 - `data/output/orgs.csv` — one row per organization
 - `data/output/orgs.jsonl` — JSONL sidecar with the same data
