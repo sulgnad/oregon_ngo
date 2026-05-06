@@ -28,11 +28,7 @@ The tool runs in two stages:
 2. **Extraction** — for every org we resolve a homepage URL (using DuckDuckGo
    HTML search if the source didn't provide one), crawl `/about`, `/about-us`,
    `/mission`, `/our-mission`, `/who-we-are`, `/what-we-do`, `/values`, etc.,
-   and extract mission + values text via heading-based heuristics. Whenever
-   a mission statement is found, its full text is also written to a per-org
-   `.txt` file under `data/output/missions/` and the relative path is recorded
-   in the `mission_file` column of the CSV.
-
+   and extract mission + values text via heading-based heuristics.
 Final output:
 - `data/output/orgs.csv` — one row per organization
 - `data/output/orgs.jsonl` — JSONL sidecar with the same data
