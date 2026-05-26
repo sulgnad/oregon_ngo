@@ -4,8 +4,8 @@ from oregon_ngo_scraper.extractors.crawler import PageCrawler
 from oregon_ngo_scraper.protocols import HttpResponse
 
 
-def _resp(text: str, url: str) -> HttpResponse:
-    return HttpResponse(status_code=200, text=text, url=url)
+def _resp(text: str, url: str, status: int = 200) -> HttpResponse:
+    return HttpResponse(status_code=status, text=text, url=url)
 
 
 def test_visits_homepage_and_followups(fake_http, load_fixture) -> None:

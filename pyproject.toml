@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "oregon_ngo_scraper"
 version = "0.1.0"
 description = "Discovery + mission/values extraction for Oregon NGOs in DSV/Housing/Maternal Health"
-requires-python = ">=3.10"
+requires-python = ">=3.9"
 authors = [{ name = "OPAL" }]
 readme = "README.md"
 
@@ -15,8 +15,11 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-ra"
+addopts = "-ra -m 'not live'"
 pythonpath = ["src"]
+markers = [
+    "live: hits live websites (deselected by default, run with -m live)",
+]
 
 [tool.coverage.run]
 source = ["oregon_ngo_scraper"]
