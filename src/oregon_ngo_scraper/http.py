@@ -10,7 +10,6 @@ from __future__ import annotations
 
 import threading
 import time
-from collections import defaultdict
 from typing import Callable
 from urllib.parse import urlparse
 
@@ -27,12 +26,19 @@ DEFAULT_USER_AGENT = (
 
 
 class _HostRateLimiter:
-    """Naive per-host rate limiter: enforces ``min_interval`` between calls."""
+    """Naive per-host rate limiter: enforces ``min_interval`` between calls.
+
+    ``time.monotonic()`` is documented as returning a clock with an *undefined*
+    reference point; on macOS + Python 3.9 it returns time since process
+    start, which can be a small fractional value. We therefore explicitly
+    track which hosts have been seen rather than relying on a 0.0 default,
+    so the first call to ``wait()`` per host is always a no-op.
+    """
 
     def __init__(self, min_interval: float, sleep: Callable[[float], None] = time.sleep) -> None:
         self._min_interval = min_interval
         self._sleep = sleep
-        self._last_call: dict[str, float] = defaultdict(float)
+        self._last_call: dict[str, float] = {}
         self._lock = threading.Lock()
 
     def wait(self, host: str) -> None:
@@ -40,9 +46,11 @@ class _HostRateLimiter:
             return
         with self._lock:
             now = time.monotonic()
-            elapsed = now - self._last_call[host]
-            if elapsed < self._min_interval:
-                self._sleep(self._min_interval - elapsed)
+            prev = self._last_call.get(host)
+            if prev is not None:
+                elapsed = now - prev
+                if elapsed < self._min_interval:
+                    self._sleep(self._min_interval - elapsed)
             self._last_call[host] = time.monotonic()
 
 

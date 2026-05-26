@@ -115,3 +115,37 @@ def test_mission_falls_back_to_og_description_when_nothing_else_fires() -> None:
     assert result.mission is not None
     assert "Acme Coalition" in result.mission
     assert "og_description_mission" in result.strategies
+
+
+def test_mission_picked_up_from_jsonld_organization_description() -> None:
+    """Schema.org Organization JSON-LD with a description should be used
+    when no heading/phrase/og fired."""
+    html = '''
+    <html><head>
+      <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "NGO",
+        "name": "Beta Coalition",
+        "description": "Beta Coalition supports unhoused Oregonians with culturally-specific outreach, shelter, and long-term housing placement statewide."
+      }
+      </script>
+    </head><body><p>Hi.</p></body></html>
+    '''
+    result = MissionExtractor().extract([_page("https://beta.org/", html)])
+    assert result.mission is not None
+    assert "Beta Coalition" in result.mission
+    assert "jsonld_mission" in result.strategies
+
+
+def test_jsonld_ignores_non_organization_types() -> None:
+    html = '''
+    <html><head>
+      <script type="application/ld+json">
+      {"@context": "https://schema.org", "@type": "WebPage",
+       "description": "Just a page description, not a mission."}
+      </script>
+    </head><body></body></html>
+    '''
+    result = MissionExtractor().extract([_page("https://x.org/", html)])
+    assert "jsonld_mission" not in result.strategies

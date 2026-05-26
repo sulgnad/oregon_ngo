@@ -6,6 +6,7 @@ caller, so unit tests can exercise it directly with fixture pages.
 
 from __future__ import annotations
 
+import json
 import re
 from typing import Iterable
 
@@ -70,11 +71,19 @@ class MissionExtractor:
                         result.source_url = result.source_url or page.url
                         result.strategies.append("phrase_mission")
                     else:
-                        meta = _by_og_description(soup)
-                        if meta:
-                            result.mission = meta
+                        # JSON-LD Organization.description is common on modern
+                        # NGO sites (WordPress + Yoast, Squarespace, etc.).
+                        jsonld = _by_jsonld_description(soup)
+                        if jsonld:
+                            result.mission = jsonld
                             result.source_url = result.source_url or page.url
-                            result.strategies.append("og_description_mission")
+                            result.strategies.append("jsonld_mission")
+                        else:
+                            meta = _by_og_description(soup)
+                            if meta:
+                                result.mission = meta
+                                result.source_url = result.source_url or page.url
+                                result.strategies.append("og_description_mission")
             if not result.values:
                 values = _by_heading(soup, VALUES_HEADING_RE)
                 if values:
@@ -131,6 +140,45 @@ def _by_phrase(soup: BeautifulSoup, pattern: re.Pattern[str]) -> str | None:
     if not match:
         return None
     return match.group(1).strip()
+
+
+def _by_jsonld_description(soup: BeautifulSoup) -> str | None:
+    """Look for a Schema.org ``Organization`` (or ``NGO``/``LocalBusiness``)
+    JSON-LD block on the page and return its ``description`` or ``slogan``.
+    Yoast SEO, Squarespace and many WordPress themes populate this block
+    automatically with the site's tagline / about copy.
+    """
+    for script in soup.find_all('script', type='application/ld+json'):
+        raw = (script.string or script.get_text() or '').strip()
+        if not raw:
+            continue
+        try:
+            payload = json.loads(raw)
+        except (ValueError, TypeError):
+            continue
+        for node in _walk_jsonld(payload):
+            if not isinstance(node, dict):
+                continue
+            node_type = node.get('@type')
+            type_list = [node_type] if isinstance(node_type, str) else (node_type or [])
+            if not any(t in {'Organization', 'NGO', 'LocalBusiness', 'NonprofitOrganization',
+                              'CharitableOrganization'} for t in type_list):
+                continue
+            for key in ('description', 'slogan', 'mission'):
+                value = node.get(key)
+                if isinstance(value, str) and 40 <= len(value) <= 1500:
+                    return value.strip()
+    return None
+
+
+def _walk_jsonld(node: object) -> Iterable[object]:
+    yield node
+    if isinstance(node, dict):
+        for v in node.values():
+            yield from _walk_jsonld(v)
+    elif isinstance(node, list):
+        for v in node:
+            yield from _walk_jsonld(v)
 
 
 def _by_og_description(soup: BeautifulSoup) -> str | None:
