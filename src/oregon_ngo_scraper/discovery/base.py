@@ -7,7 +7,7 @@ from abc import ABC, abstractmethod
 from typing import Iterable
 from urllib.parse import urlparse
 
-from ..models import Organization
+from ..models import SHARED_HOST_ORG_TYPES, Organization
 from ..protocols import HttpClient
 
 
@@ -100,11 +100,24 @@ def apex_host(url: str | None) -> str:
     return host
 
 
+def shares_host_with_siblings(org: Organization) -> bool:
+    """True when ``org``'s website host is not a unique identifier for it.
+
+    A county or tribal government runs many distinct programs off a single
+    domain: ``warmsprings-nsn.gov`` hosts Victims of Crime Services, the
+    Housing Authority and Community Counseling, and ``tillamookcounty.gov``
+    hosts the Housing Commission and the DA's Victims Assistance Program.
+    Keying those on the apex host would silently collapse them into one row,
+    so they fall back to a name-based key instead.
+    """
+    return org.org_type in SHARED_HOST_ORG_TYPES
+
+
 def dedup_key(org: Organization) -> str:
     """Stable key used to merge records that refer to the same organization."""
     if org.ein:
         return f"ein:{org.ein}"
-    if org.website:
+    if org.website and not shares_host_with_siblings(org):
         host = apex_host(org.website)
         if host:
             return f"site:{host}"
@@ -144,7 +157,9 @@ def coalesce_duplicates(orgs: list[Organization]) -> list[Organization]:
                 union(by_ein[org.ein], i)
             else:
                 by_ein[org.ein] = i
-        host = apex_host(org.website)
+        # Government/tribal programs deliberately skip host indexing so that
+        # sibling programs on a shared domain stay distinct rows.
+        host = "" if shares_host_with_siblings(org) else apex_host(org.website)
         if host:
             if host in by_host:
                 union(by_host[host], i)

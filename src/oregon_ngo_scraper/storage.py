@@ -9,12 +9,17 @@ import tempfile
 from pathlib import Path
 
 from .discovery.base import dedup_key
-from .models import Organization
+from .models import Organization, OrgType
 
 
 # The full mission statement is intentionally NOT a CSV column — it lives in
 # its own .txt file (path recorded in ``mission_file``). The CSV stays small
 # and easy to scan; downstream tools open the file when they need the text.
+#
+# ``org_type`` is likewise not a column: the master format is a fixed 15-column
+# schema that downstream tooling already depends on, so the type is emitted as
+# an ``org_type:<value>`` token inside ``keywords`` (and as a first-class field
+# in the JSONL sidecar). See ``ORG_TYPE_KEYWORD_PREFIX``.
 CSV_COLUMNS = (
     "name",
     "website",
@@ -32,6 +37,9 @@ CSV_COLUMNS = (
     "discovered_via",
     "scraped_at",
 )
+
+#: Prefix used to smuggle ``Organization.org_type`` into the keywords column.
+ORG_TYPE_KEYWORD_PREFIX = "org_type:"
 
 
 class CsvStorage:
@@ -107,6 +115,22 @@ class CsvStorage:
             raise
 
 
+def _csv_keywords(org: Organization) -> list[str]:
+    """Keywords plus an ``org_type:`` token for non-``unknown`` types.
+
+    Rows whose type was never determined stay byte-identical to what the
+    previous version of this writer produced, so re-running the statewide
+    pipeline doesn't churn every line of ``orgs.csv``.
+    """
+    keywords = list(org.keywords)
+    if org.org_type is OrgType.UNKNOWN:
+        return keywords
+    tag = f"{ORG_TYPE_KEYWORD_PREFIX}{org.org_type.value}"
+    if tag not in keywords:
+        keywords.append(tag)
+    return keywords
+
+
 def _to_csv_row(org: Organization) -> dict[str, str]:
     return {
         "name": org.name or "",
@@ -119,7 +143,7 @@ def _to_csv_row(org: Organization) -> dict[str, str]:
         "city": org.city or "",
         "county": org.county or "",
         "state": org.state or "",
-        "keywords": ";".join(org.keywords),
+        "keywords": ";".join(_csv_keywords(org)),
         "notes": (org.notes or "").replace("\n", " ").strip(),
         "verification_status": org.verification_status or "",
         "discovered_via": ";".join(org.discovered_via),

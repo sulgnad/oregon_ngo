@@ -28,6 +28,35 @@ class Topic(str, Enum):
         raise ValueError(f"Unknown topic: {value!r}")
 
 
+class OrgType(str, Enum):
+    """What kind of entity an organization is.
+
+    Tribal and county-government programs are in scope for the county
+    collections (they are often the primary DSV/housing/maternal-health
+    provider in a rural county), but researchers need to be able to separate
+    them from independent 501(c)(3)s — and they must not be de-duplicated by
+    website host, since many programs share one government domain.
+    """
+
+    NONPROFIT = "nonprofit"
+    TRIBAL_GOVERNMENT = "tribal_government"
+    GOVERNMENT = "government"
+    UNKNOWN = "unknown"
+
+    @classmethod
+    def from_str(cls, value: str) -> "OrgType":
+        normalized = value.strip().lower().replace("-", "_").replace(" ", "_")
+        for member in cls:
+            if member.value == normalized:
+                return member
+        raise ValueError(f"Unknown org type: {value!r}")
+
+
+#: Org types whose programs commonly share a single website host and must
+#: therefore not be collapsed together by the host-based dedup key.
+SHARED_HOST_ORG_TYPES = frozenset({OrgType.GOVERNMENT, OrgType.TRIBAL_GOVERNMENT})
+
+
 @dataclass
 class Organization:
     """A candidate organization, partially filled in by discovery and
@@ -43,6 +72,7 @@ class Organization:
     topics: set[Topic] = field(default_factory=set)
     keywords: list[str] = field(default_factory=list)
     notes: str | None = None
+    org_type: OrgType = OrgType.UNKNOWN
     verification_status: str | None = None
     discovered_via: list[str] = field(default_factory=list)
     source_urls: list[str] = field(default_factory=list)
@@ -70,6 +100,11 @@ class Organization:
             topics=self.topics | other.topics,
             keywords=_dedup(self.keywords + other.keywords),
             notes=self.notes or other.notes,
+            org_type=(
+                self.org_type
+                if self.org_type is not OrgType.UNKNOWN
+                else other.org_type
+            ),
             verification_status=self.verification_status or other.verification_status,
             discovered_via=_dedup(self.discovered_via + other.discovered_via),
             source_urls=_dedup(self.source_urls + other.source_urls),
@@ -92,6 +127,7 @@ class Organization:
             "topics": sorted(t.value for t in self.topics),
             "keywords": list(self.keywords),
             "notes": self.notes,
+            "org_type": self.org_type.value,
             "verification_status": self.verification_status,
             "discovered_via": list(self.discovered_via),
             "source_urls": list(self.source_urls),

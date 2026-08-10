@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 
 import pytest
 
-from oregon_ngo_scraper.models import Organization, Topic
+from oregon_ngo_scraper.models import Organization, OrgType, Topic
 
 
 def test_topic_from_str_normalizes() -> None:
@@ -55,3 +55,32 @@ def test_organization_to_jsonable_serializes_datetime_and_topics() -> None:
     payload = org.to_jsonable()
     assert payload["topics"] == ["dsv", "housing"]
     assert payload["scraped_at"] == "2026-01-02T03:04:05+00:00"
+
+
+def test_org_type_from_str_normalizes() -> None:
+    assert OrgType.from_str("nonprofit") is OrgType.NONPROFIT
+    assert OrgType.from_str("tribal-government") is OrgType.TRIBAL_GOVERNMENT
+    assert OrgType.from_str("Tribal Government") is OrgType.TRIBAL_GOVERNMENT
+    with pytest.raises(ValueError):
+        OrgType.from_str("not-a-type")
+
+
+def test_org_type_defaults_to_unknown() -> None:
+    assert Organization(name="X").org_type is OrgType.UNKNOWN
+
+
+def test_merge_takes_org_type_from_other_when_self_is_unknown() -> None:
+    unknown = Organization(name="X")
+    typed = Organization(name="X", org_type=OrgType.TRIBAL_GOVERNMENT)
+    assert unknown.merge(typed).org_type is OrgType.TRIBAL_GOVERNMENT
+
+
+def test_merge_prefers_self_org_type_when_known() -> None:
+    a = Organization(name="X", org_type=OrgType.GOVERNMENT)
+    b = Organization(name="X", org_type=OrgType.NONPROFIT)
+    assert a.merge(b).org_type is OrgType.GOVERNMENT
+
+
+def test_org_type_is_serialized_to_json() -> None:
+    org = Organization(name="X", org_type=OrgType.GOVERNMENT)
+    assert org.to_jsonable()["org_type"] == "government"

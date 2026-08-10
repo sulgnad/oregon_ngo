@@ -4,7 +4,7 @@ import csv
 from datetime import datetime, timezone
 from pathlib import Path
 
-from oregon_ngo_scraper.models import Organization, Topic
+from oregon_ngo_scraper.models import Organization, OrgType, Topic
 from oregon_ngo_scraper.storage import CSV_COLUMNS, CsvStorage
 
 
@@ -103,3 +103,38 @@ def test_creates_parent_directory(tmp_path: Path) -> None:
     storage.upsert(Organization(name="Z", topics={Topic.HOUSING}))
     storage.flush()
     assert out.exists()
+
+
+def test_org_type_is_appended_to_keywords(tmp_path: Path) -> None:
+    csv_path = tmp_path / "orgs.csv"
+    storage = CsvStorage(csv_path)
+    storage.upsert(
+        Organization(
+            name="Warm Springs Victims of Crime Services",
+            keywords=["advocacy"],
+            org_type=OrgType.TRIBAL_GOVERNMENT,
+        )
+    )
+    storage.flush()
+    rows = _read_rows(csv_path)
+    # Schema is unchanged: still exactly the 15 master columns.
+    assert list(rows[0].keys()) == list(CSV_COLUMNS)
+    assert rows[0]["keywords"] == "advocacy;org_type:tribal_government"
+
+
+def test_unknown_org_type_leaves_keywords_untouched(tmp_path: Path) -> None:
+    """Existing statewide rows must not churn when re-written."""
+    csv_path = tmp_path / "orgs.csv"
+    storage = CsvStorage(csv_path)
+    storage.upsert(Organization(name="X", keywords=["housing", "shelter"]))
+    storage.flush()
+    rows = _read_rows(csv_path)
+    assert rows[0]["keywords"] == "housing;shelter"
+
+
+def test_org_type_reaches_the_jsonl_sidecar_as_a_field(tmp_path: Path) -> None:
+    jsonl_path = tmp_path / "orgs.jsonl"
+    storage = CsvStorage(tmp_path / "orgs.csv", jsonl_path=jsonl_path)
+    storage.upsert(Organization(name="X", org_type=OrgType.GOVERNMENT))
+    storage.flush()
+    assert '"org_type": "government"' in jsonl_path.read_text()
