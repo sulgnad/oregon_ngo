@@ -101,16 +101,81 @@ class _StubFetcher:
         return self.payloads.get(ein)
 
 
-def test_enricher_skips_orgs_without_ein_or_with_existing_website() -> None:
+def test_enricher_skips_orgs_without_an_ein() -> None:
     fetcher = _StubFetcher({})
     enricher = ProPublicaWebsiteEnricher(fetcher, resolver=None)
 
-    orgs = [
-        Organization(name="No EIN"),
-        Organization(name="Already has site", ein="123", website="https://x.org"),
-    ]
-    enricher.enrich(orgs)
-    assert fetcher.calls == []  # neither org should trigger a fetch
+    enricher.enrich([Organization(name="No EIN")])
+    assert fetcher.calls == []  # nothing to look up
+
+
+def test_enricher_still_fetches_detail_for_orgs_that_have_a_website() -> None:
+    """The IRS address is worth fetching even when the URL is already known.
+
+    Only the *website lookup* is skipped for these orgs.
+    """
+    fetcher = _StubFetcher({
+        "123": {
+            "organization": {
+                "address": "164 SE D St",
+                "city": "Madras",
+                "state": "OR",
+                "zipcode": "97741",
+                "website": "https://should-not-be-used.org",
+            }
+        },
+    })
+    enricher = ProPublicaWebsiteEnricher(fetcher, resolver=None)
+
+    org = Organization(name="Already has site", ein="123", website="https://x.org")
+    enricher.enrich([org])
+
+    assert fetcher.calls == ["123"]
+    assert org.address == "164 SE D St, Madras, OR 97741"
+    assert org.website == "https://x.org"  # existing URL is not overwritten
+
+
+def test_enricher_formats_the_irs_address() -> None:
+    fetcher = _StubFetcher({
+        "555": {
+            "organization": {
+                "address": "2010 Fourth St",
+                "city": "Tillamook",
+                "state": "OR",
+                "zipcode": "97141",
+            }
+        },
+    })
+    enricher = ProPublicaWebsiteEnricher(fetcher, resolver=None)
+    org = Organization(name="Tides", ein="555")
+    enricher.enrich([org])
+    assert org.address == "2010 Fourth St, Tillamook, OR 97141"
+
+
+def test_enricher_ignores_a_detail_address_with_no_street() -> None:
+    """A bare city is already captured by ``org.city``."""
+    fetcher = _StubFetcher({"666": {"organization": {"city": "Madras"}}})
+    enricher = ProPublicaWebsiteEnricher(fetcher, resolver=None)
+    org = Organization(name="X", ein="666")
+    enricher.enrich([org])
+    assert org.address is None
+
+
+def test_enricher_does_not_overwrite_a_seeded_address() -> None:
+    fetcher = _StubFetcher({
+        "777": {
+            "organization": {
+                "address": "IRS PO Box 1",
+                "city": "Madras",
+                "state": "OR",
+                "zipcode": "97741",
+            }
+        },
+    })
+    enricher = ProPublicaWebsiteEnricher(fetcher, resolver=None)
+    org = Organization(name="X", ein="777", address="Hand verified, Madras, OR 97741")
+    enricher.enrich([org])
+    assert org.address == "Hand verified, Madras, OR 97741"
 
 
 def test_enricher_uses_url_in_detail_payload_directly() -> None:

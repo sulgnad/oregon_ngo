@@ -12,27 +12,11 @@ from urllib.parse import urlparse
 import tldextract
 from rapidfuzz import fuzz
 
+from .aggregators import NOISE_HOST_FRAGMENTS, is_noise_host
 from .protocols import SearchEngine, SearchResult
 
 
-# Hosts that are never the org's own homepage even if they appear at the top
-# of the result page.
-NOISE_HOST_FRAGMENTS = (
-    "facebook.com",
-    "twitter.com",
-    "x.com",
-    "instagram.com",
-    "linkedin.com",
-    "youtube.com",
-    "yelp.com",
-    "guidestar.org",
-    "candid.org",
-    "charitynavigator.org",
-    "propublica.org",
-    "ocadsv.org",
-    "wikipedia.org",
-    "google.com",
-)
+__all__ = ["HomepageResolver", "NOISE_HOST_FRAGMENTS"]
 
 
 class HomepageResolver:
@@ -70,7 +54,7 @@ def _is_candidate(result: SearchResult) -> bool:
     host = urlparse(result.url).netloc.lower()
     if not host:
         return False
-    return not any(noise in host for noise in NOISE_HOST_FRAGMENTS)
+    return not is_noise_host(host)
 
 
 def _score(result: SearchResult, name: str) -> int:

@@ -16,7 +16,30 @@ from oregon_ngo_scraper import geo
         ("Rockaway Beach", "Tillamook"),
         ("Pacific City", "Tillamook"),
         ("Nehalem", "Tillamook"),
-        # Outside the two target counties -> deliberately unmapped.
+        ("Baker City", "Baker"),
+        ("halfway", "Baker"),
+        ("Sumpter", "Baker"),
+        # Union County town just north of Baker; must not be claimed by Baker.
+        ("North Powder", None),
+        ("Corvallis", "Benton"),
+        ("Philomath", "Benton"),
+        # Albany is the Linn County seat; Linn is not enumerated.
+        ("Albany", None),
+        ("Oregon City", "Clackamas"),
+        ("Lake Oswego", "Clackamas"),
+        ("Happy Valley", "Clackamas"),
+        ("Astoria", "Clatsop"),
+        ("Cannon Beach", "Clatsop"),
+        ("St. Helens", "Columbia"),
+        ("St Helens", "Columbia"),
+        ("Saint Helens", "Columbia"),
+        ("Scappoose", "Columbia"),
+        ("Coos Bay", "Coos"),
+        ("North Bend", "Coos"),
+        ("Bandon", "Coos"),
+        # Fairview is a Multnomah County city, so Coos must not claim it.
+        ("Fairview", None),
+        # Outside the enumerated counties -> deliberately unmapped.
         ("Portland", None),
         ("Bend", None),
         ("", None),
@@ -71,7 +94,53 @@ def test_county_matches_can_include_also_serves() -> None:
 def test_cities_for_county() -> None:
     assert "madras" in geo.cities_for_county("Jefferson")
     assert "nehalem" in geo.cities_for_county("tillamook county")
+    assert "baker city" in geo.cities_for_county("Baker County")
     assert geo.cities_for_county("Multnomah") == frozenset()
+
+
+def test_city_table_is_consistent_with_county_table() -> None:
+    """Every enumerated county is a real county and no city is claimed twice."""
+    assert set(geo.COUNTY_CITIES) <= geo.OREGON_COUNTIES
+    seen: dict[str, str] = {}
+    for county, cities in geo.COUNTY_CITIES.items():
+        for city in cities:
+            assert city == city.lower(), city
+            assert city not in seen, f"{city} in both {seen[city]} and {county}"
+            seen[city] = county
+
+
+def test_ambiguous_place_names_are_not_enumerated() -> None:
+    """Each of these collides with a street word or another county's town."""
+    omitted = {
+        "benton": {"alpine", "wren"},
+        "clackamas": {"boring", "barlow"},
+        "columbia": {"warren", "prescott", "quincy"},
+        "coos": {"fairview"},
+    }
+    for county, names in omitted.items():
+        assert not names & geo.COUNTY_CITIES[county], county
+
+
+def test_st_helens_spelling_variants_all_resolve() -> None:
+    for spelling in ("St. Helens", "St Helens", "Saint Helens", "st. helens"):
+        assert geo.county_for_city(spelling) == "Columbia", spelling
+
+
+def test_find_city_prefers_longest_match_for_multiword_cities() -> None:
+    """``Government Camp`` and ``Oregon City`` must not be cut short."""
+    text = "123 Main St, Oregon City, OR 97045"
+    assert geo.find_city(text, "Clackamas") == "Oregon City"
+
+
+def test_baker_omits_names_that_are_common_street_words() -> None:
+    """Word-boundary matching would accept any \"Pine St\" as a Baker address."""
+    assert "pine" not in geo.BAKER_CITIES
+    assert "lime" not in geo.BAKER_CITIES
+
+
+def test_find_city_resolves_baker_addresses() -> None:
+    text = "Community Connection, 2810 Cedar St, Baker City, OR 97814"
+    assert geo.find_city(text, "Baker") == "Baker City"
 
 
 def test_find_city_extracts_from_address_text() -> None:

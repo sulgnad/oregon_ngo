@@ -100,15 +100,99 @@ def test_scope_to_counties_keeps_existing_county_value(
 ) -> None:
     pipeline = _pipeline([], fake_http, fake_search, fixed_clock)
     org = Organization(
-        name="Saving Grace",
-        city="Bend",
-        county="Deschutes / Crook / Jefferson",
+        name="Tillamook Only",
+        city="Tillamook",
+        county="Tillamook",
         topics={Topic.DSV},
     )
     kept = pipeline.scope_to_counties([org], TARGETS)
-    # The stated multi-county service area wins over the out-of-county city.
-    assert [o.name for o in kept] == ["Saving Grace"]
-    assert kept[0].county == "Deschutes / Crook / Jefferson"
+    assert [o.name for o in kept] == ["Tillamook Only"]
+    assert kept[0].county == "Tillamook"
+
+
+def test_multi_county_org_needs_a_local_office(
+    fake_http, fake_search, fixed_clock
+) -> None:
+    """A regional agency headquartered elsewhere is not a county org.
+
+    ``Deschutes / Crook / Jefferson`` names a target county, but a Bend
+    address means there is no physical presence in Jefferson.
+    """
+    pipeline = _pipeline([], fake_http, fake_search, fixed_clock)
+    org = Organization(
+        name="Bend Regional Agency",
+        city="Bend",
+        county="Deschutes / Crook / Jefferson",
+        topics={Topic.HOUSING},
+    )
+    assert pipeline.scope_to_counties([org], TARGETS) == []
+
+
+def test_multi_county_org_kept_when_office_is_in_county(
+    fake_http, fake_search, fixed_clock
+) -> None:
+    """Saving Grace/NeighborImpact qualify for Jefferson via Madras offices."""
+    pipeline = _pipeline([], fake_http, fake_search, fixed_clock)
+    org = Organization(
+        name="Saving Grace",
+        city="Madras",
+        county="Deschutes / Crook / Jefferson",
+        topics={Topic.DSV},
+    )
+    assert [o.name for o in pipeline.scope_to_counties([org], TARGETS)] == [
+        "Saving Grace"
+    ]
+
+
+def test_discovery_stage_still_admits_multi_county_orgs(
+    fake_http, fake_search, fixed_clock
+) -> None:
+    """The office rule is strict-stage only; enrichment may yet supply a city."""
+    pipeline = _pipeline(
+        [
+            Organization(
+                name="Regional",
+                county="Deschutes / Crook / Jefferson",
+                topics={Topic.HOUSING},
+            )
+        ],
+        fake_http,
+        fake_search,
+        fixed_clock,
+    )
+    assert [o.name for o in pipeline.discover(county_filter=TARGETS)] == ["Regional"]
+
+
+def test_baker_city_org_is_scoped_into_baker(
+    fake_http, fake_search, fixed_clock
+) -> None:
+    pipeline = _pipeline([], fake_http, fake_search, fixed_clock)
+    org = Organization(name="MayDay", city="Baker City", topics={Topic.DSV})
+    kept = pipeline.scope_to_counties([org], {"Baker"})
+    assert [o.county for o in kept] == ["Baker"]
+
+
+def test_union_county_org_is_not_scoped_into_baker(
+    fake_http, fake_search, fixed_clock
+) -> None:
+    """North Powder is just over the line in Union County."""
+    pipeline = _pipeline([], fake_http, fake_search, fixed_clock)
+    org = Organization(name="X", city="North Powder", topics={Topic.DSV})
+    assert pipeline.scope_to_counties([org], {"Baker"}) == []
+
+
+def test_regional_agency_needs_a_baker_office(
+    fake_http, fake_search, fixed_clock
+) -> None:
+    """A La Grande agency listing Baker in its service area has no Baker office."""
+    pipeline = _pipeline([], fake_http, fake_search, fixed_clock)
+    org = Organization(
+        name="La Grande Regional",
+        city="La Grande",
+        county="Union / Baker / Wallowa / Grant",
+        topics={Topic.HOUSING},
+    )
+    assert pipeline.scope_to_counties([org], {"Baker"}) == []
 
 
 def test_scope_to_counties_drops_unknown_locations(

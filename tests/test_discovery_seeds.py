@@ -34,3 +34,27 @@ def test_loads_yaml_seeds_via_injected_reader(load_fixture) -> None:
 def test_missing_file_yields_empty_list(tmp_path) -> None:
     src = SeedDiscovery(tmp_path / "missing.yml")
     assert list(src.discover()) == []
+
+
+def test_seeded_mission_is_read_and_whitespace_collapsed() -> None:
+    content = (
+        "organizations:\n"
+        '  - name: "Clinic"\n'
+        "    mission: >-\n"
+        "      Provides prenatal care\n"
+        "      to county residents.\n"
+    )
+    org = list(SeedDiscovery(Path("s.yml"), reader=_FakeReader(content)).discover())[0]
+    assert org.mission == "Provides prenatal care to county residents."
+
+
+def test_mission_is_none_when_not_seeded() -> None:
+    content = 'organizations:\n  - name: "Clinic"\n'
+    org = list(SeedDiscovery(Path("s.yml"), reader=_FakeReader(content)).discover())[0]
+    assert org.mission is None
+
+
+def test_blank_mission_is_treated_as_absent() -> None:
+    content = 'organizations:\n  - name: "Clinic"\n    mission: "   "\n'
+    org = list(SeedDiscovery(Path("s.yml"), reader=_FakeReader(content)).discover())[0]
+    assert org.mission is None

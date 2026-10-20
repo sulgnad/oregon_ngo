@@ -4,9 +4,16 @@ from __future__ import annotations
 
 import logging
 from typing import Iterable, Sequence
+from urllib.parse import urlparse
 
 from . import geo
-from .discovery.base import coalesce_duplicates, dedup_key
+from .discovery.base import (
+    apex_host,
+    coalesce_duplicates,
+    dedup_key,
+    shares_host_with_siblings,
+)
+from .extractors.contact import ContactExtractor
 from .extractors.crawler import PageCrawler
 from .extractors.mission import MissionExtractor
 from .models import Organization, Topic
@@ -41,6 +48,7 @@ class Pipeline:
         clock: Clock,
         mission_store: MissionStore | None = None,
         enrichers: Sequence[Enricher] = (),
+        contact_extractor: ContactExtractor | None = None,
     ) -> None:
         self._sources = list(sources)
         self._resolver = resolver
@@ -50,6 +58,9 @@ class Pipeline:
         self._clock = clock
         self._mission_store = mission_store
         self._enrichers = list(enrichers)
+        # Optional: only the county collection needs street address / phone,
+        # so the statewide run leaves this unset and skips the work entirely.
+        self._contact_extractor = contact_extractor
 
     def discover(
         self,
@@ -104,7 +115,7 @@ class Pipeline:
         kept: list[Organization] = []
         for org in orgs:
             _backfill_county(org)
-            if _county_relevance(org, targets) == _IN_COUNTY:
+            if _county_relevance(org, targets, require_local_office=True) == _IN_COUNTY:
                 kept.append(org)
             else:
                 logger.debug(
@@ -186,14 +197,45 @@ class Pipeline:
             org.scraped_at = self._clock.now()
             return org
         try:
-            pages = self._crawler.crawl(org.website)
+            pages = self._crawler.crawl(
+                org.website, scope_to_path=_is_pinned_page(org)
+            )
         except Exception:  # pragma: no cover - defensive
             logger.exception("crawl failed for %s (%s)", org.name, org.website)
             pages = []
         result = self._extractor.extract(pages)
+        # A mission that arrived with the record (hand-seeded, or read straight
+        # from a directory) is kept, and the scraped page is not credited as
+        # its source: it did not produce the text.
+        had_mission = bool(org.mission)
         org.mission = org.mission or result.mission
         org.values = org.values or result.values
-        org.mission_source_url = org.mission_source_url or result.source_url
+        if not had_mission:
+            org.mission_source_url = org.mission_source_url or result.source_url
+        if self._contact_extractor is not None:
+            try:
+                # Telling the extractor which cities count keeps a regional
+                # agency's headquarters from being recorded as its county
+                # office; the apex host keeps partner emails out of the row.
+                contact = self._contact_extractor.extract(
+                    pages,
+                    cities=_contact_cities(org),
+                    domain=apex_host(org.website),
+                )
+            except Exception:  # pragma: no cover - defensive
+                logger.exception("contact extraction failed for %s", org.name)
+            else:
+                # Anything already set came from a seed or the IRS record,
+                # both of which outrank a page scrape.
+                org.address = org.address or contact.address
+                org.phone = org.phone or contact.phone
+                # On a shared government domain every page links to some
+                # other official's mailbox, and a domain match says nothing
+                # about which department it belongs to (a health department
+                # page surfaced a county commissioner). Same reasoning as the
+                # host-based dedup exemption: only a seeded email is trusted.
+                if not shares_host_with_siblings(org):
+                    org.email = org.email or contact.email
         org.scraped_at = self._clock.now()
         # Write mission text to its own .txt file and record a pointer in the
         # database so downstream tools can grep/diff missions individually.
@@ -203,6 +245,28 @@ class Pipeline:
             except Exception:  # pragma: no cover - defensive
                 logger.exception("mission_store failed for %s", org.name)
         return org
+
+
+def _is_pinned_page(org: Organization) -> bool:
+    """True when ``org.website`` deliberately names one page, not a site.
+
+    A hand-seeded URL with a path (``county.gov/health/health.html``,
+    ``stlukesonline.org/.../baker-city/``) was chosen because the site root
+    belongs to someone else or describes a larger body. The same is true of
+    any government or tribal org on a shared host, whose front page speaks for
+    the whole jurisdiction. Crawling from the root for these returns another
+    department's mission, so the crawl is confined to the page's own section.
+
+    An unseeded, non-government org whose resolved URL happens to carry a path
+    is still crawled from its root: there the path is an accident of search.
+    """
+    if not org.website:
+        return False
+    url = org.website if "://" in org.website else f"http://{org.website}"
+    if not urlparse(url).path.strip("/"):
+        return False
+    seeded = any(via.startswith("seeds") for via in org.discovered_via)
+    return seeded or shares_host_with_siblings(org)
 
 
 # --- county scoping helpers -------------------------------------------------
@@ -218,6 +282,20 @@ def _normalize_counties(counties: Iterable[str] | None) -> set[str]:
     }
 
 
+def _contact_cities(org: Organization) -> set[str]:
+    """Cities that a contact address for ``org`` should ideally name.
+
+    The org's own city plus every community in its county, so a Madras-based
+    org still matches an address written for nearby Warm Springs.
+    """
+    cities: set[str] = set()
+    if org.city:
+        cities.add(org.city.strip().lower())
+    for county in geo.counties_in(org.county, include_also_serves=True):
+        cities.update(geo.cities_for_county(county))
+    return cities
+
+
 def _backfill_county(org: Organization) -> None:
     """Fill in ``county`` from ``city`` when the source didn't supply one."""
     if org.county:
@@ -227,7 +305,9 @@ def _backfill_county(org: Organization) -> None:
         org.county = resolved
 
 
-def _county_relevance(org: Organization, targets: set[str]) -> str:
+def _county_relevance(
+    org: Organization, targets: set[str], *, require_local_office: bool = False
+) -> str:
     """Classify an org's location against the target counties.
 
     Returns ``_IN_COUNTY``, ``_ELSEWHERE`` or ``_UNKNOWN_LOCATION``.
@@ -235,6 +315,13 @@ def _county_relevance(org: Organization, targets: set[str]) -> str:
     A stated county wins over the city. ``"Deschutes / Crook / Jefferson"``
     counts as in-county for Jefferson, since multi-county service areas are
     how the starter list records tri-county agencies.
+
+    ``require_local_office`` tightens that for the strict pass: an org whose
+    county cell names a target county *alongside* non-target counties is a
+    regional agency, and is kept only when its city is actually in one of the
+    target counties. That is the physical-office rule — it keeps the Madras
+    offices of Saving Grace and NeighborImpact while dropping Bend-based
+    tri-county orgs that merely list Jefferson in their service area.
 
     A city that we cannot map to a target county is treated as ``_ELSEWHERE``
     rather than ``_UNKNOWN_LOCATION``. That is what keeps a county run
@@ -245,14 +332,20 @@ def _county_relevance(org: Organization, targets: set[str]) -> str:
     name gets dropped — add it to ``geo`` or to the seed YAML if that
     happens.
     """
+    city_county = geo.county_for_city(org.city)
+    city_in_target = bool(city_county and geo.normalize_place(city_county) in targets)
     if org.county:
         found = geo.counties_in(org.county, include_also_serves=True)
         if found:
-            matched = any(geo.normalize_place(c) in targets for c in found)
-            return _IN_COUNTY if matched else _ELSEWHERE
+            matched = [c for c in found if geo.normalize_place(c) in targets]
+            if not matched:
+                return _ELSEWHERE
+            spans_other_counties = len(found) > len(matched)
+            if require_local_office and spans_other_counties and not city_in_target:
+                return _ELSEWHERE
+            return _IN_COUNTY
     if org.city:
-        resolved = geo.county_for_city(org.city)
-        if resolved:
-            return _IN_COUNTY if geo.normalize_place(resolved) in targets else _ELSEWHERE
+        if city_county:
+            return _IN_COUNTY if city_in_target else _ELSEWHERE
         return _ELSEWHERE
     return _UNKNOWN_LOCATION

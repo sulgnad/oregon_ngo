@@ -107,10 +107,11 @@ class ProPublicaWebsiteEnricher:
         return out
 
     def _enrich_one(self, org: Organization) -> None:
-        # Only act on orgs that have an EIN AND no website yet \u2014 these are the
-        # ProPublica-discovered cohort (plus a few starter-list rows that were
-        # missing URLs).
-        if not org.ein or org.website:
+        # Any org with an EIN is worth a detail fetch: the IRS address is the
+        # highest-confidence address source we have, and it is useful even
+        # when the org already has a website. Only the *website lookup* below
+        # is skipped for orgs that already have one.
+        if not org.ein:
             return
         payload = self._detail.fetch(org.ein)
         if not payload:
@@ -122,6 +123,12 @@ class ProPublicaWebsiteEnricher:
             city = (detail.get("city") or "").strip()
             if city:
                 org.city = city
+        if not org.address:
+            address = _format_irs_address(detail)
+            if address:
+                org.address = address
+                if "propublica_detail" not in org.discovered_via:
+                    org.discovered_via = [*org.discovered_via, "propublica_detail"]
         if detail.get("ntee_classification"):
             org.discovered_via = list(
                 {*org.discovered_via, "propublica_detail"}
@@ -130,6 +137,9 @@ class ProPublicaWebsiteEnricher:
             label = str(detail["ntee_classification"]).strip()
             if label and label not in org.keywords:
                 org.keywords = [*org.keywords, label]
+
+        if org.website:
+            return
 
         # 2. Try to extract a URL from the detail payload.
         url = _extract_url_from_payload(detail) or _extract_url_from_payload(payload)
@@ -150,6 +160,24 @@ class ProPublicaWebsiteEnricher:
                 org.website = resolved
                 if "propublica_detail" not in org.discovered_via:
                     org.discovered_via = [*org.discovered_via, "propublica_detail"]
+
+
+def _format_irs_address(detail: dict) -> str | None:
+    """Build ``"123 Main St, Madras, OR 97741"`` from the detail payload.
+
+    ProPublica exposes the IRS business master file address as separate
+    ``address`` / ``city`` / ``state`` / ``zipcode`` keys. Returns ``None``
+    unless there is at least a street line and a city, since a bare city is
+    already captured by ``org.city``.
+    """
+    street = str(detail.get("address") or "").strip()
+    city = str(detail.get("city") or "").strip()
+    state = str(detail.get("state") or "").strip()
+    zipcode = str(detail.get("zipcode") or "").strip()
+    if not street or not city:
+        return None
+    tail = " ".join(p for p in (state, zipcode) if p)
+    return ", ".join(p for p in (street, city, tail) if p)
 
 
 def _extract_url_from_payload(obj: object) -> str | None:

@@ -66,6 +66,9 @@ class Organization:
     aka: list[str] = field(default_factory=list)
     website: str | None = None
     ein: str | None = None
+    address: str | None = None
+    phone: str | None = None
+    email: str | None = None
     city: str | None = None
     county: str | None = None
     state: str = "OR"
@@ -94,6 +97,9 @@ class Organization:
             aka=_dedup(self.aka + other.aka),
             website=self.website or other.website,
             ein=self.ein or other.ein,
+            address=self.address or other.address,
+            phone=self.phone or other.phone,
+            email=self.email or other.email,
             city=self.city or other.city,
             county=self.county or other.county,
             state=self.state or other.state,
@@ -121,6 +127,9 @@ class Organization:
             "aka": list(self.aka),
             "website": self.website,
             "ein": self.ein,
+            "address": self.address,
+            "phone": self.phone,
+            "email": self.email,
             "city": self.city,
             "county": self.county,
             "state": self.state,

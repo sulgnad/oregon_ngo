@@ -7,9 +7,11 @@ something filterable, and maps the cities of our two target counties back to
 a county name so discovery sources that only report a city still land in the
 right bucket.
 
-City coverage is deliberately **not** statewide — only Jefferson and Tillamook
-are enumerated, because those are the counties we collect for. Everything else
-resolves to ``None`` and is treated as "unknown location" by the pipeline.
+City coverage is deliberately **not** statewide — only counties listed in
+:data:`COUNTY_CITIES` are enumerated, because those are the counties we collect
+for. Everything else resolves to ``None`` and is treated as "unknown location"
+by the pipeline. Adding a county to the collection means adding its entry
+there; without it, every org in that county would be dropped by scoping.
 """
 
 from __future__ import annotations
@@ -59,9 +61,158 @@ TILLAMOOK_CITIES: frozenset[str] = frozenset(
 )
 
 
+# Baker County. Incorporated: Baker City, Haines, Halfway, Huntington, Richland,
+# Sumpter, Unity, Greenhorn. The rest are unincorporated communities that appear
+# as mailing addresses. North Powder is deliberately absent: it is in Union
+# County, and listing it here would pull Union orgs into Baker. Pine and Lime
+# are also omitted: matching is by word, so they would accept any address on
+# a "Pine St" statewide as a Baker address.
+BAKER_CITIES: frozenset[str] = frozenset(
+    {
+        "baker city",
+        "haines",
+        "halfway",
+        "huntington",
+        "richland",
+        "sumpter",
+        "unity",
+        "greenhorn",
+        "bridgeport",
+        "durkee",
+        "hereford",
+        "keating",
+        "oxbow",
+        "cornucopia",
+        "whitney",
+    }
+)
+
+
+# Benton County. Albany is in Linn County and is deliberately absent. Alpine and
+# Wren are omitted because matching is by word and both are common street
+# names; Burnt Woods is omitted because its county could not be confirmed.
+BENTON_CITIES: frozenset[str] = frozenset(
+    {
+        "corvallis",
+        "philomath",
+        "monroe",
+        "adair village",
+        "alsea",
+        "blodgett",
+        "bellfountain",
+        "kings valley",
+    }
+)
+
+# Clackamas County. Boring and Barlow are omitted (a common word, and a town
+# split with Marion). Wilsonville straddles Clackamas and Washington; its city
+# hall and nearly all of its organizations are in Clackamas. Portland mailing
+# addresses are not mapped: Portland is overwhelmingly Multnomah. "Sandy" is
+# also a Portland street (Sandy Blvd); scoping keys on the org's city, so that
+# only matters for address matching, where a Sandy Blvd address will pass.
+CLACKAMAS_CITIES: frozenset[str] = frozenset(
+    {
+        "oregon city",
+        "lake oswego",
+        "west linn",
+        "milwaukie",
+        "gladstone",
+        "happy valley",
+        "canby",
+        "estacada",
+        "sandy",
+        "molalla",
+        "wilsonville",
+        "damascus",
+        "beavercreek",
+        "clackamas",
+        "colton",
+        "mulino",
+        "welches",
+        "government camp",
+        "rhododendron",
+        "zigzag",
+        "eagle creek",
+        "carver",
+        "johnson city",
+        "barton",
+    }
+)
+
+CLATSOP_CITIES: frozenset[str] = frozenset(
+    {
+        "astoria",
+        "seaside",
+        "warrenton",
+        "gearhart",
+        "cannon beach",
+        "hammond",
+        "svensen",
+        "knappa",
+        "jewell",
+        "elsie",
+        "olney",
+        "arch cape",
+        "westport",
+    }
+)
+
+# Columbia County. "St. Helens" is written three ways in the wild, so all three
+# are listed. Warren, Prescott and Quincy are omitted: tiny communities whose
+# names are common words or surnames in addresses.
+COLUMBIA_CITIES: frozenset[str] = frozenset(
+    {
+        "st. helens",
+        "st helens",
+        "saint helens",
+        "scappoose",
+        "columbia city",
+        "rainier",
+        "vernonia",
+        "clatskanie",
+        "deer island",
+        "goble",
+        "mayger",
+        "yankton",
+    }
+)
+
+# Coos County. Fairview is omitted: there is a Fairview in Multnomah County.
+COOS_CITIES: frozenset[str] = frozenset(
+    {
+        "coos bay",
+        "north bend",
+        "coquille",
+        "bandon",
+        "myrtle point",
+        "powers",
+        "lakeside",
+        "charleston",
+        "barview",
+        "broadbent",
+        "allegany",
+    }
+)
+
+
+#: County (lowercase) -> its known communities (lowercase). The single source of
+#: truth for city<->county lookups; add a county here to collect for it.
+COUNTY_CITIES: dict[str, frozenset[str]] = {
+    "baker": BAKER_CITIES,
+    "benton": BENTON_CITIES,
+    "clackamas": CLACKAMAS_CITIES,
+    "clatsop": CLATSOP_CITIES,
+    "columbia": COLUMBIA_CITIES,
+    "coos": COOS_CITIES,
+    "jefferson": JEFFERSON_CITIES,
+    "tillamook": TILLAMOOK_CITIES,
+}
+
+
 CITY_TO_COUNTY: dict[str, str] = {
-    **{city: "Jefferson" for city in JEFFERSON_CITIES},
-    **{city: "Tillamook" for city in TILLAMOOK_CITIES},
+    city: county.title()
+    for county, cities in COUNTY_CITIES.items()
+    for city in cities
 }
 
 
@@ -128,22 +279,18 @@ def normalize_place(value: str | None) -> str:
 
 
 def county_for_city(city: str | None) -> str | None:
-    """Return the county name for a city in one of the target counties.
+    """Return the county name for a city in one of the enumerated counties.
 
-    Returns ``None`` for cities outside Jefferson/Tillamook — this module
-    intentionally does not carry a statewide city table.
+    Returns ``None`` for cities in counties not listed in
+    :data:`COUNTY_CITIES` — this module intentionally does not carry a
+    statewide city table.
     """
     return CITY_TO_COUNTY.get(normalize_place(city))
 
 
 def cities_for_county(county: str | None) -> frozenset[str]:
     """Return the known (lowercase) city names for a target county."""
-    normalized = normalize_place(county)
-    if normalized == "jefferson":
-        return JEFFERSON_CITIES
-    if normalized == "tillamook":
-        return TILLAMOOK_CITIES
-    return frozenset()
+    return COUNTY_CITIES.get(normalize_place(county), frozenset())
 
 
 def find_city(text: str | None, county: str | None) -> str | None:

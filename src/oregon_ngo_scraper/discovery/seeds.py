@@ -14,6 +14,16 @@ Schema:
       - name: "Street Roots"
         website: "https://www.streetroots.org"
         topics: ["housing"]
+
+Every field is optional except ``name``. County-scoped seed files also carry
+``county``, ``keywords``, ``notes``, ``org_type`` and ``verification_status``;
+these are hand-curated facts that no automated source reliably supplies, so
+they are preserved verbatim rather than re-derived.
+
+``mission`` is also accepted. Set it when the organization's own site yields
+no usable text — a hero banner, a placeholder page, or a parent health
+system's boilerplate — so the scraped value would be wrong rather than merely
+absent. A seeded mission is never overwritten by the extractor.
 """
 
 from __future__ import annotations
@@ -23,7 +33,7 @@ from typing import Iterable, Protocol
 
 import yaml
 
-from ..models import Organization, Topic
+from ..models import Organization, OrgType, Topic
 
 
 class SeedReader(Protocol):
@@ -42,9 +52,17 @@ class SeedDiscovery:
 
     name = "seeds"
 
-    def __init__(self, path: Path, *, reader: SeedReader | None = None) -> None:
+    def __init__(
+        self,
+        path: Path,
+        *,
+        reader: SeedReader | None = None,
+        name: str | None = None,
+    ) -> None:
         self._path = Path(path)
         self._reader = reader or FileSystemSeedReader()
+        if name:
+            self.name = name
 
     def discover(self) -> Iterable[Organization]:
         try:
@@ -54,13 +72,18 @@ class SeedDiscovery:
         data = yaml.safe_load(text) or {}
         out: list[Organization] = []
         for raw in data.get("organizations") or []:
-            org = _to_org(raw, source_url=str(self._path))
+            org = _to_org(raw, source_url=str(self._path), via=self.name)
             if org is not None:
                 out.append(org)
         return out
 
 
-def _to_org(raw: dict, *, source_url: str) -> Organization | None:
+def _clean_text(value: object) -> str:
+    """Collapse YAML folded-scalar whitespace into single spaces."""
+    return " ".join(str(value).split()) if value else ""
+
+
+def _to_org(raw: dict, *, source_url: str, via: str = "seeds") -> Organization | None:
     name = (raw.get("name") or "").strip()
     if not name:
         return None
@@ -70,14 +93,30 @@ def _to_org(raw: dict, *, source_url: str) -> Organization | None:
             topics.add(Topic.from_str(str(t)))
         except ValueError:
             continue
+    try:
+        org_type = OrgType.from_str(str(raw.get("org_type") or "unknown"))
+    except ValueError:
+        org_type = OrgType.UNKNOWN
     return Organization(
         name=name,
         website=(raw.get("website") or None),
         ein=(raw.get("ein") or None),
+        # Hand-verified contact details win over anything the crawler finds,
+        # because merge() prefers the first non-empty value and seed sources
+        # are registered ahead of the automated ones.
+        address=(raw.get("address") or None),
+        phone=(raw.get("phone") or None),
+        email=(raw.get("email") or None),
         city=(raw.get("city") or None),
+        county=(raw.get("county") or None),
         state=(raw.get("state") or "OR"),
         topics=topics,
-        discovered_via=["seeds"],
+        keywords=[str(k) for k in (raw.get("keywords") or [])],
+        notes=(raw.get("notes") or None),
+        org_type=org_type,
+        verification_status=(raw.get("verification_status") or None),
+        mission=(_clean_text(raw.get("mission")) or None),
+        discovered_via=[via],
         source_urls=[source_url],
         aka=list(raw.get("aka") or []),
     )
