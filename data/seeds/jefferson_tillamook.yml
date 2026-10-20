@@ -1,0 +1,243 @@
+# Hand-curated organizations for the Jefferson / Tillamook county collection.
+#
+# These are orgs that the automated statewide sources either miss entirely or
+# list without enough location detail to survive county scoping. Tribal and
+# county-government programs are included deliberately: in both counties they
+# are frequently the *only* provider for a topic. They carry an explicit
+# `org_type` so they are not de-duplicated against each other by shared
+# website host (see discovery/base.py).
+#
+# `verification_status: unverified` means the website was inferred and has not
+# been confirmed by a human. The pipeline will still crawl it; treat the
+# resulting mission text as provisional until checked.
+#
+# Websites are pinned here on purpose. Left to search-engine resolution, small
+# rural orgs resolve to charity-data and shelter-directory sites instead of
+# their own domain, and the crawler then records the *directory's* phone and
+# address. Each URL below was confirmed to serve a page belonging to the named
+# organization. Where no trustworthy domain was found the field is omitted
+# rather than guessed:
+#   - Madras Gospel Mission: madrasgospelmission.org is no longer controlled by
+#     the mission and now serves unrelated spam. Needs a manual URL.
+#   - Jefferson County Faith Based Network, Rinehart Clinic and Community
+#     Action Team: no confirmable homepage at time of collection.
+
+organizations:
+  # ---------------------------------------------------------------- Jefferson
+  - name: "Warm Springs Victims of Crime Services"
+    aka: ["Warm Springs VOCS", "Victims of Crime Services Program"]
+    website: "https://warmsprings-nsn.gov"
+    city: "Warm Springs"
+    county: "Jefferson"
+    topics: ["dsv"]
+    org_type: "tribal_government"
+    keywords: ["domestic violence", "sexual assault", "advocacy", "tribal"]
+    notes: >-
+      Confederated Tribes of Warm Springs program serving the reservation.
+      Primary DSV provider for the Warm Springs community.
+    verification_status: "unverified"
+
+  - name: "Warm Springs Housing Authority"
+    aka: ["Warm Springs Tribal Housing"]
+    website: "https://wshousing.org"
+    city: "Warm Springs"
+    county: "Jefferson"
+    topics: ["housing"]
+    org_type: "tribal_government"
+    keywords: ["housing", "tribal", "rental assistance"]
+    notes: >-
+      Confederated Tribes of Warm Springs housing program.
+    verification_status: "unverified"
+
+  - name: "Warm Springs Community Action Team"
+    website: "https://wscat.org"
+    city: "Warm Springs"
+    county: "Jefferson"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["community action", "housing", "economic development"]
+    verification_status: "unverified"
+
+  - name: "Jefferson County Faith Based Network"
+    city: "Madras"
+    county: "Jefferson"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["emergency shelter", "housing", "faith based"]
+    notes: >-
+      Coordinates warming shelter and emergency assistance in Madras.
+    verification_status: "unverified"
+
+  - name: "Madras Gospel Mission"
+    city: "Madras"
+    county: "Jefferson"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["shelter", "meals", "houselessness"]
+    verification_status: "unverified"
+
+  - name: "Jefferson County Public Health"
+    website: "https://jeffco.net"
+    city: "Madras"
+    county: "Jefferson"
+    topics: ["maternal_health"]
+    org_type: "government"
+    keywords: ["public health", "maternal child health", "WIC", "home visiting"]
+    notes: >-
+      County health department; WIC and maternal-child health home visiting.
+    verification_status: "unverified"
+
+  - name: "Family Access Network"
+    aka: ["FAN"]
+    website: "https://familyaccessnetwork.org"
+    city: "Madras"
+    county: "Jefferson"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["family support", "school based", "basic needs"]
+    notes: >-
+      School-based advocates connecting families to housing and basic needs;
+      serves Jefferson County schools alongside Deschutes and Crook.
+    verification_status: "unverified"
+
+  - name: "Saving Grace"
+    aka: ["Mary's Place", "Saving Grace Central Oregon"]
+    website: "https://www.saving-grace.org"
+    city: "Madras"
+    county: "Jefferson"
+    topics: ["dsv"]
+    org_type: "nonprofit"
+    keywords: ["domestic violence", "sexual assault", "advocacy"]
+    notes: >-
+      Tri-county (Deschutes/Crook/Jefferson) DSV provider. Included for
+      Jefferson on the basis of a physical Madras office.
+    verification_status: "unverified"
+
+  - name: "NeighborImpact"
+    website: "https://www.neighborimpact.org"
+    city: "Madras"
+    county: "Jefferson"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["community action", "housing", "rental assistance", "food bank"]
+    notes: >-
+      Tri-county community action agency. Included for Jefferson on the basis
+      of a physical Madras office.
+    verification_status: "unverified"
+
+  # ---------------------------------------------------------------- Tillamook
+  - name: "Tides of Change"
+    aka: ["Tillamook County Women's Crisis Center"]
+    website: "https://tidesofchangenw.org"
+    city: "Tillamook"
+    county: "Tillamook"
+    topics: ["dsv"]
+    org_type: "nonprofit"
+    keywords: ["domestic violence", "sexual assault", "shelter", "advocacy"]
+    notes: >-
+      Primary DSV provider for Tillamook County; operates the county's
+      confidential shelter.
+    verification_status: "unverified"
+
+  - name: "CARE Inc"
+    aka: ["Community Action Resource Enterprises", "CARE"]
+    website: "https://www.careinc.org"
+    city: "Tillamook"
+    county: "Tillamook"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["community action", "housing", "energy assistance", "rental assistance"]
+    notes: >-
+      Tillamook County community action agency.
+    verification_status: "unverified"
+
+  - name: "Helping Hands Reentry Outreach Centers"
+    aka: ["Helping Hands Reentry"]
+    website: "https://www.helpinghandsreentry.org"
+    city: "Tillamook"
+    county: "Tillamook"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["houselessness", "shelter", "reentry", "transitional housing"]
+    verification_status: "unverified"
+
+  - name: "Northwest Oregon Housing Authority"
+    aka: ["NOHA"]
+    website: "https://nwoha.org"
+    city: "Tillamook"
+    county: "Tillamook"
+    topics: ["housing"]
+    org_type: "government"
+    keywords: ["housing authority", "section 8", "rental assistance"]
+    notes: >-
+      Regional housing authority covering Clatsop, Columbia and Tillamook.
+    verification_status: "unverified"
+
+  - name: "Tillamook County Habitat for Humanity"
+    aka: ["Habitat for Humanity Tillamook County"]
+    website: "https://tillamookhabitat.org"
+    city: "Tillamook"
+    county: "Tillamook"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["affordable housing", "homeownership", "home repair"]
+    verification_status: "unverified"
+
+  - name: "Tillamook County Community Health Centers"
+    aka: ["Tillamook CHC"]
+    website: "https://tillamookchc.org"
+    city: "Tillamook"
+    county: "Tillamook"
+    topics: ["maternal_health"]
+    org_type: "government"
+    keywords: ["community health center", "prenatal", "public health", "WIC"]
+    notes: >-
+      County-operated FQHC; also houses Tillamook County Public Health.
+    verification_status: "unverified"
+
+  - name: "Rinehart Clinic"
+    aka: ["Nehalem Bay Health Center", "Rinehart Clinic and Pharmacy"]
+    city: "Wheeler"
+    county: "Tillamook"
+    topics: ["maternal_health"]
+    org_type: "nonprofit"
+    keywords: ["community health center", "prenatal", "north county"]
+    notes: >-
+      Nonprofit FQHC serving north Tillamook County.
+    verification_status: "unverified"
+
+  - name: "Adventist Health Tillamook"
+    aka: ["Tillamook Regional Medical Center"]
+    website: "https://www.adventisthealth.org/tillamook/"
+    city: "Tillamook"
+    county: "Tillamook"
+    topics: ["maternal_health"]
+    org_type: "nonprofit"
+    keywords: ["hospital", "birth center", "obstetrics"]
+    notes: >-
+      Only hospital with a birth center in Tillamook County.
+    verification_status: "unverified"
+
+  - name: "Tillamook Family Counseling Center"
+    aka: ["TFCC"]
+    website: "https://tfcc.org"
+    city: "Tillamook"
+    county: "Tillamook"
+    topics: ["dsv", "housing"]
+    org_type: "nonprofit"
+    keywords: ["behavioral health", "crisis services", "counseling"]
+    notes: >-
+      Community mental health provider; crisis response and housing support
+      programs intersect with DSV survivors.
+    verification_status: "unverified"
+
+  - name: "Community Action Team"
+    aka: ["CAT", "Community Action Team Inc"]
+    city: "Tillamook"
+    county: "Tillamook"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["community action", "housing", "weatherization"]
+    notes: >-
+      Serves Clatsop, Columbia and Tillamook counties.
+    verification_status: "unverified"

@@ -1,0 +1,514 @@
+# Hand-curated organizations for the Clackamas County collection.
+#
+# Researched 2026-10-12. Topics are limited to DSV, housing and maternal health.
+#
+# `notes` is used as the Services_Summary / Org_Agency_Bio fallback when no
+# mission can be extracted, so it must read as a public description of the
+# organization. Research caveats and provenance live in YAML comments instead.
+#
+# verification_status values used here:
+#   web_verified  name, website and contact details were each confirmed against
+#                 at least two independent public sources (the org's own site,
+#                 IRS/Charity Navigator, local news, a state directory such as
+#                 OCADSV, the Oregon DOJ county victim-assistance directory, the
+#                 OHA WIC clinic directory, CMS/OHA hospital records, or county
+#                 contract documents published on dochub.clackamas.us).
+#   unverified    included, but at least one material fact rests on a single
+#                 source or could not be confirmed; see the comment above the
+#                 entry.
+#
+# Fields are omitted rather than guessed.
+#
+# Clackamas County is the third most populous county in Oregon, so this list is
+# deliberately capped and weighted toward the core providers: the confidential
+# DSV advocacy agency, the family justice center, the DA victim assistance
+# program, the housing authority, the community action agency, the county's only
+# whole-family shelter, the main shelter/housing contractors, county public
+# health (WIC and nurse home visiting), the county FQHC, and the two hospitals
+# that deliver babies in the county.
+#
+# Considered and deliberately excluded:
+#   - Clackamas Service Center (cscoregon.org): a major North Clackamas basic
+#     needs provider, but its only site is 8800 SE 80th Ave, Portland (Multnomah
+#     County), so it fails the physical-office rule. Its own contact page also
+#     said "Our phone line is currently down" when checked, and it has warned
+#     publicly (Sept 2025) that its Food Hub may close.
+#   - To:gether Canby (formerly The Canby Center, 681 SW 2nd Ave, Canby): a real
+#     Clackamas nonprofit, but it is classified as a food bank (NTEE K31) and its
+#     rent/utility assistance was only 14 cases and $4,950 in 2023. Out of topic.
+#     Note the name change took effect May 15, 2026.
+#   - Clackamas County Children's Commission / Healthy Families of Clackamas
+#     County: the county's only certified Healthy Families Oregon home-visiting
+#     provider, but predominantly a Head Start and child-abuse-prevention agency.
+#   - Homeless Solutions Coalition of Clackamas County (hsccc.org): a coalition
+#     that states it does not provide direct service; it is building the Caring
+#     Place resource center in Oregon City.
+#   - Clackamas County Behavioral Health, Clackamas Workforce Partnership,
+#     Metropolitan Family Services, Oregon Child Development Coalition: out of
+#     the three topics.
+#   - El Programa Hispano Catolico (UNICA) and Legacy Mount Hood Medical Center
+#     serve Clackamas residents but are based in Gresham (Multnomah County).
+#   - Legacy Meridian Park Medical Center is in Tualatin (Washington County).
+
+organizations:
+  # Sources: cwsor.org (own pages, Tax ID 93-0900119), the county's domestic
+  # violence response page, and CWS's own 2024 legislative testimony on HB 4140.
+  # The mission below is CWS's own wording; the scraper would otherwise pick up
+  # the site-wide "Safety Alert!" banner that sits above the page content.
+  # CWS is co-located at A Safe Place Family Justice Center and shares that
+  # building's address and main phone; the 24-hour crisis line is separate.
+  - name: "Clackamas Women's Services"
+    aka: ["CWS"]
+    website: "https://www.cwsor.org"
+    ein: "930900119"
+    address: "256 Warner Milne Rd, Oregon City, OR 97045"
+    phone: "(503) 655-8600"
+    email: "info@cwsor.org"
+    city: "Oregon City"
+    county: "Clackamas"
+    topics: ["dsv", "housing"]
+    org_type: "nonprofit"
+    keywords: ["domestic violence", "sexual assault", "stalking", "elder abuse", "trafficking", "emergency shelter", "confidential advocacy", "crisis line", "Latinx services", "Camp HOPE"]
+    mission: >-
+      The mission of Clackamas Women's Services is to break the isolation of
+      domestic and sexual violence.
+    notes: >-
+      Clackamas County's confidential domestic and sexual violence advocacy
+      agency, incorporated in 1985. Provides a 24-hour crisis and support line
+      at (503) 654-2288, The Village emergency shelter, rapid rehousing and
+      survivor housing programs, counseling and support groups, children's and
+      youth advocacy, Latina/x Promotoras outreach, legal advocacy and school
+      based prevention education.
+    verification_status: "web_verified"
+
+  # Sources: asafeplacefjc.org (own pages) and the county's "Responding to
+  # Domestic Violence" page, which both give the same address and phone.
+  # The center is a county-led multi-agency collaborative operated with CWS: its
+  # director and program coordinator use @clackamas.us addresses, so it is
+  # recorded as government. No single published org-wide email exists (the
+  # contact page lists individual staff and the CWS reception address), so the
+  # email is omitted. The address and main phone are intentionally the same as
+  # the CWS entry above because CWS is housed inside this building.
+  # The mission below is the county's description of the center; the center's own
+  # site is mostly a contact and services list with no mission statement.
+  - name: "A Safe Place Family Justice Center"
+    aka: ["A Safe Place", "Clackamas County Family Justice Center", "ASP", "FJC"]
+    website: "https://asafeplacefjc.org"
+    address: "256 Warner Milne Rd, Oregon City, OR 97045"
+    phone: "(503) 655-8600"
+    city: "Oregon City"
+    county: "Clackamas"
+    topics: ["dsv"]
+    org_type: "government"
+    keywords: ["family justice center", "protective orders", "restraining orders", "safety planning", "elder abuse", "co-located services", "legal assistance"]
+    mission: >-
+      Founded in 2013, A Safe Place Family Justice Center brings multiple
+      agencies together under one roof to provide trauma-informed, coordinated
+      support.
+    notes: >-
+      Clackamas County's family justice center, where survivors of domestic
+      violence, sexual violence, stalking and abuse of older adults can reach
+      advocacy, legal help, law enforcement and housing resources in a single
+      visit. Runs a weekday protection-order clinic with an on-site video
+      courtroom and hosts support groups.
+    verification_status: "web_verified"
+
+  # Sources: the county District Attorney's locations/contacts pages and the
+  # Oregon DOJ statewide county victim-assistance directory, which agree on the
+  # address and the 503-655-8616 line. The program email is published on the
+  # county's own contact page and victim-rights page.
+  # 503-655-8616 is the program's 24-hour crisis line and its published business
+  # number; 503-655-8431 is the DA's general front desk and is not used here.
+  # The mission below is seeded after the first run: every clackamas.us page the
+  # scraper touched yielded the same site-wide promotional blurb ("Learn about
+  # some of the ways we're working with the state and federal governments...")
+  # instead of page content. The text used here is the program's own mission
+  # statement from the page above.
+  - name: "Clackamas County District Attorney Victim Assistance Program"
+    aka: ["Clackamas County Victim Assistance", "DA-VAP"]
+    website: "https://www.clackamas.us/da/victimassist.html"
+    address: "1000 Courthouse Road, Oregon City, OR 97045"
+    phone: "(503) 655-8616"
+    email: "victimsassistance@clackamas.us"
+    city: "Oregon City"
+    county: "Clackamas"
+    topics: ["dsv"]
+    org_type: "government"
+    keywords: ["victim assistance", "crime victims", "protective orders", "safety planning", "court accompaniment", "crime victims compensation", "human trafficking", "elder abuse"]
+    mission: >-
+      The mission of the Clackamas County District Attorney's Victim Assistance
+      Program is to involve crime victims and the community in a process that
+      helps to diminish the devastating impact of crime.
+    notes: >-
+      Prosecution-based victim assistance program of the Clackamas County
+      District Attorney's Office. Advocates provide a 24-hour crisis line,
+      crisis intervention, help obtaining domestic violence, stalking, sexual
+      assault and elder abuse protective orders, safety planning, court
+      accompaniment, hospital response for forensic medical exams, and help
+      applying for Crime Victims Compensation.
+    verification_status: "web_verified"
+
+  # Sources: nwfs.org (own pages), the OCADSV program directory, Washington 211,
+  # and Clackamas County contract documents (Casa Esperanza shelter contract
+  # #10726, renewed through June 30, 2027).
+  # NWFS labels its main office "6200 SE King Road, Portland, OR 97222"; that is
+  # a Portland mailing address in the Milwaukie 97222 ZIP. To stay inside the
+  # county rule, the local Milwaukie office address and phone are recorded here
+  # instead. Casa Esperanza, its culturally specific Latina DV shelter, is at the
+  # King Road site; its location is kept non-specific in public listings.
+  # No org-wide email is published in readable form (the site obfuscates it), so
+  # email is omitted rather than guessed from a program or staff address.
+  # The mission below is NWFS's own homepage statement; the site opens with a
+  # "Safety Alert!" interstitial that the scraper would otherwise pick up.
+  - name: "Northwest Family Services"
+    aka: ["NWFS", "Casa Esperanza"]
+    website: "https://nwfs.org"
+    address: "6902 SE Lake Road, Suite 302, Milwaukie, OR 97267"
+    phone: "(503) 546-5077"
+    city: "Milwaukie"
+    county: "Clackamas"
+    topics: ["dsv", "housing"]
+    org_type: "nonprofit"
+    keywords: ["Casa Esperanza", "Latina survivors", "culturally specific shelter", "domestic violence", "sexual assault", "trafficking", "housing navigation", "rapid rehousing", "foster youth to independence"]
+    mission: >-
+      Northwest Family Services supports family stability, child well-being, and
+      victims of crime by addressing the social determinants of health.
+    notes: >-
+      Community nonprofit operating Casa Esperanza, a culturally specific,
+      trauma-informed emergency shelter for Latina survivors of domestic
+      violence, sexual assault and trafficking and their children, reachable at
+      (503) 974-9882 with a 24-hour crisis line at (503) 232-4448. Also runs
+      Clackamas County housing stability, housing navigation and Foster Youth to
+      Independence programs under contract with the county.
+    verification_status: "web_verified"
+
+  # Sources: clackamas.us/housingauthority (own pages), the Housing Authorities
+  # of Oregon directory, and HACC's own forms, which agree on address, phone and
+  # the hacc@clackamas.us program mailbox.
+  # STATUS: the admin office at 13930 S Gain St was temporarily closed March 16 -
+  # April 13, 2026 per a county notice; it is published as open again. All
+  # waiting lists (public housing and Housing Choice Voucher) were closed when
+  # checked, and the county directs people in a housing crisis to Coordinated
+  # Housing Access at (503) 655-8575 instead.
+  - name: "Housing Authority of Clackamas County"
+    aka: ["HACC"]
+    website: "https://www.clackamas.us/housingauthority"
+    address: "13930 S Gain St, Oregon City, OR 97045"
+    phone: "(503) 655-8267"
+    email: "hacc@clackamas.us"
+    city: "Oregon City"
+    county: "Clackamas"
+    topics: ["housing"]
+    org_type: "government"
+    keywords: ["housing authority", "public housing", "housing choice voucher", "section 8", "affordable housing", "family self sufficiency", "project based vouchers", "VASH"]
+    mission: >-
+      The mission of the Housing Authority of Clackamas County is to provide and
+      develop affordable housing with supportive services for individuals and
+      families on their path to improved health, wellness, prosperity and
+      inclusion.
+    notes: >-
+      Clackamas County's housing authority. Owns and operates about 566 units of
+      low-rent public housing in Oregon City, Milwaukie and scattered sites
+      countywide, administers roughly 1,600 Housing Choice (Section 8) vouchers
+      plus project-based, VASH and mainstream vouchers, runs a Family Self
+      Sufficiency program, and gives a waiting-list preference to survivors of
+      domestic violence.
+    verification_status: "web_verified"
+
+  # Sources: clackamas.us/socialservices (own pages), the division's 2025-2029
+  # Older Americans Act Area Plan, and a 2024 state intergovernmental agreement,
+  # all giving 2051 Kaen Road and 503-655-8640.
+  # No division-wide public email is published (the pages list individual staff),
+  # so email is omitted. This is the county's Community Action Agency, created in
+  # 1982 by merging the Area Agency on Aging with the CAA; only its housing and
+  # energy work is in scope here.
+  # The mission below is seeded after the first run, for the same reason as the
+  # DA entry above; it is the division's own opening description of itself.
+  - name: "Clackamas County Social Services Division"
+    aka: ["Clackamas County Social Services", "CCSS", "Clackamas County Community Action Agency"]
+    website: "https://www.clackamas.us/socialservices"
+    address: "2051 Kaen Road #135, Oregon City, OR 97045"
+    phone: "(503) 655-8640"
+    city: "Oregon City"
+    county: "Clackamas"
+    topics: ["housing"]
+    org_type: "government"
+    keywords: ["community action agency", "rent assistance", "eviction prevention", "homeless services", "energy assistance", "Rent Well", "housing rights", "fair housing"]
+    mission: >-
+      The Social Services Division helps seniors, people with disabilities,
+      veterans, and low-income residents of Clackamas County. Social Services is
+      dedicated to helping people in need become more independent.
+    notes: >-
+      Clackamas County's Community Action Agency and Area Agency on Aging. Its
+      community action programs include nine housing assistance and case
+      management programs for people experiencing homelessness, two rent
+      assistance programs for households facing eviction, utility and energy
+      assistance, the Rent Well tenant readiness course at (503) 650-5647, and
+      the Housing Rights and Resources Program at (503) 650-5750, run with Legal
+      Aid Services of Oregon and the Fair Housing Council of Oregon. County
+      residents in a housing crisis are referred to Coordinated Housing Access
+      at (503) 655-8575.
+    verification_status: "web_verified"
+
+  # Sources: nwhousing.org (own pages and 2019 impact report), a 2021 Clackamas
+  # County CDBG subrecipient agreement naming 2316 SE Willard Street, and the
+  # county housing authority's own project-based voucher listings.
+  # The published general line is (503) 654-1007; (503) 655-8575 appears on
+  # third-party shelter directories but is the county's Coordinated Housing
+  # Access line, not NHA's, so it is not recorded here. Annie Ross House intake
+  # is by referral through that county line, not directly.
+  - name: "Northwest Housing Alternatives"
+    aka: ["NHA", "Annie Ross House"]
+    website: "https://nwhousing.org"
+    address: "2316 SE Willard St, Milwaukie, OR 97222"
+    phone: "(503) 654-1007"
+    email: "info@nwhousing.org"
+    city: "Milwaukie"
+    county: "Clackamas"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["affordable housing development", "family emergency shelter", "Annie Ross House", "rapid rehousing", "eviction prevention", "resident services", "permanent supportive housing"]
+    notes: >-
+      Nonprofit affordable housing developer founded in 1982, managing a
+      portfolio of more than 1,900 homes across 16 Oregon counties from its
+      Milwaukie campus. Operates the Annie Ross House, the only emergency
+      shelter for whole families in Clackamas County, along with HomeBase
+      eviction prevention and rapid rehousing, the Pathways supportive housing
+      partnership, and resident services.
+    verification_status: "web_verified"
+
+  # Sources: tfhstreetministry.com (own pages, registered charity 65-1224857),
+  # Clackamas County contract #10702 (shelter and housing services, extended
+  # through June 30, 2027), and a December 2022 Oregon City News article giving
+  # the 603 12th St address.
+  # Marked unverified because only the organization's own site publishes the
+  # (503) 722-9780 number and the info@tfhsm.org address; everything else is
+  # double-sourced. The organization has also been openly searching for a larger
+  # Oregon City building to move into, so the address may change.
+  # The mission below is the organization's own homepage statement; the site is a
+  # Wix build whose landing page may not yield clean text to the scraper.
+  - name: "The Father's Heart Street Ministry"
+    aka: ["The Father's Heart", "TFHSM", "TFH"]
+    website: "https://www.tfhstreetministry.com"
+    ein: "651224857"
+    address: "603 12th St, Oregon City, OR 97045"
+    phone: "(503) 722-9780"
+    email: "info@tfhsm.org"
+    city: "Oregon City"
+    county: "Clackamas"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["day shelter", "warming shelter", "cooling center", "transitional housing", "hotel shelter", "housing navigation", "supportive housing case management", "showers", "meals"]
+    mission: >-
+      Our mission is to extend hope, help, and resources to those experiencing
+      homelessness, poverty, and crisis by meeting basic needs, as well as
+      providing supportive services and pathways to stability and independence.
+    notes: >-
+      Faith-based nonprofit founded in 1999 serving adults experiencing
+      homelessness in Oregon City and the surrounding area. Runs a day resource
+      center with meals, showers and a clothing exchange, serves as the area's
+      emergency warming shelter in freezing weather and a cooling and smoke
+      refuge in summer, and operates a hotel-based transitional housing program,
+      housing navigation, rapid rehousing and supportive housing case management
+      under contract with Clackamas County. Shelter referrals come through
+      Clackamas County Coordinated Housing Access.
+    verification_status: "unverified"
+
+  # Sources: loveone.org (own pages) and Charity Navigator (EIN 81-0814063).
+  # Marked unverified because no street address or phone could be confirmed: the
+  # organization's own site and its IRS filing give only PO Box 212, Oregon City,
+  # and two chamber-of-commerce directories disagree, one listing 1300 John Adams
+  # St Suite 131 with (503) 314-8649 and the other the PO box with
+  # (971) 997-3281. No address or phone is therefore recorded.
+  # Charity Navigator lists the domain as loveonecommunity.org; the live site the
+  # organization links from its own materials is loveone.org, used here.
+  # LoveOne and The Father's Heart Street Ministry are formally partnered and
+  # share an executive director, but they remain separate 501(c)(3)s.
+  - name: "LoveOne"
+    website: "https://www.loveone.org"
+    ein: "810814063"
+    email: "Hello@LoveOneCommunity.org"
+    city: "Oregon City"
+    county: "Clackamas"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["street outreach", "mobile showers", "laundry events", "housing placement", "homeless outreach", "basic needs"]
+    mission: >-
+      To love our Clackamas County neighbors by providing human connections and
+      striving to meet basic needs, including laundry, showers, food, housing
+      and opportunities for personal growth.
+    notes: >-
+      Community-based nonprofit running mobile laundry, shower and meal events
+      and street outreach for people experiencing homelessness across Clackamas
+      County, with regular events in Oregon City, Milwaukie, Molalla, Estacada,
+      Sandy and Welches. Outreach staff connect participants to housing
+      placement and rapid rehousing resources.
+    verification_status: "unverified"
+
+  # Sources: antfarmyouthservices.com (own pages, March 2026 housing article and
+  # site footer) and Clackamas County contract #11299, under which AntFarm
+  # provides rural homeless outreach and inclement weather response directly to
+  # the county.
+  # Address and phone are the administrative office on Proctor Blvd in Sandy; the
+  # Sandy, Estacada and Molalla YouthHubs are separate storefronts. Housing
+  # services are reached on the same (503) 668-7962 line.
+  # AntFarm began as a youth services and social-enterprise organization; only its
+  # housing services, which began in 2020, are in scope here.
+  - name: "AntFarm Youth Services"
+    aka: ["AntFarm"]
+    website: "https://antfarmyouthservices.com"
+    address: "39140 Proctor Blvd, Sandy, OR 97055"
+    phone: "(503) 668-7962"
+    email: "Info@antfarmyouthservices.com"
+    city: "Sandy"
+    county: "Clackamas"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["rural homeless outreach", "rapid rehousing", "rental assistance", "housing stabilization", "inclement weather shelter", "youth housing", "direct cash transfer"]
+    notes: >-
+      Sandy-based nonprofit providing housing services across rural east and
+      south Clackamas County, including Sandy, Estacada and Molalla. Services
+      include street outreach, housing case management, rapid rehousing,
+      short- and long-term rental assistance, housing stabilization support, a
+      Direct Cash Transfer pilot for young adults aged 18 to 24, and staffing for
+      county inclement-weather shelter sites.
+    verification_status: "web_verified"
+
+  # Sources: clackamas.us/publichealth pages (division contact block) and the
+  # Oregon Health Authority WIC clinic directory, which lists the agency as
+  # "Clackamas County Health Department" at 2051 Kaen Rd Suite 135 with
+  # 503-655-8476 and wic@clackamas.us.
+  # The division's own address, phone and mailbox are recorded here; the WIC
+  # clinic is a suite in the same building and is described in the notes.
+  # WIC also runs part-time clinics at the Wichita Center for Family and
+  # Community in Milwaukie, Sandy Health Center, and Wilsonville Public Library.
+  # The mission below is seeded after the first run, for the same reason as the
+  # DA entry above; it is the WIC page's own opening description.
+  - name: "Clackamas County Public Health Division"
+    aka: ["Clackamas County Health Department", "Clackamas County Public Health"]
+    website: "https://www.clackamas.us/publichealth/wic"
+    address: "2051 Kaen Road, Suite 367, Oregon City, OR 97045"
+    phone: "(503) 742-5300"
+    email: "publichealthdivision@clackamas.us"
+    city: "Oregon City"
+    county: "Clackamas"
+    topics: ["maternal_health"]
+    org_type: "government"
+    keywords: ["WIC", "nurse home visiting", "breastfeeding peer counseling", "lactation support", "prenatal nutrition", "immunizations", "family planning"]
+    mission: >-
+      Our goal is to help our community raise healthy kids. The WIC program
+      helps income-eligible women, infants and children up to age 5 by providing
+      nutritious foods, breastfeeding support, information on healthy eating,
+      health care screenings and referrals to resources.
+    notes: >-
+      County public health division. Runs the Clackamas County WIC program for
+      pregnant people, new parents and children under five, reachable by call or
+      text at (503) 655-8476 or wic@clackamas.us, with clinics in Oregon City,
+      Milwaukie, Sandy and Wilsonville. Also provides WIC breastfeeding peer
+      counseling with an international board-certified lactation consultant,
+      nurse home visiting services, and referrals to lactation support across
+      the county.
+    verification_status: "web_verified"
+
+  # Sources: the county's Health Centers fact sheet (clinic list and the
+  # 503-655-8471 appointment line) and the county departments directory, which
+  # gives 2051 Kaen Road and the same phone.
+  # Prenatal care and family planning are offered at all four clinics: Beavercreek
+  # Health Center (110 Beavercreek Road, Suite 100, Oregon City), Gladstone Health
+  # Center, Sandy Health Center and Sunnyside Health Center (Clackamas). The
+  # administrative address is recorded because no single clinic is the front door.
+  # No division-wide public email is published, so email is omitted.
+  # The mission below is seeded after the first run, for the same reason as the
+  # DA entry above; it is the fact sheet's own opening description.
+  - name: "Clackamas Health Centers"
+    aka: ["Clackamas County Health Centers"]
+    website: "https://www.clackamas.us/healthcenters/factsheet.html"
+    address: "2051 Kaen Road, Oregon City, OR 97045"
+    phone: "(503) 655-8471"
+    city: "Oregon City"
+    county: "Clackamas"
+    topics: ["maternal_health"]
+    org_type: "government"
+    keywords: ["community health center", "prenatal care", "family planning", "sliding scale", "Oregon Health Plan", "primary care", "school based health centers"]
+    mission: >-
+      We offer affordable, high quality health care, including medical, dental,
+      and mental health services for the entire family.
+    notes: >-
+      Clackamas County's community health center system, providing medical,
+      dental and mental health care on a sliding scale and accepting Medicare,
+      the Oregon Health Plan and many private plans. Prenatal care and family
+      planning are offered at its Beavercreek and Gladstone health centers, the
+      Sandy Health Center and the Sunnyside Health Center in Clackamas, plus
+      school-based health centers at Oregon City, Rex Putnam and Sandy high
+      schools.
+    verification_status: "web_verified"
+
+  # Sources: providence.org BirthPlace page for this hospital, the hospital's own
+  # 2025 Community Health Needs Assessment (which confirms the Oregon City
+  # location and the birth center), and OPB coverage of Providence Oregon.
+  # The phone recorded is the BirthPlace line, since this organization is listed
+  # for maternal health; the hospital's general number is (503) 656-1631.
+  # The mission is seeded because Providence's site otherwise yields the system's
+  # religious mission boilerplate ("As expressions of God's healing love...")
+  # rather than anything about this hospital's birth services.
+  # STATUS: Providence Oregon laid off 128 staff in August 2025 and closed the
+  # maternity unit at its Seaside hospital in October 2025; its Oregon CEO warned
+  # more service lines may be at risk. The Oregon City BirthPlace was still open
+  # and advertised as operating 24/7 when checked.
+  - name: "Providence Willamette Falls Medical Center"
+    aka: ["Providence Willamette Falls", "PWFMC", "Willamette Falls Hospital"]
+    website: "https://www.providence.org/locations/or/willamette-falls-medical-center/birthplace"
+    address: "1500 Division St, Oregon City, OR 97045"
+    phone: "(503) 657-6723"
+    city: "Oregon City"
+    county: "Clackamas"
+    topics: ["maternal_health"]
+    org_type: "nonprofit"
+    keywords: ["labor and delivery", "birth center", "obstetrics", "midwifery", "lactation consultant", "postpartum care", "TeamBirth", "newborn care"]
+    mission: >-
+      One in five Oregonians begins their life at a Providence facility. Our
+      family-centered approach to childbirth includes personalized care from
+      experts who are dedicated to the health and wellbeing of the entire
+      family.
+    notes: >-
+      Not-for-profit acute care hospital in Oregon City, founded in 1954, whose
+      primary service area is Clackamas County. Its BirthPlace provides labor and
+      delivery, cesarean birth and postpartum care with obstetricians, certified
+      nurse midwives, family practice physicians and lactation consultants, with
+      perinatology and neonatology support from Portland. Families who deliver
+      there are seen afterward at the Providence Mother and Baby Clinic at 1510
+      Division St, reachable at (503) 215-6085.
+    verification_status: "web_verified"
+
+  # Sources: Kaiser Permanente's own maternity and Sunnyside pages, the Oregon
+  # Health Authority hospital reporting record, and CMS provider records
+  # (CCN 380091), which agree on the address and the (503) 652-2880 number.
+  # The mission is seeded because Kaiser's site is a member-portal application
+  # that yields plan marketing text rather than a description of this hospital.
+  # A replacement hospital tower on the same Clackamas campus is scheduled to open
+  # in 2029; the existing hospital stays open during construction.
+  - name: "Kaiser Permanente Sunnyside Medical Center"
+    aka: ["Kaiser Sunnyside Medical Center", "Kaiser Sunnyside"]
+    website: "https://healthy.kaiserpermanente.org/oregon-washington/facilities/Kaiser-Permanente-Sunnyside-Medical-Center-100249"
+    address: "10180 SE Sunnyside Rd, Clackamas, OR 97015"
+    phone: "(503) 652-2880"
+    city: "Clackamas"
+    county: "Clackamas"
+    topics: ["maternal_health"]
+    org_type: "nonprofit"
+    keywords: ["labor and delivery", "neonatal intensive care", "NICU", "perinatology", "prenatal care", "CenteringPregnancy", "Project Nurture", "lactation support"]
+    mission: >-
+      Sunnyside Medical Center is home to labor and delivery with a Level III
+      Neonatal Intensive Care Unit, the Northwest Center for Heart and Vascular
+      Care, and regional centers for adult cancer care and for neurosurgery and
+      neuro-intervention.
+    notes: >-
+      Not-for-profit general hospital in the Sunnyside area of Clackamas County,
+      open since 1975 and licensed for more than 300 beds. It is one of two
+      hospitals in Clackamas County that deliver babies, with labor and delivery,
+      a Level III neonatal intensive care unit and on-site perinatology.
+      Prenatal care is provided at the adjacent Mt. Talbert and Sunnyside medical
+      offices, and the hospital offers CenteringPregnancy group prenatal care and
+      Project Nurture, which combines maternity care with substance use
+      treatment.
+    verification_status: "web_verified"

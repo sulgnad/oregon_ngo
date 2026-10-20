@@ -1,0 +1,456 @@
+# Hand-curated organizations for the Coos County collection.
+#
+# Researched 2026-10-12. Topics are limited to DSV, housing and maternal health.
+#
+# `notes` is used as the Services_Summary / Org_Agency_Bio fallback when no
+# mission can be extracted, so it must read as a public description of the
+# organization. Research caveats and provenance live in YAML comments instead.
+#
+# verification_status values used here:
+#   web_verified  name, website and contact details were each confirmed against
+#                 at least two independent public sources (the org's own site,
+#                 IRS filings, local news, or a state directory).
+#   unverified    included, but at least one material fact rests on a single
+#                 source or could not be confirmed; see the comment above the
+#                 entry.
+#
+# Fields are omitted rather than guessed.
+#
+# Considered and deliberately excluded:
+#   - Coast Community Health Center (Bandon FQHC): coastcommunityhealth.org now
+#     resolves to a stub pointing at adaptoregon.org, and its Medicare FQHC
+#     certification (CCN 381009) is recorded as terminated 2025-09-30 for
+#     "merger or closure". It issued a closure notice in January 2025, rescinded
+#     it, and transitioned clinic operations to Adapt Integrated Health Care
+#     (Douglas County). No longer a separate Coos-County organization.
+#   - Adapt Integrated Health Care: behavioral health / substance use, and
+#     headquartered in Douglas County.
+#   - Bay Clinic, LLP (Coos Bay): runs "the NEST", the postpartum and newborn
+#     follow-up program created after Bay Area Hospital ended its MOMS program
+#     in February 2025. Topically central, but it is a for-profit physician
+#     partnership and none of the allowed org_type values fit it.
+#   - CASA of Coos and Curry Counties: child advocacy, out of topic. Also note
+#     that the ORCCA board ended its oversight of CASA on 2026-10-09 and the
+#     program's services paused pending a new fiscal agent.
+#   - Bay Area First Step (North Bend): transitional and permanent housing, but
+#     as part of an alcohol-and-drug recovery program.
+#   - Kids' HOPE Center (Bay Area Hospital): child abuse intervention.
+#   - Coos Health & Wellness behavioral health, ADAPT, NAMI: general behavioral
+#     health.
+#   - Oregon Law Center, Coos Bay (455 S 4th St): general legal aid. It co-hosts
+#     monthly legal clinics for DSV survivors with The SAFE Project and does
+#     tenant work, but it is a statewide legal-services program, not a DSV or
+#     housing provider.
+#   - Coquille Valley Hospital (Coquille), Southern Coos Hospital & Health
+#     Center (Bandon), Myrtle Point Health District, Powers Health District:
+#     in-county hospital districts, but no obstetric, birth or prenatal service
+#     could be confirmed at any of them, so none is recorded under
+#     maternal health. Bay Clinic's own NEST page states that "nearly all
+#     regional births occur at Bay Area Hospital".
+#   - Food banks (South Coast Food Share, Coos Food Cupboard, The Ark) and
+#     Habitat for Humanity ReStore: out of topic.
+
+organizations:
+  # Sources: thesafeproject.net (own pages: homepage, staff, donate), the
+  # OCADSV member directory, and the Coos County District Attorney's domestic
+  # violence page. All three agree on the 24-hour crisis line (541) 756-7000;
+  # the own site and the OCADSV/DomesticShelters listings agree on the Newmark
+  # Ave outreach office and the (541) 888-1048 business line. The emergency
+  # shelters (Cloe House, Jane's House) are confidential, so only the outreach
+  # office address is recorded. The email below is the address the organization
+  # publishes for general inquiries on its own sites.
+  # The mission below is the organization's own statement of purpose from its
+  # homepage; without it the extractor picked up the site footer
+  # ("(c)2023 The Safe Project | Powered by Epuerto").
+  - name: "The SAFE Project"
+    aka: ["SAFE Project", "S.A.F.E. Project", "Women's Safety and Resource Center"]
+    website: "https://thesafeproject.net"
+    address: "1681 Newmark Ave, Coos Bay, OR 97420"
+    phone: "(541) 888-1048"
+    email: "rachael@thesafeproject.net"
+    city: "Coos Bay"
+    county: "Coos"
+    topics: ["dsv"]
+    org_type: "nonprofit"
+    keywords: ["domestic violence", "sexual assault", "emergency shelter", "confidential advocacy", "crisis line", "support groups", "legal advocacy"]
+    mission: >-
+      The SAFE Project is dedicated to eliminating violence. To accomplish
+      this, clients must be empowered to make free decisions concerning all
+      aspects of their lives.
+    notes: >-
+      Coos County's confidential domestic and sexual violence advocacy agency,
+      providing a 24-hour crisis line at (541) 756-7000, a 24-hour crisis
+      response team, emergency shelter, support groups, legal advocacy and
+      prevention education. It also serves Curry County; the Coos services are
+      delivered from its Coos Bay outreach office.
+    verification_status: "web_verified"
+
+  # Sources: the county's own Crime Victims' Assistance page (mission, office
+  # location, cooscva@ address), the county's published department phone list
+  # (541-396-7545), and the Coos Health & Wellness and DHS county resource
+  # guides, which both give the same number. The office is in the basement of
+  # the Coos County Courthouse; 250 N Baxter St is the courthouse address the
+  # county publishes for the department.
+  # The mission below is the program's own verbatim mission statement from that
+  # page. Without it the extractor returned the Coos County Planning
+  # Commission's description, because every county department shares one site.
+  - name: "Coos County Crime Victims' Assistance"
+    aka: ["Coos County Victims' Assistance Program", "Coos County CVA", "Coos County District Attorney Crime Victims' Assistance"]
+    website: "https://co.coos.or.us/crime-victims-assistance"
+    address: "250 N Baxter St, Coquille, OR 97423"
+    phone: "(541) 396-7545"
+    email: "cooscva@co.coos.or.us"
+    city: "Coquille"
+    county: "Coos"
+    topics: ["dsv"]
+    org_type: "government"
+    keywords: ["victim assistance", "crime victims", "court accompaniment", "victims' rights", "restitution", "crime victims' compensation"]
+    mission: >-
+      The mission of the Crime Victim's Assistance Program is to provide crime
+      victims with the assistance and services needed to recover from the
+      effects of the criminal act, to support them as they move through the
+      criminal justice system, and to ensure their rights are upheld.
+    notes: >-
+      District attorney's program providing crime victims in Coos County with
+      advocacy, case information, court accompaniment, help with restitution
+      and property return, and assistance applying to the state Crime Victims'
+      Compensation Program.
+    verification_status: "unverified"
+
+  # Source: the Tribe's own site only (Social Services page and the July 2026
+  # relocation notice), hence "unverified".
+  # The Social Services staff listing still shows 1245 Fulton Ave, but the
+  # Tribe's own public notice of 2026-07-24 says the Housing and Social Services
+  # departments moved to the new Outreach location at 1275 Ocean Blvd with a
+  # target date of August 3, 2026. The address below follows the notice.
+  # A confidential advocate line is published separately as 541-808-8152; the
+  # phone recorded here is the published office number.
+  # The mission below is the program's own verbatim description on that page.
+  # Without it the extractor returned "Federally Recognized Tribal Government
+  # based in Oregon", which describes the Tribe, not this program.
+  - name: "Circles of Healing"
+    aka: ["CTCLUSI Circles of Healing", "Confederated Tribes of Coos, Lower Umpqua and Siuslaw Indians Circles of Healing"]
+    website: "https://ctclusi.org/social-services/"
+    address: "1275 Ocean Blvd, Coos Bay, OR 97420"
+    phone: "(541) 435-7169"
+    city: "Coos Bay"
+    county: "Coos"
+    topics: ["dsv"]
+    org_type: "tribal_government"
+    keywords: ["domestic violence", "sexual assault", "human trafficking", "stalking", "confidential advocacy", "support groups", "tribal"]
+    mission: >-
+      The Circles of Healing Program provides Domestic Violence, Sexual
+      Assault, Human Trafficking, Stalking and family violence advocacy and
+      support. They also accommodate survivors healing through cultural events
+      and trauma recovery Support groups.
+    notes: >-
+      Domestic violence, sexual assault, human trafficking, stalking and family
+      violence advocacy program of the Confederated Tribes of Coos, Lower
+      Umpqua and Siuslaw Indians, including confidential advocacy, cultural
+      healing events and trauma recovery support groups.
+    verification_status: "unverified"
+
+  # Sources: ccnbchas.org (own pages, including the FY2026-2027 annual plan
+  # notices) and the Coos Health & Wellness housing resource list, which agree
+  # on the Monroe Street office and the (541) 756-4111 main line. The agency
+  # runs two legally distinct authorities (North Bend City Housing Authority and
+  # Coos-Curry Housing Authority) from one office under one staff.
+  - name: "North Bend City / Coos-Curry Housing Authorities"
+    aka: ["Coos-Curry Housing Authority", "North Bend City Housing Authority", "CCNBCHAS"]
+    website: "https://ccnbchas.org"
+    address: "1700 Monroe St, North Bend, OR 97459"
+    phone: "(541) 756-4111"
+    email: "info@ccnbchas.org"
+    city: "North Bend"
+    county: "Coos"
+    topics: ["housing"]
+    org_type: "government"
+    keywords: ["housing authority", "housing choice voucher", "section 8", "project-based vouchers", "public housing", "affordable housing"]
+    notes: >-
+      Public housing authority for Coos and Curry counties. Administers the
+      Housing Choice Voucher and Project-Based Voucher programs and owns and
+      manages affordable and public housing, including Hamilton Court and
+      Airport Heights in North Bend, Woodland Apartments in Coos Bay, Powers
+      Housing, and scattered-site duplexes in Coos Bay, Coquille and Myrtle
+      Point.
+    verification_status: "web_verified"
+
+  # Sources: orcca.us (own About and contact pages) and the Coos Health &
+  # Wellness and Devereux Center resource lists, which agree on 1855 Thomas Ave
+  # and (541) 435-7080.
+  # CAUTION, not reflected in the export: ORCCA's own 2026 board minutes, as
+  # reported by The World and the Curry Pilot (Aug-Sep 2026), document audits
+  # roughly four years behind, cash-flow concerns, and an unresolved question
+  # about $600,000 of Food Share grant money. On 2026-10-08 the board ended its
+  # oversight of the CASA program, pausing those services. The housing,
+  # weatherization and Head Start programs were still operating.
+  - name: "Oregon Coast Community Action"
+    aka: ["ORCCA"]
+    website: "https://www.orcca.us"
+    address: "1855 Thomas Ave, Coos Bay, OR 97420"
+    phone: "(541) 435-7080"
+    city: "Coos Bay"
+    county: "Coos"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["community action", "energy assistance", "weatherization", "landlord engagement", "Deer Spring Terrace", "Head Start", "food share"]
+    notes: >-
+      Community action agency serving Coos, Curry and western Douglas counties
+      since 1965. Programs include housing at Deer Spring Terrace, landlord
+      engagement and support, energy assistance and weatherization, the South
+      Coast Food Share regional food bank, and Head Start and Early Head Start.
+    verification_status: "web_verified"
+
+  # Sources: the Coquille Indian Tribe's own Housing Authority page and contact
+  # page, its 2026 housing application and board contact PDFs, and the Coos
+  # Health & Wellness housing resource list. All give 2678 Mexeye Loop and
+  # (541) 888-6501.
+  - name: "Coquille Indian Housing Authority"
+    aka: ["CIHA"]
+    website: "https://www.coquilletribe.org/coquille-indian-housing-authority/"
+    address: "2678 Mexeye Loop, Coos Bay, OR 97420"
+    phone: "(541) 888-6501"
+    email: "info@coquilleiha.org"
+    city: "Coos Bay"
+    county: "Coos"
+    topics: ["housing"]
+    org_type: "tribal_government"
+    keywords: ["tribal housing", "low-income rental", "rental assistance", "emergency rental assistance", "home repair", "HUD Section 184", "NAHASDA"]
+    notes: >-
+      Tribally chartered housing authority of the Coquille Indian Tribe. Runs a
+      low-income rental program on tribal lands, the Monthly Housing Assistance
+      Program of tenant-based rental assistance, emergency rental assistance for
+      households who are homeless or unstably housed, a homeowner repair
+      program, and lease-purchase and loan-guarantee homeownership programs.
+    verification_status: "web_verified"
+
+  # Sources: ctclusi.org (Housing Department page and the 2026-07-24 relocation
+  # notice) and the Coos Health & Wellness housing resource list.
+  # The Tribe's administration remains at 1245 Fulton Ave; the Housing
+  # Department moved to the Tribe's new Outreach location at 1275 Ocean Blvd in
+  # August 2026, which is the address recorded here. No single published phone
+  # number for the department could be confirmed, so the Coos Bay Tribal
+  # Government Office number, which the Tribe directs people to during the move,
+  # is used.
+  # The mission below is the department's own verbatim statement on its page.
+  # Without it the extractor returned "Federally Recognized Tribal Government
+  # based in Oregon", which describes the Tribe, not this department.
+  - name: "Confederated Tribes of Coos, Lower Umpqua and Siuslaw Indians Housing Department"
+    aka: ["CTCLUSI Housing Department", "Confederated Tribes of Coos, Lower Umpqua and Siuslaw Indians"]
+    website: "https://ctclusi.org/housing-department/"
+    address: "1275 Ocean Blvd, Coos Bay, OR 97420"
+    phone: "(541) 888-9577"
+    city: "Coos Bay"
+    county: "Coos"
+    topics: ["housing"]
+    org_type: "tribal_government"
+    keywords: ["tribal housing", "rental assistance", "down payment assistance", "home repair", "emergency assistance", "homeless prevention"]
+    mission: >-
+      The CTCLUSI Housing Department envisions a community where all eligible
+      CTCLUSI Tribal Members, members of other Federally Recognized Tribes, as
+      well as other families that are at risk have access to safe and
+      affordable housing.
+    notes: >-
+      Housing department of the Confederated Tribes of Coos, Lower Umpqua and
+      Siuslaw Indians. Offers rental assistance, tribal rental housing in Coos
+      Bay, North Bend and Florence, down payment loan assistance, a home repair
+      program, and emergency assistance and homeless prevention for tribal
+      families.
+    verification_status: "web_verified"
+
+  # Sources: nwumpqua.org (own pages) and the organization's 2019 and 2021
+  # written testimony to the Oregon Legislature, which also carry the Coos
+  # County office. Headquartered in Roseburg (Douglas County); included for Coos
+  # on the basis of its North Bend office, whose address and phone are recorded
+  # here rather than headquarters.
+  # The North Bend office has moved within the county over the years (93781
+  # Newport Ln, Coos Bay in 2019 and 768 Virginia Ave, North Bend in 2021);
+  # 1992 Sherman Ave is the address currently published on every page of its
+  # own site.
+  - name: "NeighborWorks Umpqua"
+    aka: ["NW Umpqua", "Umpqua Community Development Corporation"]
+    website: "https://www.nwumpqua.org/who-we-are/"
+    address: "1992 Sherman Ave, North Bend, OR 97459"
+    phone: "(541) 756-1000"
+    city: "North Bend"
+    county: "Coos"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["affordable rentals", "foreclosure intervention counseling", "homebuyer education", "home repair", "homeshare", "resident services"]
+    notes: >-
+      Rural housing and community development corporation serving Coos, Curry,
+      Douglas and Josephine counties. Owns and manages affordable rental housing
+      in Coos County, including Coddington Place in Coos Bay, Hillside Terrace
+      in Coquille, Myrtlewood Apartments in Myrtle Point and the Hotel North
+      Bend apartments, and provides HUD-certified foreclosure intervention
+      counseling, homebuyer education and home repair assistance.
+    verification_status: "web_verified"
+
+  # Sources: thedevereuxcenter.org (own pages) and the Coos Health & Wellness
+  # community resource lists, which agree on 1200 Newmark Ave and
+  # (541) 888-3202. Also listed in the housing authority's own referral list.
+  - name: "The Devereux Center"
+    aka: ["Nancy Devereux Center"]
+    website: "https://www.thedevereuxcenter.org"
+    address: "1200 Newmark Ave, Coos Bay, OR 97420"
+    phone: "(541) 888-3202"
+    city: "Coos Bay"
+    county: "Coos"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["homeless day center", "warming center", "transitional housing", "showers", "laundry", "hot meals", "case management"]
+    notes: >-
+      Day resource center for people experiencing homelessness in the Coos Bay
+      area, providing hot meals, showers, laundry, clothing, mail and case
+      management, a seasonal warming center, and on-site living facilities.
+    verification_status: "web_verified"
+
+  # Sources: southcoastgospelmission.org (own contact page), the Candid/GuideStar
+  # profile (EIN 93-1105141) and the Coos Health & Wellness housing list. The
+  # only email addresses published on the organization's own site belong to two
+  # named staff members, so none is recorded.
+  - name: "South Coast Gospel Mission"
+    aka: ["SCGM"]
+    website: "https://www.southcoastgospelmission.org"
+    ein: "931105141"
+    address: "1999 N 7th St, Coos Bay, OR 97420"
+    phone: "(541) 269-5017"
+    city: "Coos Bay"
+    county: "Coos"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["emergency shelter", "homeless shelter", "meals", "clothing", "faith-based", "residential program"]
+    notes: >-
+      Faith-based emergency shelter in Coos Bay with dormitories for men, women
+      and children, open year round, plus free public meals, clothing and
+      hygiene supplies and a residential program of job preparation,
+      budgeting and goal setting.
+    verification_status: "web_verified"
+
+  # Sources: cooshealthandwellness.org (own pages, which carry 281 LaClair St
+  # and 541-266-6700), the county's own public records form, which lists
+  # Coos Health and Wellness at the same address, and the county resource
+  # guides, which give the WIC line as 541-266-6705.
+  # This is a county department, so the pipeline does not scrape email for it;
+  # no general departmental address is published, only individual staff
+  # mailboxes, so the field is omitted.
+  # Context, not asserted in the record: after Bay Area Hospital ended its MOMS
+  # postpartum home-visiting program in February 2025, the hospital's CEO
+  # said it was in discussions with county public health about continuing some
+  # of those at-home services. The outcome was not confirmed.
+  - name: "Coos Health & Wellness"
+    aka: ["Coos County Public Health", "CHW"]
+    website: "https://www.cooshealthandwellness.org"
+    address: "281 LaClair St, Coos Bay, OR 97420"
+    phone: "(541) 266-6700"
+    city: "Coos Bay"
+    county: "Coos"
+    topics: ["maternal_health"]
+    org_type: "government"
+    keywords: ["WIC", "public health", "family health home visiting", "immunizations", "reproductive health", "Oregon Mothers Care"]
+    notes: >-
+      Coos County's public health and behavioral health department. Its public
+      health division runs the county WIC clinic, reachable at (541) 266-6705,
+      along with family health home visiting, immunizations, communicable
+      disease control and environmental health.
+    verification_status: "web_verified"
+
+  # Sources: bayareahospital.org (Family Birth Center and about pages), the
+  # Oregon Health Authority hospital reporting page, and the hospital's own
+  # audited financial statements and board packets.
+  # org_type: the hospital is operated by the Bay Area Health District, which
+  # its own bylaws describe as "a political subdivision and municipal
+  # corporation of the State of Oregon ... created pursuant to ORS 440.305",
+  # governed by a publicly elected six-member board, so it is recorded as
+  # government. Note that a 2026 OHA material-change filing by the district
+  # describes itself instead as "a 501(c)(3) hospital district"; the two
+  # descriptions are not reconciled in the public record.
+  # The website is pinned to the Family Birth Center page because the hospital
+  # home page is a marketing banner.
+  # SERVICE CHANGE: the hospital discontinued its MOMS (Management of Maternity
+  # Services) program, including postpartum at-home visits, on 2025-02-09, and
+  # closed its Bright Beginnings childcare center on 2025-02-28. Childbirth
+  # classes, lactation consultation and post-discharge planning continue.
+  # The mission below is the opening sentence of the hospital's own Family
+  # Birth Center page. Without it the extractor returned the home page banner
+  # ("...comprehensive provider of health & well-being... Learn more.").
+  - name: "Bay Area Hospital"
+    aka: ["Bay Area Health District", "Bay Area Hospital District", "Bay Area Hospital Family Birth Center"]
+    website: "https://bayareahospital.org/care-services/family-birth-center/"
+    address: "1775 Thompson Rd, Coos Bay, OR 97420"
+    phone: "(541) 269-8111"
+    city: "Coos Bay"
+    county: "Coos"
+    topics: ["maternal_health"]
+    org_type: "government"
+    keywords: ["labor and delivery", "postpartum care", "newborn care", "lactation support", "childbirth education", "obstetric triage"]
+    mission: >-
+      Our labor, delivery, and postpartum unit is dedicated to providing a
+      safe, supportive, and family-centered birth experience.
+    notes: >-
+      The largest hospital on Oregon's south coast and the region's only birth
+      center. Its Family Birth Center provides labor, delivery and postpartum
+      care in seven birth rooms, prenatal testing and obstetric triage,
+      cesarean surgery, newborn care, lactation consultation, free childbirth
+      education classes and postpartum follow-up.
+    verification_status: "web_verified"
+
+  # Sources: wfall.org (own pages), the NPPES registry entry for Waterfall
+  # Clinic, Incorporated (NPI 1003445032) and the Oregon Health Care Quality
+  # Corporation clinic listing; all three give 1890 Waite St and
+  # (541) 756-6232. Some older community resource guides give 1980 Waite St,
+  # which is not used here.
+  # The mission below is the organization's own mission statement, verbatim
+  # apart from the "MISSION STATEMENT:" label that precedes it on the page and
+  # that the extractor otherwise carried into the summary.
+  - name: "Waterfall Community Health Center"
+    aka: ["Waterfall Clinic", "Waterfall Clinic, Incorporated"]
+    website: "https://www.wfall.org"
+    address: "1890 Waite St, North Bend, OR 97459"
+    phone: "(541) 756-6232"
+    city: "North Bend"
+    county: "Coos"
+    topics: ["maternal_health"]
+    org_type: "nonprofit"
+    keywords: ["federally qualified health center", "women's health", "family planning", "pregnancy testing", "sliding fee scale", "school-based health centers"]
+    mission: >-
+      To promote access to quality integrated health services that meet the
+      needs of individuals with barriers to care on the Southern Oregon Coast.
+    notes: >-
+      Federally Qualified Health Center founded in 1998, serving Coos, Curry and
+      Douglas counties from its North Bend primary care center, a behavioral
+      health center in Coos Bay, school-based health centers at Marshfield High
+      School and North Bay Elementary, and a dental clinic. Its women's health
+      team provides annual exams, family planning and the full range of birth
+      control methods, pregnancy testing, fertility counseling and cervical and
+      breast cancer screening on a sliding fee scale.
+    verification_status: "web_verified"
+
+  # Sources: kokwelwellness.org (own pages), the Coquille Indian Tribe's own
+  # contact page, and the CDC National Prevention Information Network listing;
+  # all give 630 Miluk Drive and (541) 888-9494.
+  # Maternal-health relevance rests on the clinic's published Baby Equipment
+  # program (pregnancy follow-along, cribs, mattresses and car seats) and
+  # newborn hepatitis B vaccination, not on prenatal or delivery care, which is
+  # not advertised. Earlier county guides call this the Coquille Indian Tribe
+  # Community Health Center at 600 Miluk Dr; the Tribe replaced that building in
+  # 2021 and now publishes 630 Miluk Dr.
+  - name: "Ko-Kwel Wellness Center - Coos Bay"
+    aka: ["Ko-Kwel Wellness Center", "KWC Coos Bay", "Coquille Indian Tribe Community Health Center", "Coquille Tribal Health Clinic"]
+    website: "https://kokwelwellness.org"
+    address: "630 Miluk Dr, Coos Bay, OR 97420"
+    phone: "(541) 888-9494"
+    email: "wellness@coquilletribe.org"
+    city: "Coos Bay"
+    county: "Coos"
+    topics: ["maternal_health"]
+    org_type: "tribal_government"
+    keywords: ["tribal health clinic", "primary care", "well-child exams", "baby equipment", "car seats", "newborn immunization", "sliding fee scale"]
+    notes: >-
+      Health center of the Coquille Indian Tribe at Kilkich village near Cape
+      Arago, serving Coquille tribal families, members of other federally
+      recognized tribes, tribal employees and the general public as capacity
+      allows. Alongside primary care, pharmacy, dental and behavioral health,
+      it runs a baby equipment program that follows expectant families through
+      pregnancy and reimburses cribs, mattresses and car seats for new babies.
+    verification_status: "web_verified"

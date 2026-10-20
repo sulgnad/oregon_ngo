@@ -1,0 +1,180 @@
+# Hand-curated organizations for the Baker County collection.
+#
+# Researched 2026-10-12. Topics are limited to DSV, housing and maternal health.
+#
+# `notes` is used as the Services_Summary / Org_Agency_Bio fallback when no
+# mission can be extracted, so it must read as a public description of the
+# organization. Research caveats and provenance live in YAML comments instead.
+#
+# verification_status values used here:
+#   web_verified  name, website and contact details were each confirmed against
+#                 at least two independent public sources (the org's own site,
+#                 IRS filings, local news, or a state directory).
+#   unverified    included, but at least one material fact rests on a single
+#                 source or could not be confirmed; see the comment above the
+#                 entry.
+#
+# Fields are omitted rather than guessed.
+#
+# Considered and deliberately excluded:
+#   - New Directions Northwest: behavioral health. Housing navigation is a side
+#     program of a treatment provider, not its purpose.
+#   - Baker Relief Nursery: child-abuse prevention / early childhood.
+#   - Shelter From the Storm (La Grande, Union County): covered Baker during
+#     MayDay's 2026 pause but has no Baker office.
+
+organizations:
+  # Sources: IRS record (EIN 93-0889147) and local news, March-June 2026.
+  # An older state directory lists the office at 1834 Main St; the IRS record and
+  # the 2026 press releases agree on 2745 Broadway St.
+  # STATUS: paused direct services March 13, 2026, resumed advocacy June 1, 2026
+  # ("Phase 1"). The confidential shelter had not reopened. The export's
+  # Operations_Status column is a constant ("Normal operations") and does not
+  # reflect this.
+  - name: "MayDay, Inc."
+    aka: ["MayDay", "MayDay Inc"]
+    website: "https://maydayinc.net"
+    ein: "930889147"
+    address: "2745 Broadway St, Baker City, OR 97814"
+    phone: "(541) 523-9472"
+    city: "Baker City"
+    county: "Baker"
+    topics: ["dsv"]
+    org_type: "nonprofit"
+    keywords: ["domestic violence", "sexual assault", "stalking", "elder abuse", "advocacy", "crisis line"]
+    notes: >-
+      Baker County's confidential domestic and sexual violence advocacy agency,
+      with a 24-hour crisis line at (541) 523-4134.
+    verification_status: "web_verified"
+
+  # Sources: ccno.org (own pages) and Baker City Herald, Jan 2026.
+  # Headquartered in La Grande; included for Baker on the basis of its Baker City
+  # office at 2810 Cedar St.
+  - name: "Community Connection of Northeast Oregon"
+    aka: ["Community Connection of Baker County", "CCNO"]
+    website: "https://ccno.org"
+    address: "2810 Cedar St, Baker City, OR 97814"
+    phone: "(541) 523-6591"
+    city: "Baker City"
+    county: "Baker"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["emergency housing", "rental assistance", "motel vouchers", "community action", "self-sufficiency"]
+    notes: >-
+      Community action agency providing emergency housing, rental assistance and
+      related services across Union, Baker, Wallowa and Grant counties; Baker
+      County services are delivered from its Baker City office.
+    verification_status: "web_verified"
+
+  # Source: noccbaker.org only (address, phone and email), hence "unverified".
+  # Planned transitional housing for women was announced for 2024 (Baker City
+  # Herald, 2023); whether it opened was not confirmed, so housing is not tagged.
+  # The mission below is the "Who we are" statement from the organization's own
+  # homepage; the scraper otherwise picks up the hero banner text.
+  - name: "Northeast Oregon Compassion Center"
+    aka: ["NOCC"]
+    website: "https://noccbaker.org"
+    address: "1250 Hughes Lane, Baker City, OR 97814"
+    phone: "(541) 523-9845"
+    email: "nocc.frontdesk@gmail.com"
+    city: "Baker City"
+    county: "Baker"
+    topics: ["dsv"]
+    org_type: "nonprofit"
+    keywords: ["domestic violence intervention", "court-endorsed program", "Cribs for Kids", "food bank", "Safe Families for Children"]
+    mission: >-
+      We are a nonprofit organization dedicated to serving individuals and
+      families in need by providing essential resources, compassionate
+      counseling, and community support to help them overcome challenges and
+      build brighter futures.
+    notes: >-
+      Faith-based nonprofit running a court-endorsed one-year domestic violence
+      intervention program for victims and perpetrators, plus a food bank and
+      Cribs for Kids in partnership with the Baker County District Attorney's
+      office.
+    verification_status: "unverified"
+
+  # Sources: county health department site and the OHA WIC clinic directory.
+  # The scraper's best email candidate on this site was webmaster@, which the
+  # extractor now rejects; no program-specific address is published.
+  - name: "Baker County Health Department"
+    aka: ["BCHD"]
+    website: "https://www.bakercountyor.gov/health/health.html"
+    address: "2200 4th St, Baker City, OR 97814"
+    phone: "(541) 523-8211"
+    city: "Baker City"
+    county: "Baker"
+    topics: ["maternal_health"]
+    org_type: "government"
+    keywords: ["WIC", "Babies First", "CaCoon", "Oregon Mothers Care", "family planning", "nurse home visiting"]
+    notes: >-
+      County public health department. Runs the local WIC clinic, Babies First!
+      and CaCoon nurse home visiting, Oregon Mothers Care referrals and family
+      planning.
+    verification_status: "web_verified"
+
+  # Sources: St. Luke's clinic page, NPPES registry, and the Baker County
+  # obstetrics information page. The clinic's own site speaks for the whole
+  # Idaho-based health system, so the scraper's summary is system boilerplate;
+  # the mission below is the county's description of this clinic's role.
+  # Baker County has no local delivery service; deliveries are in La Grande,
+  # Ontario or Idaho.
+  - name: "St. Luke's Clinic - Eastern Oregon Medical Associates: Baker City"
+    aka: ["Eastern Oregon Medical Associates", "EOMA"]
+    website: "https://stlukesonline.org/en/get-care/locations/clinics/st-lukes-clinic-eastern-oregon-medical-associates-baker-city/"
+    address: "3950 17th St, Baker City, OR 97814"
+    phone: "(541) 523-1001"
+    city: "Baker City"
+    county: "Baker"
+    topics: ["maternal_health"]
+    org_type: "nonprofit"
+    keywords: ["prenatal care", "postpartum care", "newborn care", "obstetrics", "primary care"]
+    mission: >-
+      St. Luke's Eastern Oregon Medical Associates provides prenatal, postpartum
+      and newborn care to patients in Baker County.
+    notes: >-
+      Primary care clinic that serves as Baker County's published source of
+      prenatal, postpartum and newborn care, coordinating delivery at a
+      hospital of the patient's choosing.
+    verification_status: "web_verified"
+
+  # Sources: Oregon SATF county directory, and MayDay's own March 2026 press
+  # release (both give 541-523-8344). No website or street address could be
+  # confirmed.
+  - name: "Baker County District Attorney Victim Assistance Program"
+    aka: ["Baker County Victims' Assistance Program"]
+    phone: "(541) 523-8344"
+    city: "Baker City"
+    county: "Baker"
+    topics: ["dsv"]
+    org_type: "government"
+    keywords: ["victim assistance", "protective orders", "safety planning", "crime victims"]
+    notes: >-
+      County district attorney's program supporting crime victims in Baker
+      County, including help with protective orders and safety planning.
+    verification_status: "unverified"
+
+  # Sources: neoha.org (own pages).
+  # Main office is 2608 May Lane, La Grande. It owns and manages rentals in Baker
+  # County with on-site Baker managers (Grove Apartments and Green Acres in Baker
+  # City, duplexes in Baker City and Haines, houses in Huntington, apartments in
+  # Richland). Whether it keeps a staffed Baker City office is unconfirmed: a
+  # third-party listing gives 2970 Walnut St, Baker City, but reviewers say the
+  # number reaches a fax machine, so no address is recorded. This is a borderline
+  # fit for the physical-office rule.
+  - name: "Northeast Oregon Housing Authority"
+    aka: ["NEOHA"]
+    website: "https://www.neoha.org"
+    phone: "(541) 963-5360"
+    email: "info@neoha.org"
+    city: "Baker City"
+    county: "Baker"
+    topics: ["housing"]
+    org_type: "government"
+    keywords: ["housing authority", "housing choice voucher", "section 8", "affordable housing"]
+    notes: >-
+      Regional housing authority serving Union, Baker, Grant and Wallowa
+      counties. Administers Housing Choice (Section 8) vouchers and owns and
+      manages affordable rental housing, including properties in Baker City,
+      Haines, Huntington and Richland.
+    verification_status: "unverified"

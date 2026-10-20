@@ -1,0 +1,563 @@
+# Hand-curated organizations for the Benton County collection.
+#
+# Researched 2026-10-12. Topics are limited to DSV, housing and maternal health.
+#
+# `notes` is used as the Services_Summary / Org_Agency_Bio fallback when no
+# mission can be extracted, so it must read as a public description of the
+# organization. Research caveats and provenance live in YAML comments instead.
+#
+# verification_status values used here:
+#   web_verified  name, website and contact details were each confirmed against
+#                 at least two independent public sources (the org's own site,
+#                 IRS filings, local news, or a state/benefit directory).
+#   unverified    included, but at least one material fact rests on a single
+#                 source or could not be confirmed; see the comment above the
+#                 entry.
+#
+# Fields are omitted rather than guessed. Where a regional agency is included,
+# the address and phone are the Benton County office, not headquarters.
+#
+# Considered and deliberately excluded:
+#   - Community Health Centers of Benton and Linn Counties (the county-run
+#     FQHC, clinics.bentoncountyor.gov): its own Family Planning page states
+#     "We do not provide traditional pregnancy/maternity care", and none of the
+#     five clinics list prenatal or maternity services. Out of topic.
+#   - Samaritan Obstetrics, Gynecology & Midwifery (3640 NW Samaritan Dr Ste
+#     220, Corvallis; 541-768-5300): a real Benton prenatal provider, but it
+#     shares the samhealth.org host with Good Samaritan Regional Medical Center
+#     below, and the pipeline's host-based dedup would silently collapse the two
+#     into one row. Only the hospital (the actual birth site) is listed.
+#   - Corvallis Birth Center (2235 NW Kings Blvd Ste A): freestanding birth
+#     centre, but it could not be confirmed as a nonprofit or public body, and
+#     org_type has no for-profit value.
+#   - Sarah's Place, the regional sexual assault nurse examiner centre CARDV
+#     and OSU both refer survivors to: it is at Samaritan Albany General
+#     Hospital in Linn County, with no Benton office.
+#   - ABC House (child abuse assessment, Albany) and Old Mill Center for
+#     Children and Families / Pollywog (Corvallis): child-abuse and early
+#     childhood work, out of topic.
+#   - Vina Moses Center, South Corvallis Food Bank, Philomath Community
+#     Services, Stone Soup: free goods and food, out of topic.
+#   - Corvallis Caring Place and Samaritan Village: senior assisted living and
+#     senior HUD housing, not homelessness or affordable-housing services.
+#   - Planned Parenthood Columbia Willamette's Corvallis health centre:
+#     reproductive health, but no prenatal or maternity care is advertised.
+#   - Benton County Crisis Center and Milestones Family Recovery: behavioural
+#     health and addiction treatment.
+#   - Linn Benton Food Share, Emergence, Legal Aid Services of Oregon (Albany
+#     regional office, no Benton office).
+
+organizations:
+  # Sources: cardv.org (contact page, rack card) and Charity Navigator
+  # (EIN 93-0792125), which agree on 2208 SW 3rd St and 541-758-0219.
+  # An older Community Services Consortium resource guide and an archived OSU
+  # brochure still list an administrative office at 4786 SW Philomath Blvd;
+  # that address is stale. CARDV's two shelters are at confidential locations.
+  # 24-hour crisis and support line: (541) 754-0110 / (800) 927-0197.
+  # Without a seeded mission the extractor picks up the site's listing blurb,
+  # which opens with the crisis-line number; the mission below is CARDV's own
+  # statement from its History & Mission page.
+  - name: "Center Against Rape and Domestic Violence"
+    aka: ["CARDV"]
+    website: "https://cardv.org"
+    ein: "930792125"
+    address: "2208 SW 3rd St, Corvallis, OR 97333"
+    phone: "(541) 758-0219"
+    email: "info@cardv.org"
+    city: "Corvallis"
+    county: "Benton"
+    topics: ["dsv"]
+    org_type: "nonprofit"
+    keywords: ["domestic violence", "sexual assault", "stalking", "sex trafficking", "emergency shelter", "legal advocacy", "crisis line", "support groups"]
+    mission: >-
+      The mission of the Center Against Rape and Domestic Violence is twofold:
+      to provide services and support to those affected by sexual and domestic
+      violence, and to provide education and leadership within the community to
+      change the societal conditions that cultivate these forms of violence.
+    notes: >-
+      Benton County's confidential domestic and sexual violence advocacy
+      agency, serving Linn and Benton counties since 1981. Runs a 24-hour
+      crisis and support line at (541) 754-0110, two confidential emergency
+      shelters, legal and medical advocacy, support groups and community
+      education.
+    verification_status: "web_verified"
+
+  # Sources: the county District Attorney's own Victim Assistance Program page
+  # and OSU's Clery Act "Resources for Survivors and Respondents" handout, which
+  # agree on 120 NW 4th Street and 541-766-6688. 541-766-6815 on the same county
+  # page is the DA's main line, not this program.
+  - name: "Benton County District Attorney Victim Assistance Program"
+    aka: ["Benton County Victim Services", "Benton County Victims' Assistance Program"]
+    website: "https://www.bentoncountyor.gov/da/page/victim-assistance-program"
+    address: "120 NW 4th St, Corvallis, OR 97330"
+    phone: "(541) 766-6688"
+    email: "victimservices@bentoncountyor.gov"
+    city: "Corvallis"
+    county: "Benton"
+    topics: ["dsv"]
+    org_type: "government"
+    keywords: ["victim assistance", "crime victims rights", "restitution", "victim impact statement", "court accompaniment", "protective orders"]
+    notes: >-
+      County district attorney's program supporting crime victims in Benton
+      County, including help asserting rights under Oregon's Crime Victims
+      Bill of Rights, restitution requests, victim impact statements and
+      support through court proceedings.
+    verification_status: "web_verified"
+
+  # Sources: cape.oregonstate.edu, OSU's central incident-reporting page and the
+  # Counseling & Psychological Services crisis page, which agree on
+  # 541-737-2030 and survivoradvocacy@oregonstate.edu.
+  # NAME CHANGE: this service was the Survivor Advocacy and Resource Center
+  # (SARC) in Plageman 311; it is now the Center for Advocacy, Prevention &
+  # Education in Student Experience Center 350. Older OSU PDFs still say SARC.
+  # The ZIP below is the OSU Corvallis campus ZIP; CAPE's own page gives the
+  # street address without one.
+  # A university is a public body, so org_type is "government".
+  # The homepage leads with a crisis-line banner, so the mission is seeded from
+  # CAPE's own "who we are" paragraph on that page.
+  - name: "Oregon State University Center for Advocacy, Prevention & Education"
+    aka: ["CAPE", "OSU Survivor Advocacy and Resource Center", "SARC"]
+    website: "https://cape.oregonstate.edu"
+    address: "Student Experience Center 350, 2251 SW Jefferson Way, Corvallis, OR 97331"
+    phone: "(541) 737-2030"
+    email: "survivoradvocacy@oregonstate.edu"
+    city: "Corvallis"
+    county: "Benton"
+    topics: ["dsv"]
+    org_type: "government"
+    keywords: ["survivor advocacy", "gender-based violence", "sexual assault", "dating violence", "stalking", "safety planning", "medical advocacy", "prevention education"]
+    mission: >-
+      The Center for Advocacy, Prevention & Education (CAPE) cultivates a
+      survivor-centered, trauma informed, culture of consent. We aim to create
+      lasting social change and eliminate gender based violence through shared
+      goals of comprehensive sexual health education, action-oriented
+      prevention and compassionate survivor support.
+    notes: >-
+      Oregon State University's confidential advocacy service for survivors of
+      interpersonal and gender-based violence, free to students, staff, faculty,
+      alumni and anyone affected by a member of the OSU community. Provides
+      safety planning, medical and legal accompaniment, academic and housing
+      accommodations, a survivor fund, support groups and prevention education.
+    verification_status: "web_verified"
+
+  # Sources: health.bentoncountyor.gov (WIC and perinatal programme pages), the
+  # OHA/NPPES record for Benton County's newborn nurse home visiting service,
+  # and third-party WIC clinic directories: all give 530 NW 27th St and
+  # 541-766-6835. The department also occupies the Sunset, Kalapuya and Barbara
+  # Ross buildings; 530 NW 27th St is where WIC and the perinatal programme sit.
+  # Programme-specific numbers published on the same site: WIC (541) 766-6812,
+  # home visiting (541) 760-1834, maternity case management (541) 766-6376.
+  # Email is the perinatal programme's own address rather than a general one.
+  # A WIC clinic also operates by appointment at 610 Dragon Drive in Monroe.
+  - name: "Benton County Health Department"
+    aka: ["Benton County Health Services", "Benton County Public Health"]
+    website: "https://health.bentoncountyor.gov"
+    address: "530 NW 27th St, Corvallis, OR 97330"
+    phone: "(541) 766-6835"
+    email: "pmcfh@bentoncountyor.gov"
+    city: "Corvallis"
+    county: "Benton"
+    topics: ["maternal_health"]
+    org_type: "government"
+    keywords: ["WIC", "Family Connects", "Babies First", "CaCoon", "nurse home visiting", "maternity case management", "lactation support", "family planning"]
+    notes: >-
+      County public health department. Runs the Benton County WIC clinic,
+      the Perinatal, Maternal, Child and Family Health programme with four
+      nurse home visiting services (Family Connects newborn visits, Babies
+      First!, CaCoon and maternity case management), lactation support and
+      family planning.
+    verification_status: "web_verified"
+
+  # Sources: samhealth.org location and Center for Women & Families pages, and
+  # the IRS record for Good Samaritan Hospital Corvallis (EIN 93-0391573).
+  # The only hospital in Benton County and the region's main birth site: 972 of
+  # Samaritan's 1,849 deliveries in 2024 were here.
+  # SERVICE RISK: Samaritan's own "Exploring Services: Women & Children" page
+  # says obstetrics across its five hospitals runs at a large loss and that the
+  # service model will be reassessed in summer/autumn 2026. Deliveries are
+  # stated to continue at all five hospitals for now.
+  # The clinic site speaks for the whole health system, so the mission below is
+  # the hospital's own description of its birthing centre.
+  - name: "Good Samaritan Regional Medical Center"
+    aka: ["GSRMC", "Good Samaritan Hospital Corvallis", "Samaritan Health Services"]
+    website: "https://samhealth.org/find-a-location/good-samaritan-regional-medical-center/"
+    ein: "930391573"
+    address: "3600 NW Samaritan Dr, Corvallis, OR 97330"
+    phone: "(541) 768-5111"
+    city: "Corvallis"
+    county: "Benton"
+    topics: ["maternal_health"]
+    org_type: "nonprofit"
+    keywords: ["birthing center", "labor and delivery", "obstetrics", "midwifery", "lactation consultants", "special care nursery", "childbirth classes"]
+    mission: >-
+      The Center for Women & Families located at Good Samaritan Regional
+      Medical Center in Corvallis is proud to have achieved a Birthing-Friendly
+      designation. From pregnancy through delivery and beyond, we provide
+      comprehensive, personalized care in a supportive environment where your
+      birth preferences are respected and celebrated.
+    notes: >-
+      Benton County's only hospital and the region's main birth site. Its
+      Center for Women & Families birthing centre offers labour and delivery
+      with maternal-fetal specialists, 24/7 pediatric hospitalists, a special
+      care nursery, Baby-Friendly certified lactation support and childbirth
+      preparation classes.
+    verification_status: "web_verified"
+
+  # Sources: unityshelter.org and the United Way of Linn, Benton & Lincoln
+  # agency directory (both give 4515 SW West Hills Rd); IRS EIN 84-5104870.
+  # SERVICE HISTORY: Unity announced in May 2025 that funding losses would
+  # suspend the Men's Shelter, Room at the Inn and the Emergency Hotel Shelter
+  # from July 1 and cut about 80% of staff (Corvallis Gazette-Times / OregonLive,
+  # 11-12 May 2025). A combined shelter ran at Room at the Inn over the summer;
+  # the Men's Shelter reopened at Chapman Center on 9 December 2025, restoring
+  # 50 beds. Per Benton County's Coordinated Homeless Response Office (August
+  # 2026), the Emergency Hotel Shelter is funded only through October 2026 and
+  # the two congregate shelters only through March 2027.
+  # Programme sites: Room at the Inn 1166 NW Jackson Ave (541-207-4636), Men's
+  # Shelter and Hygiene Center 211 SE Chapman Pl (541-250-5113), SafePlace
+  # microshelters at scattered sites (541-730-3013). The address below is the
+  # administrative office.
+  # The homepage leads with the banner "Transforming Lives", so the mission is
+  # seeded from Unity's own agency profile wording.
+  - name: "Unity Shelter"
+    website: "https://unityshelter.org"
+    ein: "845104870"
+    address: "4515 SW West Hills Rd, Corvallis, OR 97333"
+    phone: "(541) 286-5121"
+    email: "info@unityshelter.org"
+    city: "Corvallis"
+    county: "Benton"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["emergency shelter", "low-barrier shelter", "transitional housing", "microshelters", "hygiene center", "Room at the Inn", "SafePlace"]
+    mission: >-
+      Unity Shelter's mission is to provide safe shelter through community
+      care.
+    notes: >-
+      The largest low-barrier shelter provider in Benton County, formed in 2020
+      as an umbrella for Room at the Inn, the Corvallis Men's Shelter and
+      SafePlace. Operates emergency overnight shelter for women and for men,
+      SafePlace transitional microshelters, and a Hygiene Center offering
+      showers, laundry, meals, mail and basic needs seven days a week.
+    verification_status: "web_verified"
+
+  # Sources: corvallishousingfirst.org (contact page and site footer, which
+  # publish the address, phone, email and EIN 26-0694904) and the IRS record for
+  # the same EIN.
+  # Third Street Commons, a 47-unit permanent supportive housing development,
+  # broke ground in early 2026 after a year's environmental-testing delay; the
+  # former Budget Inn non-congregate shelter on the site was operated by Unity
+  # Shelter until demolition.
+  # The homepage leads with the banner "A ROOF OVER EVERY HEAD", so the mission
+  # below is the sentence that follows it on CHF's own homepage.
+  - name: "Corvallis Housing First"
+    aka: ["CHF"]
+    website: "https://www.corvallishousingfirst.org"
+    ein: "260694904"
+    address: "2311 NW Van Buren Ave, Corvallis, OR 97330"
+    phone: "(541) 230-1297"
+    email: "admin@corvallishousingfirst.org"
+    city: "Corvallis"
+    county: "Benton"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["housing first", "permanent supportive housing", "chronic homelessness", "case management", "Third Street Commons"]
+    mission: >-
+      Corvallis Housing First provides housing and services for individuals
+      experiencing homelessness in our Corvallis community.
+    notes: >-
+      Housing First provider for people who have experienced chronic or
+      repeated homelessness in Corvallis, pairing permanent housing with
+      on-site case management. Currently accepts referrals through partner
+      agencies, and is developing Third Street Commons, a 47-unit permanent
+      supportive housing community.
+    verification_status: "web_verified"
+
+  # ADDRESS MOVED, hence "unverified". CSC's own contact page gives the Benton
+  # County regional office as 1121 NW 9th St, Corvallis (541-752-1010), while
+  # every third-party directory and CSC's own older resource guide still show
+  # 545 SW 2nd St Suite A. The current address rests on CSC's own site alone.
+  # CSC is the ORS 190 community action agency for Linn, Benton and Lincoln
+  # counties, governed by a board of local elected officials; it files no IRS
+  # Form 990, so it is recorded as a government body even though it describes
+  # itself as a "public, nonprofit organization". No current general email could
+  # be confirmed (info@communityservices.us appears only in a 2020 PDF).
+  # Also at 1121 NW 9th St: Linn Benton Food Share's administrative office.
+  - name: "Community Services Consortium"
+    aka: ["CSC"]
+    website: "https://communityservices.us"
+    address: "1121 NW 9th St, Corvallis, OR 97330"
+    phone: "(541) 752-1010"
+    city: "Corvallis"
+    county: "Benton"
+    topics: ["housing"]
+    org_type: "government"
+    keywords: ["community action agency", "rent assistance", "security deposits", "energy assistance", "eviction prevention", "coordinated entry", "weatherization", "RentWell"]
+    notes: >-
+      The state-designated community action agency for Linn, Benton and Lincoln
+      counties, established in 1980. Benton County services are delivered from
+      its Corvallis regional office and include rent and security deposit
+      assistance, eviction prevention, energy assistance, coordinated entry,
+      weatherization and employment and education programmes.
+    verification_status: "unverified"
+
+  # PHYSICAL-OFFICE RULE: LBHA's main office is 1250 SE Queen Ave, Albany (Linn
+  # County). It is included for Benton on the basis of its staffed Camas
+  # Commons office at 5140 SW Meadow Flower Dr, Corvallis, listed on LBHA's own
+  # "Office Hours & Locations" page and confirmed by DevNW's page for the same
+  # co-owned property. The address, phone and email below are that local office;
+  # the Albany main line is 541-926-4497.
+  # LBHA also subsidises units at The Julian in downtown Corvallis under its
+  # Section 8 Moderate Rehabilitation programme.
+  # CAUTION: "lbha.org" is NOT this agency; that domain now serves a gambling
+  # site. The authority's domain is l-bha.org.
+  - name: "Linn-Benton Housing Authority"
+    aka: ["LBHA"]
+    website: "https://l-bha.org"
+    address: "5140 SW Meadow Flower Dr, Corvallis, OR 97333"
+    phone: "(541) 753-6885"
+    email: "CamasManager@l-bha.org"
+    city: "Corvallis"
+    county: "Benton"
+    topics: ["housing"]
+    org_type: "government"
+    keywords: ["housing authority", "housing choice voucher", "section 8", "moderate rehabilitation", "affordable housing", "family self-sufficiency"]
+    mission: >-
+      The Linn-Benton Housing Authority improves the quality of life in Linn
+      and Benton Counties through affordable housing.
+    notes: >-
+      Regional housing authority for Linn and Benton counties. Administers
+      Housing Choice (Section 8) vouchers, VASH and non-elderly disabled
+      vouchers and a Section 8 Moderate Rehabilitation programme, and owns or
+      manages affordable rental properties including Camas Commons in Corvallis,
+      where its Benton County office is located.
+    verification_status: "web_verified"
+
+  # PHYSICAL-OFFICE RULE: DevNW is headquartered in Springfield (Lane County);
+  # it is included for Benton on the basis of its Corvallis office at 2525 SE
+  # Third Street, which serves Benton, Linn and Lincoln counties.
+  # "unverified": the Corvallis street address and phone appear on several
+  # devnw.org pages but on no independent source, and no Corvallis-specific
+  # email is published. DevNW was formed in 2019 by the merger of Willamette
+  # Neighborhood Housing Services (Corvallis) and NEDCO (Springfield); older
+  # documents still use the WNHS name.
+  # The homepage leads with the slogan "Developing thriving communities", so the
+  # mission below is DevNW's own "Our Big Idea" statement.
+  - name: "DevNW"
+    aka: ["Willamette Neighborhood Housing Services", "WNHS"]
+    website: "https://www.devnw.org"
+    address: "2525 SE Third St, Corvallis, OR 97333"
+    phone: "(541) 752-7220"
+    city: "Corvallis"
+    county: "Benton"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["affordable rentals", "community land trust", "homeownership counseling", "downpayment assistance", "individual development accounts", "home repair", "foreclosure avoidance"]
+    mission: >-
+      To grow vibrant Northwest communities by empowering the region's
+      individuals, families, small businesses, and neighborhoods.
+    notes: >-
+      Nonprofit community development corporation that builds and manages
+      affordable rental housing and community land trust homes in Benton, Linn
+      and Lane counties, and provides HUD-certified homeownership counselling,
+      downpayment assistance, matched savings accounts, home repair loans and
+      foreclosure avoidance counselling from its Corvallis office.
+    verification_status: "unverified"
+
+  # Sources: jacksonstreet.org contact page and the organization's IRS filings
+  # and GuideStar profile (EIN 93-1269503), which agree on 225 SW 4th St and
+  # 541-286-4580. Legal name is Jackson Street Youth Shelter, Inc.
+  # The Corvallis House shelter is at 555 NW Jackson Ave; the site gives its
+  # number as both 541-754-2404 and 541-745-2404 on different pages, so only the
+  # administrative number is recorded here. 24-hour line: (800) 901-2904.
+  # Benton County funds 10 of its youth beds through June 2027.
+  # Without a seeded mission the extractor returns a truncated homepage
+  # paragraph ending in an ellipsis; the mission below is the statement under
+  # "Our mission" on the organization's own About page.
+  - name: "Jackson Street Youth Services"
+    aka: ["Jackson Street Youth Shelter, Inc.", "JSYS", "Jackson Street"]
+    website: "https://www.jacksonstreet.org"
+    ein: "931269503"
+    address: "225 SW 4th St, Corvallis, OR 97333"
+    phone: "(541) 286-4580"
+    city: "Corvallis"
+    county: "Benton"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["youth homelessness", "youth shelter", "transitional living", "family mediation", "street outreach", "mentoring", "Next Steps"]
+    mission: >-
+      Jackson Street Youth Services is here to promote safety, stability and
+      well-being for youth. We work to prevent homelessness by showing a path
+      to long-term success through building positive relationships and teaching
+      skills for self-sufficiency.
+    notes: >-
+      Youth homelessness agency serving Linn and Benton counties. Operates
+      Corvallis House, a 24/7 emergency shelter for youth aged 10 to 17, the
+      Next Steps transitional housing programme for young adults at
+      confidential sites in Corvallis, a 24-hour crisis line at (800) 901-2904,
+      and street and school outreach, mentoring and case management for people
+      aged 10 to 24.
+    verification_status: "web_verified"
+
+  # Sources: communityoutreachinc.org (contact page), the IRS record
+  # (EIN 93-0602094) and OSU's Clery Act resource handout, all giving 865 NW
+  # Reiman Ave and 541-758-3000.
+  # MOVE: COI's own homepage states that Mari's Place, its childcare centre,
+  # moved to 2701 NW Satinwood St, Corvallis, from September 2026; the main
+  # campus address below is unchanged.
+  # COI runs a shelter but is described by Benton County and by Unity Shelter's
+  # director as higher-barrier than the low-barrier system.
+  # Without a seeded mission the extractor picks up the site's meta description,
+  # which ends in a donate-and-volunteer call to action; the mission below is
+  # COI's own statement from its homepage.
+  - name: "Community Outreach, Inc."
+    aka: ["COI", "Community Outreach Inc"]
+    website: "https://communityoutreachinc.org"
+    ein: "930602094"
+    address: "865 NW Reiman Ave, Corvallis, OR 97330"
+    phone: "(541) 758-3000"
+    email: "communityoutreachcorv@gmail.com"
+    city: "Corvallis"
+    county: "Benton"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["transformative shelter", "transitional housing", "case management", "veteran services", "free medical clinic", "dental clinic", "childcare"]
+    mission: >-
+      We transform lives, helping people help themselves lead healthy and
+      productive lives. Community Outreach programs and services are designed
+      to move families and individuals from crisis to self-sufficiency.
+    notes: >-
+      Corvallis nonprofit providing on-site transformative shelter and
+      transitional housing for men, women and families, with case management,
+      life skills training and day services. Also runs free medical, dental and
+      behavioural health clinics for uninsured and underinsured people, veteran
+      services and a certified childcare centre.
+    verification_status: "web_verified"
+
+  # Sources: corvallisddc.org (address and EIN 80-0019915) and the IRS record
+  # for the same EIN.
+  # ADDRESS CONFLICT: CDDC's own site gives 559 SW 4th St; Unity Shelter's
+  # referral page gives 530 SW 4th. The organization's own figure is used.
+  # The phone and email below were found by the crawler on corvallisddc.org and
+  # match the number Unity Shelter's referral page publishes for CDDC; CDDC's
+  # own /contact-us/ page is a dead link.
+  # Included under housing as a core homeless-services provider: it runs the
+  # Street Outreach Response Team that Benton County's Coordinated Homeless
+  # Response Office relies on for encampment response, alongside needs
+  # navigation. This is a judgement call; it is a day centre, not a shelter.
+  # The homepage opens with a site notice about changed email addresses, so the
+  # mission below is CDDC's own description of itself from the same page.
+  - name: "Corvallis Daytime Drop-in Center"
+    aka: ["CDDC"]
+    website: "https://corvallisddc.org"
+    ein: "800019915"
+    address: "559 SW 4th St, Corvallis, OR 97333"
+    phone: "(458) 233-5327"
+    email: "info@corvallisddc.org"
+    city: "Corvallis"
+    county: "Benton"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["day center", "street outreach", "needs navigation", "homelessness", "peer support", "mail service", "prescription assistance"]
+    mission: >-
+      The Corvallis Daytime Drop-in Center (CDDC) is a community-based resource
+      hub providing information, referrals, and direct services for people
+      experiencing homelessness and poverty in Benton County and beyond.
+    notes: >-
+      Daytime resource hub for people experiencing homelessness and poverty in
+      Benton County. Offers basic needs, mail service, peer support and
+      counselling, prescription and transportation assistance, pet and
+      companion support, and needs navigation for documents and benefits, and
+      operates the county's Street Outreach Response Team.
+    verification_status: "web_verified"
+
+  # "unverified": the office is a division of Benton County Health Department
+  # and every detail below comes from county-published pages, so there is no
+  # independent second source. No direct phone is recorded: the only number
+  # found (541-766-6787) is a named project manager's line from a 2024 funding
+  # notice. The address is the Sunset Building, where the county's own contact
+  # page lists the Coordinated Homeless Response Office.
+  # Listed separately from the health department because it is the county's
+  # housing and homelessness lead: it is Benton County's HB 4123 coordinated
+  # response office, the HB 3644 Statewide Shelter Program regional coordinator,
+  # and the administrator of the Flexible Housing Subsidy Pool.
+  # FUNDING CLIFF: CHRO's own August 2026 report to the Board of Commissioners
+  # and City Council projects Benton County shelter capacity falling from 157
+  # beds to 48 by March 2027 absent new money.
+  - name: "Benton County Coordinated Homeless Response Office"
+    aka: ["CHRO", "Benton County Coordinated Homeless Response"]
+    website: "https://health.bentoncountyor.gov/coordinated-homeless-response/"
+    address: "4077 SW Research Way, Corvallis, OR 97333"
+    email: "CHRO@bentoncountyor.gov"
+    city: "Corvallis"
+    county: "Benton"
+    topics: ["housing"]
+    org_type: "government"
+    keywords: ["coordinated homeless response", "Flexible Housing Subsidy Pool", "rapid rehousing", "housing navigation", "coordinated entry", "shelter funding", "point in time count"]
+    notes: >-
+      Benton County's lead office for housing and homelessness, created under
+      Oregon House Bill 4123 as a joint effort of the county, the City of
+      Corvallis, the City of Philomath and Community Services Consortium.
+      Administers the Flexible Housing Subsidy Pool for rapid rehousing,
+      coordinates shelter funding and coordinated entry across local providers,
+      and runs the annual Point in Time count.
+    verification_status: "unverified"
+
+  # Sources: bentonhabitat.org and the IRS record for the Corvallis affiliate
+  # (EIN 93-1040496, filed as Habitat for Humanity International Inc).
+  # The address below is the affiliate office and ReStore on Philomath Blvd;
+  # programs@mybentonhabitat.org is the programme address published on the site
+  # (note the mybentonhabitat.org mail domain differs from the web domain).
+  # The homepage is a sequence of "WE BUILD..." banners, so the mission below is
+  # the organization's own summary sentence from the same page.
+  - name: "Benton Habitat for Humanity"
+    aka: ["Habitat for Humanity - Benton", "Benton County Habitat for Humanity"]
+    website: "https://www.bentonhabitat.org"
+    ein: "931040496"
+    address: "4840 SW Philomath Blvd, Corvallis, OR 97333"
+    phone: "(541) 752-6637"
+    email: "programs@mybentonhabitat.org"
+    city: "Corvallis"
+    county: "Benton"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["affordable homeownership", "home construction", "sweat equity", "ReStore", "home repair"]
+    mission: >-
+      In Benton County, Habitat for Humanity works to bring people together to
+      make affordable homes achievable for everyone in our community.
+    notes: >-
+      Habitat for Humanity affiliate for Benton County. Builds and sells
+      affordable homes in partnership with lower-income families and operates a
+      ReStore on Philomath Boulevard in Corvallis that resells donated building
+      materials and household goods to fund the building programme.
+    verification_status: "web_verified"
+
+  # Sources: harrietshousing.org and the organization's IRS Form 990
+  # (EIN 87-2716545), which agree on the Philomath PO box and 541-740-5903.
+  # No street office address is recorded: the site publishes only a PO box, and
+  # the Oregon Secretary of State registry lists the founder's home address and
+  # a second registration at 1130 Main St Unit C, neither confirmed as a public
+  # office. Benton County's Coordinated Homeless Response Office names Harriet's
+  # Housing as its Philomath housing partner.
+  # The homepage opens with a scripture quotation, so the mission below is taken
+  # from the organization's own "Our Mission" page.
+  - name: "Harriet's Housing"
+    website: "https://www.harrietshousing.org"
+    ein: "872716545"
+    phone: "(541) 740-5903"
+    email: "harriets_housing@aol.com"
+    city: "Philomath"
+    county: "Benton"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["shared housing", "affordable rentals", "homelessness", "low income housing", "rural housing"]
+    mission: >-
+      To provide affordable shared housing for those who are experiencing
+      homelessness or have low income.
+    notes: >-
+      Philomath nonprofit that owns and rents affordable shared housing, with
+      bedrooms and shared kitchens, bathrooms and laundry, for people who are
+      experiencing homelessness or have low incomes. Tenants come by referral
+      from social service agencies, hospitals and police, and the organization
+      also helps them reach health and social services and appointments.
+    verification_status: "web_verified"

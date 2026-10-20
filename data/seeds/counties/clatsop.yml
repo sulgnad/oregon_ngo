@@ -1,0 +1,405 @@
+# Hand-curated organizations for the Clatsop County collection.
+#
+# Researched 2026-10-12. Topics are limited to DSV, housing and maternal health.
+#
+# `notes` is used as the Services_Summary / Org_Agency_Bio fallback when no
+# mission can be extracted, so it must read as a public description of the
+# organization. Research caveats and provenance live in YAML comments instead.
+#
+# verification_status values used here:
+#   web_verified  name, website and contact details were each confirmed against
+#                 at least two independent public sources (the org's own site,
+#                 IRS/charity records, local news, a county or state directory).
+#   unverified    included, but at least one material fact rests on a single
+#                 source or could not be confirmed; see the comment above the
+#                 entry.
+#
+# Fields are omitted rather than guessed.
+#
+# Considered and deliberately excluded:
+#   - Clatsop Behavioral Healthcare (Warrenton/Astoria/Seaside): community
+#     mental health and substance use provider. It owns permanent supportive
+#     and recovery housing, but housing is a side program of a treatment
+#     agency, not its purpose.
+#   - Consejo Hispano (Astoria): culturally specific Latinx services —
+#     education, tax and digital literacy, legal navigation, crisis referral.
+#     It hosted Astoria's emergency cold-weather shelter at Casa Mariposa
+#     (565 12th St) in winter 2026, but the shelter is operated by Clatsop
+#     Community Action; Consejo is not itself a DSV, housing or maternal
+#     health provider.
+#   - Coastal Family Health Center (2275 Commercial St, Astoria): the county's
+#     FQHC, operated by Yakima Valley Farm Workers Clinic, which moved into a
+#     new building in January 2026. YVFWC offers obstetrics system-wide, but
+#     the Astoria clinic's published service list is family medicine, dental,
+#     behavioral health, nutrition and pharmacy with no prenatal or obstetric
+#     line, so it is not recorded under maternal health.
+#   - Lighthouse for Kids (Astoria): children's advocacy center / child abuse
+#     assessment.
+#   - Coast Pregnancy Clinic (Astoria): faith-based pregnancy counselling
+#     centre, not a maternity care provider.
+#   - Community Action Team (CAT, headquartered in St. Helens): delivers
+#     energy, weatherization and home-ownership programs in Clatsop County,
+#     but its Clatsop energy assistance is intaken through Clatsop Community
+#     Action, and the only Clatsop address on CAT's own site (Regional Housing
+#     Center, 1154 Commercial St, Astoria) is on a page that still describes
+#     the office as closed for COVID-19. Third-party directories give two more
+#     Astoria addresses (818 Commercial St Ste 203 and 1010 Duane St Ste 204)
+#     and two phone numbers. No staffed Clatsop office could be confirmed, so
+#     it is not recorded here. CAT is already carried under Tillamook in
+#     data/seeds/jefferson_tillamook.yml.
+#   - Chinook Indian Nation and the Clatsop-Nehalem Confederated Tribes: no
+#     DSV, housing or maternal health program with a Clatsop County office
+#     could be confirmed; the Chinook Indian Nation is headquartered in Bay
+#     Center, Washington.
+
+organizations:
+  # Sources: harbornw.org and The Astorian / KMUN, July-October 2026; EIN from
+  # the organization's Candid/GuideStar profile (93-0691750).
+  # MOVED: The Harbor bought the former Astorian building and opened advocacy
+  # services at 949 Exchange St on October 1, 2026 (The Astorian 2026-09-30 and
+  # the organization's own 2026-10-04 announcement). The site footer and the
+  # county's resource page still show the old 801 Commercial St address; the
+  # new address is recorded here. The confidential shelter is at an
+  # undisclosed location, as is standard for DSV programs.
+  - name: "The Harbor"
+    aka: ["The Harbor, Inc.", "Harbor NW", "Women's Resource Center"]
+    website: "https://www.harbornw.org"
+    ein: "930691750"
+    address: "949 Exchange St, Astoria, OR 97103"
+    phone: "(503) 325-3426"
+    email: "info@harbornw.org"
+    city: "Astoria"
+    county: "Clatsop"
+    topics: ["dsv"]
+    org_type: "nonprofit"
+    keywords: ["domestic violence", "sexual assault", "stalking", "confidential shelter", "advocacy", "crisis line", "Latinx services", "prevention education"]
+    notes: >-
+      Clatsop County's confidential domestic and sexual violence advocacy
+      centre, serving the county since 1976. Free and confidential services
+      include a 24-hour support line at (503) 325-5735 (Spanish
+      1-855-938-0584), confidential emergency shelter, safety planning,
+      medical and legal advocacy, support groups, housing navigation,
+      culturally specific Latinx services and school-based violence
+      prevention education.
+    verification_status: "web_verified"
+
+  # Sources: Clatsop County District Attorney pages (clatsopcounty.gov/da) and
+  # the Oregon Department of Justice county victim assistance directory, which
+  # both give (503) 325-1599. The DOJ directory lists only the PO Box; the
+  # street address below is the courthouse office from the county's own page.
+  # Government org: the pipeline does not scrape emails for these, and no
+  # program-specific address is published, so none is recorded.
+  # A mission is seeded because the extractor otherwise returns the Clatsop
+  # County Detention Center / Sheriff's Office mission statement from
+  # elsewhere on the county website; the text below is the unit's own
+  # statement of its goal from its county page.
+  - name: "Clatsop County District Attorney Victim Services Unit"
+    aka: ["Clatsop County Victim Assistance", "Clatsop County Victims' Assistance Program"]
+    website: "https://www.clatsopcounty.gov/da/page/victim-services-unit"
+    address: "749 Commercial St, 3rd Floor, Astoria, OR 97103"
+    phone: "(503) 325-1599"
+    city: "Astoria"
+    county: "Clatsop"
+    topics: ["dsv"]
+    org_type: "government"
+    keywords: ["victim assistance", "crime victims", "restitution", "crime victims compensation", "court advocacy", "VINE"]
+    mission: >-
+      The goal of the Clatsop County District Attorney's Office Victim
+      Services Unit is to provide up-to-date information and support to
+      victims of criminal actions.
+    notes: >-
+      District attorney's program supporting victims of crime in Clatsop
+      County with case status information, advocacy at court appearances,
+      victim impact statements, restitution and Crime Victims Compensation
+      claims, and referral to community services.
+    verification_status: "web_verified"
+
+  # Sources: ccaservices.org and the City of Astoria's homelessness FAQ and
+  # Clatsop Behavioral Healthcare's 2026 resource listing, which agree on
+  # 364 9th St and (503) 325-1400.
+  # CCA runs the 58-bed Columbia Inn shelter in Astoria (referral only),
+  # Esperanza Village transitional tiny homes in Seaside, the Regional Food
+  # Bank in Warrenton (2010 SE Chokeberry Ave) and the city's seasonal
+  # emergency cold-weather shelter. It received the largest county shelter
+  # allocation in the 2026-27 funding formula ($710,620).
+  - name: "Clatsop Community Action"
+    aka: ["CCA", "Clatsop Community Action Inc"]
+    website: "https://ccaservices.org"
+    address: "364 9th St, Astoria, OR 97103"
+    phone: "(503) 325-1400"
+    city: "Astoria"
+    county: "Clatsop"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["community action", "emergency shelter", "transitional housing", "rental assistance", "energy assistance", "coordinated entry", "veterans housing", "street outreach"]
+    notes: >-
+      Clatsop County's community action agency and its largest housing
+      provider. Services include emergency and transitional shelter, rental
+      and deposit assistance, coordinated entry assessments, case management,
+      street outreach, veterans housing assistance, energy assistance and a
+      regional food bank.
+    verification_status: "web_verified"
+
+  # Sources: lifeboat-services.org / fillingemptybellies.org, the City of
+  # Astoria homelessness FAQ, and Clatsop Behavioral Healthcare's 2026
+  # resource listing; EIN 82-3838234 from the organization's IRS 501(c)(3)
+  # record. Oregon Secretary of State lists the nonprofit at 1040 Commercial.
+  # STATUS: the 22-bed low-barrier overnight shelter closed on July 19, 2026
+  # after the county cut its allocation to roughly $112,000 (The Astorian,
+  # OPB, KOIN, June-August 2026). Daytime services and meals continue;
+  # Helping Hands and CCA's Columbia Inn absorbed the 22 low-barrier beds.
+  # The export's Operations_Status column is a constant ("Normal operations")
+  # and does not reflect this. The city's FAQ lists (503) 741-3572 and
+  # Clatsop Behavioral Healthcare lists (503) 741-3560 for peer support; the
+  # number below is the one on the organization's own pages.
+  # A mission is seeded because the extractor returns a truncated sentence
+  # that still advertises the "Low-Barrier Year-Round Overnight Shelter" the
+  # organization closed in July 2026.
+  - name: "LiFEBoat Services"
+    aka: ["Filling Empty Bellies", "LiFEBoat Services / Filling Empty Bellies"]
+    website: "https://www.lifeboat-services.org"
+    ein: "823838234"
+    address: "1040 Commercial St, Astoria, OR 97103"
+    phone: "(503) 468-8176"
+    city: "Astoria"
+    county: "Clatsop"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["low-barrier shelter", "houselessness", "meals", "showers", "laundry", "housing navigation", "peer support", "street outreach"]
+    mission: >-
+      Astoria nonprofit serving people experiencing homelessness through its
+      Filling Empty Bellies program: daytime navigation services, meals,
+      showers, laundry, a clothing closet, peer support and housing advocacy.
+      It ran Clatsop County's only walk-in, low-barrier overnight shelter
+      until July 2026.
+    notes: >-
+      Astoria nonprofit serving people experiencing homelessness through its
+      Filling Empty Bellies program: daytime navigation services, meals,
+      showers, laundry, a clothing closet, peer support and housing advocacy.
+      It ran Clatsop County's only walk-in, low-barrier overnight shelter
+      until July 2026.
+    verification_status: "web_verified"
+
+  # Sources: helpinghandsreentry.org (Hope Centers and referral pages) and the
+  # City of Astoria homelessness FAQ, which both give (503) 739-4347 for the
+  # Astoria Uniontown Hope Center; EIN 27-1158468 from the organization's own
+  # site. The organization is headquartered in Clatsop County (mail to a
+  # Seaside PO box) with Hope Centers in Clatsop, Lincoln, Multnomah,
+  # Tillamook and Yamhill counties.
+  # ADDRESS: no street address is published on the organization's own site.
+  # The Gearhart address below is the one the pipeline's ProPublica/IRS
+  # enricher supplies for this EIN; it is recorded explicitly, with the
+  # organization's main published phone and email, so the row is internally
+  # consistent. A chamber of commerce listing gives a nearby but different
+  # Gearhart address (3631 Highway 101), so the street address is
+  # single-sourced and the entry is marked unverified. The Astoria Uniontown
+  # Hope Center is reached on (503) 739-4347 and the Clatsop shelter manager
+  # on (971) 716-3295; the City of Astoria's resource list says to call for
+  # directions to the Astoria shelter.
+  - name: "Helping Hands Reentry Outreach Centers"
+    aka: ["Helping Hands", "Uniontown Hope Center"]
+    website: "https://www.helpinghandsreentry.org"
+    ein: "271158468"
+    address: "3350 US Highway 101, Unit B, Gearhart, OR 97138"
+    phone: "(503) 738-4321"
+    email: "contact_us@helpinghandsreentry.org"
+    city: "Gearhart"
+    county: "Clatsop"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["emergency shelter", "transitional housing", "reentry", "houselessness", "navigation services"]
+    notes: >-
+      Nonprofit operating low-barrier emergency shelter and long-term
+      transitional housing through its Hope Centers, including the Uniontown
+      Hope Center in Astoria and a second Clatsop County shelter site.
+      Shelter placement is by referral from community partners.
+    verification_status: "unverified"
+
+  # Sources: nwoha.org (home and contact pages). The authority serves Clatsop,
+  # Columbia and Tillamook counties and owns or manages properties in all
+  # three, including Owens-Adair and Owens Adair II in Astoria, Alder Court in
+  # Warrenton, and Sandhill and Clatsop Shores in Seaside.
+  # MOVED: NOHA's own pages say the office has relocated to 818 Commercial St
+  # Suite 100, Astoria (mail to PO Box 148, Astoria), in-person by appointment
+  # only. The county resource page, the state housing-authority association
+  # and NOHA's own PDF forms still give 147 S Main Ave, Warrenton, so the
+  # Astoria address rests on a single source and the entry is marked
+  # unverified. The Housing Choice Voucher waiting list is closed.
+  - name: "Northwest Oregon Housing Authority"
+    aka: ["NOHA", "NWOHA"]
+    website: "https://nwoha.org"
+    address: "818 Commercial St, Suite 100, Astoria, OR 97103"
+    phone: "(503) 861-0119"
+    email: "customercare@nwoha.org"
+    city: "Astoria"
+    county: "Clatsop"
+    topics: ["housing"]
+    org_type: "government"
+    keywords: ["housing authority", "housing choice voucher", "section 8", "project-based voucher", "permanent supportive housing", "affordable housing"]
+    notes: >-
+      Regional housing authority serving Clatsop, Columbia and Tillamook
+      counties. Administers Housing Choice (Section 8) and project-based
+      vouchers and owns and manages affordable rental housing, including
+      Owens-Adair and the new 50-unit Owens Adair II in Astoria, Alder Court
+      in Warrenton and Sandhill and Clatsop Shores in Seaside.
+    verification_status: "unverified"
+
+  # Source: the organization's contact block in a City of Cannon Beach council
+  # staff report (November 2022) and its Oregon Secretary of State nonprofit
+  # registration, which agree on 615 Broadway Suite 271, Seaside. The phone
+  # number is single-sourced to the 2022 staff report, and the organization's
+  # website carries almost no text, hence "unverified". Its proposed Arch Cape
+  # cottage-cluster project was paused in 2023 when the county re-evaluated the
+  # suitability of the surplus parcels; no later project news was found.
+  - name: "North Coast Housing Solutions"
+    aka: ["NCHS"]
+    website: "https://northcoasthousing.org"
+    address: "615 Broadway, Suite 271, Seaside, OR 97138"
+    phone: "(503) 717-5570"
+    city: "Seaside"
+    county: "Clatsop"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["affordable housing", "workforce housing", "cottage clusters", "nonprofit developer", "deed restricted housing"]
+    mission: >-
+      North Coast Housing Solutions is a non-profit builder of affordable
+      housing on the Oregon Coast.
+    notes: >-
+      Nonprofit affordable and workforce housing developer on the North Coast,
+      formed to build deed-restricted rental and ownership housing for people
+      working in Clatsop County communities.
+    verification_status: "unverified"
+
+  # Sources: the county health department's own pages (820 Exchange St, Suite
+  # 100; (503) 325-8500) and Clatsop Community Action's county resource
+  # directory, which gives the same address and number.
+  # The WIC program also runs a Thursday satellite clinic at the Bob Chisholm
+  # Community Center, 1225 Avenue A, Seaside (call or text (503) 338-3637).
+  # Government org: the pipeline does not scrape emails for these and no
+  # program email is published, so none is recorded.
+  # A mission is seeded because the extractor otherwise returns the Clatsop
+  # County Detention Center / Sheriff's Office mission statement from
+  # elsewhere on the county website; the text below is the health
+  # department's own mission statement.
+  - name: "Clatsop County Department of Public Health"
+    aka: ["Clatsop County Public Health", "Clatsop County Health Department"]
+    website: "https://www.clatsopcounty.gov/publichealth"
+    address: "820 Exchange St, Suite 100, Astoria, OR 97103"
+    phone: "(503) 325-8500"
+    city: "Astoria"
+    county: "Clatsop"
+    topics: ["maternal_health"]
+    org_type: "government"
+    keywords: ["WIC", "Babies First", "CaCoon", "nurse home visiting", "maternal child health", "reproductive health", "family planning"]
+    mission: >-
+      Clatsop County Department of Public Health provides information and
+      services to residents that are relevant and timely to assure the
+      community's health.
+    notes: >-
+      County public health department. Runs the local WIC clinic, Babies
+      First! and CaCoon nurse home visiting, maternal and child health
+      services delivered in the home, and reproductive health and family
+      planning clinics in Astoria, with a weekly WIC satellite clinic in
+      Seaside.
+    verification_status: "web_verified"
+
+  # Sources: columbiamemorial.org (Family Birth Center and prenatal care
+  # pages) and OPB / The Astorian coverage of the Providence Seaside closure,
+  # which describe CMH as the county's largest maternity provider, delivering
+  # roughly 270 babies a year. Obstetric clinic care is at the CMH-OHSU Health
+  # Obstetrics & Gynecology Clinic, 2265 Exchange St, (503) 338-7595; the
+  # address and phone below are the hospital and its Family Birth Center.
+  - name: "Columbia Memorial Hospital"
+    aka: ["CMH", "CMH Family Birth Center", "CMH-OHSU Health Obstetrics & Gynecology Clinic"]
+    website: "https://www.columbiamemorial.org/services/family-birth-center/"
+    address: "2111 Exchange St, Astoria, OR 97103"
+    phone: "(503) 338-7581"
+    city: "Astoria"
+    county: "Clatsop"
+    topics: ["maternal_health"]
+    org_type: "nonprofit"
+    keywords: ["labor and delivery", "family birth center", "obstetrics", "certified nurse midwives", "prenatal care", "postpartum care", "pediatrics"]
+    mission: >-
+      At the CMH Family Birth Center and the CMH-OHSU Health Obstetrics &
+      Gynecology Clinic, we are your partners in pregnancy, from prenatal care
+      through labor and delivery and postpartum care.
+    notes: >-
+      Community hospital in Astoria and the largest provider of maternity care
+      in Clatsop County. Its Family Birth Center offers prenatal care, labor
+      and delivery and postpartum care with obstetrician-gynecologists and
+      certified nurse-midwives, supported by pediatricians, and took on
+      patients from Seaside after Providence closed its maternity unit in
+      October 2025.
+    verification_status: "web_verified"
+
+  # Sources: astoriabirthcenter.com, the Commission for the Accreditation of
+  # Birth Centers (accredited since August 2022) and the NPPES provider
+  # registry, which agree on 1406 Marine Dr and (503) 468-0650.
+  # NOTE ON org_type: Astoria Birth Center is registered with the Oregon
+  # Secretary of State as an LLC, not a nonprofit, so no org_type is set
+  # rather than record a wrong one. (A separate nonprofit, Astoria Birth
+  # Center Alliance, was registered in 2024 by the same founder.)
+  # The practice is in a staffing transition: all four 2025 clinical providers
+  # left after January 2026 and four new providers joined. Primary care moved
+  # to a direct-primary-care subscription model on January 1, 2026; Oregon
+  # Health Plan is still accepted for all services, including birth.
+  # A mission is seeded because the extractor otherwise returns the site's
+  # hero banner ("World class birth meets Oregon Coast Cozy"); the text below
+  # uses the practice's own wording from its homepage and "Our Story" page.
+  - name: "Astoria Birth Center & Family Medicine"
+    aka: ["Astoria Birth Center", "Astoria Birth Center and Women's Health"]
+    website: "https://www.astoriabirthcenter.com"
+    address: "1406 Marine Dr, Astoria, OR 97103"
+    phone: "(503) 468-0650"
+    email: "office@astoriabirthcenter.com"
+    city: "Astoria"
+    county: "Clatsop"
+    topics: ["maternal_health"]
+    keywords: ["freestanding birth center", "midwifery", "certified nurse midwives", "prenatal care", "postpartum care", "lactation", "waterbirth", "gynecology"]
+    mission: >-
+      Astoria's first freestanding birth and primary care center. Certified
+      Nurse Midwives provide prenatal, birth, postpartum, and women's health
+      care.
+    notes: >-
+      Astoria's freestanding, accredited birth center, opened in 2020 and
+      staffed by nurse-midwives. Provides prenatal, birth and postpartum care
+      for low-risk pregnancies, lactation support and women's health and
+      gynecological care, alongside a primary care practice, and accepts the
+      Oregon Health Plan for birth and women's health services.
+    verification_status: "web_verified"
+
+  # Sources: providence.org (Seaside hospital pages), Providence's August 2025
+  # service-closure announcement, and OPB / The Astorian / OregonLive coverage
+  # of the closure.
+  # STATUS: inpatient obstetric and newborn services — labor and delivery,
+  # well-newborn care and outpatient prenatal and gynecological surgery with
+  # an OB/GYN — closed on October 4, 2025. Two family medicine providers with
+  # obstetrics training continue to provide prenatal care, and the emergency
+  # department still receives obstetric patients; deliveries now go to
+  # Columbia Memorial Hospital or the Astoria Birth Center. The export's
+  # Operations_Status column is a constant and does not reflect this.
+  # A mission is seeded because providence.org otherwise yields the national
+  # health system's boilerplate mission statement; the text below is
+  # Providence Seaside's own description of this hospital.
+  - name: "Providence Seaside Hospital"
+    aka: ["Providence Seaside"]
+    website: "https://www.providence.org/locations/or/seaside-hospital"
+    address: "725 S Wahanna Rd, Seaside, OR 97138"
+    phone: "(503) 717-7000"
+    city: "Seaside"
+    county: "Clatsop"
+    topics: ["maternal_health"]
+    org_type: "nonprofit"
+    keywords: ["critical access hospital", "prenatal care", "family medicine obstetrics", "emergency medicine", "south county"]
+    mission: >-
+      Providence Seaside Hospital is a 25-bed critical access hospital with
+      full accreditation by the Joint Commission that offers primary and
+      specialty care, general surgery, radiology, diagnostic imaging,
+      pathology and emergency medicine 24 hours a day.
+    notes: >-
+      Critical access hospital serving south Clatsop County, with clinics in
+      Seaside, Warrenton and Cannon Beach. Since its inpatient maternity unit
+      closed in October 2025 it provides prenatal care through family medicine
+      providers with obstetrics training, and its emergency department remains
+      prepared for obstetric patients; births take place in Astoria.
+    verification_status: "web_verified"

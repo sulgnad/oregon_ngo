@@ -1,0 +1,382 @@
+# Hand-curated organizations for the Columbia County collection.
+#
+# Researched 2026-10-12. Topics are limited to DSV, housing and maternal health.
+#
+# `notes` is used as the Services_Summary / Org_Agency_Bio fallback when no
+# mission can be extracted, so it must read as a public description of the
+# organization. Research caveats and provenance live in YAML comments instead.
+#
+# verification_status values used here:
+#   web_verified  name, website and contact details were each confirmed against
+#                 at least two independent public sources (the org's own site,
+#                 IRS/ProPublica records, local news, or a state directory such
+#                 as OCADSV, Oregon SATF, Oregon DOJ or OregonLawHelp).
+#   unverified    included, but at least one material fact rests on a single
+#                 source or could not be confirmed; see the comment above the
+#                 entry.
+#
+# Fields are omitted rather than guessed. Columbia County has no hospital and
+# no federally recognized tribal government, so there is no birth centre and no
+# tribal entry; county residents deliver in Portland, Hillsboro, Astoria or
+# Longview, WA.
+#
+# Considered and deliberately excluded:
+#   - Northwest Oregon Housing Authority (NOHA): the Section 8 / public housing
+#     authority for Clatsop, Columbia and Tillamook, and co-developer of
+#     Broadleaf Arbor in St. Helens. Every published office address is in
+#     Clatsop County (147 S Main Ave, Warrenton; main office relocated to 818
+#     Commercial St, Astoria), and in-person service there is by appointment
+#     only. No Columbia County office could be confirmed, so the physical-office
+#     rule excludes it. It is already carried in the Tillamook seed file.
+#   - Columbia Community Mental Health (58646 McNulty Way, St. Helens): the
+#     county's behavioural health and I/DD provider. Its own site lists only
+#     mental health, addiction and developmental-disability services; no housing
+#     or DSV program is published, so it is out of topic.
+#   - Amani Center (St. Helens): the county's child advocacy center, listed
+#     under Columbia by Oregon SATF. Child abuse assessment, out of topic.
+#   - Columbia Pregnancy Center / "Women's Creekside Clinic" (970 Columbia Blvd,
+#     St. Helens): a faith-based crisis pregnancy center offering free pregnancy
+#     testing, ultrasound and parenting education. It is not a prenatal medical
+#     care provider and states it does not provide abortion; excluded as a
+#     judgement call rather than on topic grounds. Flag if you want it added.
+#   - Columbia Pacific Food Bank, Community Meals of St. Helens, Vernonia Cares,
+#     HOPE of Rainier, Scappoose/Clatskanie church pantries: food assistance.
+#   - Legacy Medical Group-St. Helens (475 S Columbia River Hwy): primary care,
+#     paediatrics and urgent care; no obstetric or prenatal service published.
+#   - Adventist Health Medical Office - Vernonia (1005 Cougar St): primary and
+#     urgent care only. Adventist Health announced in January 2026 that the
+#     Vernonia clinic is moving to a primary-care-only model and that urgent care
+#     there will be folded into expanded primary care; no maternal health
+#     service is published, so it is out of topic.
+#   - lifempowered (105 Port Ave, St. Helens): developmental-disability support.
+#   - Columbia County Warming Center: the county's cold-weather shelter, but it
+#     is a program run out of the Community Action Team building by CAT staff,
+#     not a separate organization. Recorded in CAT's entry instead.
+#   - "Columbia County Homeless Services" (St. Catherine's Center for Children):
+#     a Columbia County, NEW YORK program. Not Oregon.
+#   - Emergency Support Shelter (Kelso) and Community House on Broadway
+#     (Longview): Cowlitz County, Washington. Columbia County residents are
+#     referred there, but they are out of state.
+
+organizations:
+  # Sources: safeofcolumbiacounty.org (own pages), the OCADSV Find Help
+  # directory, Oregon SATF's county list, Oregon DOJ's Address Confidentiality
+  # Program assistant list, the Columbia County Circuit Court protective-order
+  # page, and a 2026 county subaward contract. EIN from the IRS/ProPublica
+  # record. All agree on (503) 397-7110 and the 24-hour line (503) 397-6161.
+  # NO STREET ADDRESS IS RECORDED: the organization publishes only PO Box 22,
+  # and the Oregon Secretary of State registry's "principal place of business"
+  # (2194 Columbia Blvd) is the South Columbia County Chamber of Commerce
+  # building, which other filings show is a shared registered-agent address --
+  # not SAFE's office. The confidential shelter ("The Safe House" / "The
+  # Starting Place") is at an undisclosed location by design.
+  # The mission below is the organization's own "about" statement from its
+  # homepage; the scraper otherwise picks up hero-banner statistics.
+  - name: "SAFE of Columbia County"
+    aka: ["S.A.F.E. of Columbia County", "SAFE", "Safe of Columbia County"]
+    website: "https://safeofcolumbiacounty.org"
+    ein: "930766097"
+    phone: "(503) 397-7110"
+    city: "St. Helens"
+    county: "Columbia"
+    topics: ["dsv"]
+    org_type: "nonprofit"
+    keywords: ["domestic violence", "sexual assault", "stalking", "confidential advocacy", "emergency shelter", "transitional housing", "crisis line", "legal advocacy", "prevention education"]
+    mission: >-
+      SAFE is Columbia County's only provider of confidential advocacy and
+      emergency shelter for survivors of domestic violence, sexual assault and
+      stalking. All of SAFE's services are free, and available to anyone
+      affected by violence.
+    notes: >-
+      Columbia County's confidential domestic and sexual violence advocacy
+      agency, founded in 1979. Runs a 24-hour help line at (503) 397-6161, a
+      confidential emergency shelter, support groups, legal and medical
+      advocacy, and school-based prevention programming countywide, with
+      outreach appointments in Rainier and Clatskanie, twice-monthly advocacy at
+      the Vernonia health center, and an advocate outstationed at the Oregon
+      Department of Human Services office in St. Helens.
+    verification_status: "web_verified"
+
+  # Sources: Oregon DOJ's County Victim Assistance Programs directory, the
+  # county's own District Attorney / Victims Assistance pages, Oregon SATF's
+  # county list, the Columbia County Sheriff's victims' rights page, and a
+  # 2025-26 VOCA/CFA grant award. All give (503) 366-3914 at 230 Strand Street.
+  # The room number differs between sources (328, 361, 365), so only the street
+  # address is recorded. Government org, so the pipeline does not scrape email;
+  # crimevictim@columbiacountyor.gov is published on two county pages.
+  # The mission below is the program's own opening sentence from the county's
+  # Victims Assistance page; the first run's extractor picked up the countywide
+  # site meta description ("The official website for the County of Columbia
+  # Oregon USA") instead.
+  - name: "Columbia County District Attorney's Victims Assistance Program"
+    aka: ["Columbia County Victim Assistance", "Columbia County Victims' Assistance Program"]
+    website: "https://www.columbiacountyor.gov/departments/DistrictAttorney/victims-assistance"
+    address: "230 Strand St, St. Helens, OR 97051"
+    phone: "(503) 366-3914"
+    email: "crimevictim@columbiacountyor.gov"
+    city: "St. Helens"
+    county: "Columbia"
+    topics: ["dsv"]
+    org_type: "government"
+    keywords: ["victim assistance", "protective orders", "restraining orders", "crime victims' compensation", "restitution", "court accompaniment"]
+    mission: >-
+      The District Attorney's Victims Assistance Program assists victims of
+      crime and helps them recover in the aftermath of their experience.
+    notes: >-
+      The county District Attorney's program for victims of crime in Columbia
+      County. Advocates explain victims' rights, help with protective orders and
+      Crime Victims' Compensation claims, prepare restitution documentation and
+      accompany victims to court hearings.
+    verification_status: "web_verified"
+
+  # Sources: cat-team.org (own pages, programs-and-services brochure and
+  # intake packets), 2019 legislative testimony on CAT letterhead, local news
+  # (Columbia County Spotlight, Your Oregon News), and the IRS/ProPublica record
+  # (EIN 93-0554156). Headquartered in Columbia County at 125 N 17th St, so no
+  # physical-office question arises even though it serves three counties.
+  # The IRS record carries 124 N 18th St, an adjacent CAT-owned property; every
+  # CAT-published document gives 125 N 17th St, which is used here.
+  # Tagged maternal_health as well as housing for Healthy Families, its free
+  # prenatal and new-birth home visiting program.
+  # The Columbia County Warming Center, the county's only cold-weather shelter,
+  # operates out of this building and is coordinated by CAT housing staff; it
+  # opens seasonally and by night, which the export's constant
+  # Operations_Status column cannot express.
+  - name: "Community Action Team, Inc."
+    aka: ["CAT", "Community Action Team", "Community Action Team Incorporated of Columbia County"]
+    website: "https://cat-team.org"
+    ein: "930554156"
+    address: "125 N 17th St, St. Helens, OR 97051"
+    phone: "(503) 397-3511"
+    email: "resources@cat-team.org"
+    city: "St. Helens"
+    county: "Columbia"
+    topics: ["housing", "maternal_health"]
+    org_type: "nonprofit"
+    keywords: ["community action", "rapid rehousing", "rental assistance", "eviction prevention", "affordable housing", "weatherization", "housing rehabilitation", "energy assistance", "warming center", "Healthy Families", "home visiting", "Head Start"]
+    notes: >-
+      The community action agency for Columbia, Clatsop and Tillamook counties,
+      serving the region since 1966 from its headquarters in St. Helens. Runs
+      permanent and rapid rehousing, deposit and rental assistance, supportive
+      services for veteran families, weatherization and housing rehabilitation,
+      a home ownership center, and energy assistance; owns and manages
+      affordable housing in St. Helens, Scappoose and Vernonia. Its Healthy
+      Families program provides free home visiting, parenting education and
+      support to prenatal and new-birth families.
+    verification_status: "web_verified"
+
+  # Sources: habitatcolumbiacounty.org (own pages), Habitat for Humanity
+  # International's affiliate directory, and Charity Navigator / Cause IQ
+  # (EIN 93-1264491). The affiliate publishes a PO Box for mail and an office at
+  # 164 Little Street, inside the St. Helens ReStore; the street address is used
+  # here. Two phone numbers are published: 971-203-0020 is the affiliate office
+  # and 503-366-1400 is the ReStore, so the office number is recorded.
+  # Homeownership applications were closed when checked (notification list only);
+  # the Ramps and Repairs program was still accepting applications.
+  - name: "Columbia County Habitat for Humanity"
+    aka: ["Habitat for Humanity - Columbia County", "Columbia County Habitat", "CCHFH"]
+    website: "https://habitatcolumbiacounty.org"
+    ein: "931264491"
+    address: "164 Little St, St. Helens, OR 97051"
+    phone: "(971) 203-0020"
+    email: "info@habitatcolumbiacounty.org"
+    city: "St. Helens"
+    county: "Columbia"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["affordable housing", "homeownership", "sweat equity", "home repair", "accessibility ramps", "IDA matched savings", "ReStore"]
+    notes: >-
+      Habitat for Humanity affiliate serving Columbia County since 1998. Builds
+      homes with partner families who contribute sweat equity and buy them with
+      an affordable mortgage, runs a Ramps and Repairs program providing critical
+      home repairs and accessibility ramps for low-income, senior, disabled and
+      veteran homeowners, and operates the St. Helens ReStore.
+    verification_status: "web_verified"
+
+  # Sources: turningpointclatskanie.org (own services and about pages),
+  # Columbia Pacific Food Bank's pantry directory, the Tillamook Headlight
+  # Herald, and the IRS/ProPublica record (Turning Point Community Center Inc,
+  # EIN 93-0873787). Primarily a food pantry, which this collection normally
+  # excludes; included because its own services page lists a standing housing
+  # assistance program and because it is the only walk-in assistance office in
+  # the far north of the county. Its service area is the 97016 ZIP code only.
+  # Housing assistance is explicitly funding-dependent. The same director also
+  # runs the HOPE food pantry in Rainier, which is a separate organization and
+  # is not recorded here.
+  - name: "Turning Point Community Service Center"
+    aka: ["Turning Point", "Turning Point Community Services Center", "Turning Point Community Center Inc"]
+    website: "https://turningpointclatskanie.org"
+    ein: "930873787"
+    address: "220 E Columbia River Hwy, Clatskanie, OR 97016"
+    phone: "(503) 728-3126"
+    email: "turning3point@gmail.com"
+    city: "Clatskanie"
+    county: "Columbia"
+    topics: ["housing"]
+    org_type: "nonprofit"
+    keywords: ["eviction prevention", "rent assistance", "energy assistance", "emergency food", "application assistance", "Section 8 forms", "thrift store"]
+    notes: >-
+      Community service center serving the Clatskanie area (ZIP 97016) since
+      1971. Provides emergency food boxes, electric bill assistance for
+      Clatskanie PUD customers, gas vouchers for medical appointments, and,
+      when funding allows, partial rent or mortgage payments to prevent eviction
+      or foreclosure. Staff also help residents complete LIHEAP, Section 8,
+      Oregon Health Plan, SNAP and TANF applications, and run a low-cost thrift
+      store.
+    verification_status: "web_verified"
+
+  # Sources: columbia-health.org (own pages), the county's Public Health
+  # "Access to Health Care" page, the county-published CHS Clinic Directory PDF,
+  # and the IRS/ProPublica record (EIN 81-0622430). Formerly the Public Health
+  # Foundation of Columbia County. A 501(c)(3) that delivers clinical services
+  # under contract with Columbia County Public Health, so it is a nonprofit, not
+  # a county department.
+  # Phone: the organization now publishes (800) 244-4870 across its whole site;
+  # the county's older clinic directory gives 503-397-4651 for the Gable Road
+  # clinic. The current site-wide number is recorded.
+  # Address: 2370 Gable Rd is the main clinic and the "physical location" in the
+  # site footer. The WIC clinic is at 1560 Columbia Blvd, St. Helens, and CHS
+  # also staffs health centers in Rainier, Clatskanie and Vernonia, plus a
+  # school-based center in Jewell (which is in Clatsop County).
+  # The mission below is the organization's own verbatim mission statement; the
+  # scraper otherwise picks up the "Healthy People, Healthy Community" banner.
+  - name: "Columbia Health Services"
+    aka: ["CHS", "Public Health Foundation of Columbia County"]
+    website: "https://columbia-health.org"
+    ein: "810622430"
+    address: "2370 Gable Rd, St. Helens, OR 97051"
+    phone: "(800) 244-4870"
+    email: "contact@columbia-health.org"
+    city: "St. Helens"
+    county: "Columbia"
+    topics: ["maternal_health"]
+    org_type: "nonprofit"
+    keywords: ["WIC", "breastfeeding support", "home visiting", "prenatal care", "family planning", "reproductive health", "Oregon Health Plan assistance", "school-based health centers"]
+    mission: >-
+      Columbia Health Services supports patients and clients, the public, and
+      partners to create a healthy Columbia County.
+    notes: >-
+      Nonprofit health organization that delivers Columbia County's clinical
+      public health services under contract with the county. Runs the county WIC
+      clinic at 1560 Columbia Blvd in St. Helens, with breastfeeding support and
+      a breast pump program, plus home visiting, normal pregnancy care, family
+      planning and reproductive health at its Lions Wellness Center in St.
+      Helens, and health centers in Rainier, Clatskanie and Vernonia. Also
+      provides Oregon Health Plan application help and health-related social
+      needs case management, including eviction prevention for eligible OHP
+      members.
+    verification_status: "web_verified"
+
+  # Sources: the county's Public Health department and Access to Health Care
+  # pages, and the county's published CHS clinic directory, which documents the
+  # partnership. Government org, so the pipeline does not scrape email;
+  # health@columbiacountyor.gov is the department's published address.
+  # Scope caveat: the department's own modernization plan lists access to health
+  # care, environmental health, emergency preparedness, communicable disease and
+  # health promotion. It is tagged maternal_health because its published
+  # maternal and reproductive health role is referral and navigation --
+  # Oregon MothersCare, CAWEM Plus, WIC and OHP enrolment -- while the WIC
+  # clinic and home visiting themselves are delivered by Columbia Health
+  # Services. Listed because it is the county's local public health authority.
+  # The mission below is the department's own verbatim mission statement; the
+  # scraper otherwise picks up countywide website boilerplate.
+  - name: "Columbia County Public Health"
+    aka: ["Columbia County Public Health Department"]
+    website: "https://www.columbiacountyor.gov/departments/PublicHealth"
+    address: "230 Strand St, St. Helens, OR 97051"
+    phone: "(503) 397-7247"
+    email: "health@columbiacountyor.gov"
+    city: "St. Helens"
+    county: "Columbia"
+    topics: ["maternal_health"]
+    org_type: "government"
+    keywords: ["local public health authority", "reproductive health", "Oregon MothersCare", "CAWEM Plus", "WIC referral", "Oregon Health Plan", "health promotion"]
+    mission: >-
+      Columbia County Public Health is committed to improving the quality of
+      life and protecting the health and well-being of all residents by
+      addressing social, economic, and environmental conditions.
+    notes: >-
+      Columbia County's local public health authority, based in the courthouse
+      annex in St. Helens. Partners with Columbia Health Services to provide
+      primary care, and connects residents to reproductive and pregnancy-related
+      services including Oregon MothersCare, CAWEM Plus prenatal and postpartum
+      coverage, WIC clinics, Oregon Health Plan enrolment help and medical
+      transportation.
+    verification_status: "web_verified"
+
+  # Sources: OHSU's own clinic page for Scappoose, its provider directory (which
+  # lists several Family Medicine Obstetrics physicians and a Director of
+  # Pregnancy Care at this site), and Willamette Week's January 2026 reporting
+  # on the clinic. The building is the Scappoose Family Health Center; the
+  # OHSU Immediate Care Clinic and mammography clinic share the address.
+  # STATUS: OHSU said in January 2026 it was considering converting the clinic
+  # to a Federally Qualified Health Center. Clinic faculty and residents wrote
+  # to OHSU leadership opposing the change over reproductive-health access;
+  # OHSU said it remains committed to full-scope reproductive care in Columbia
+  # County. No conversion had been announced.
+  # org_type is recorded as government because OHSU is an independent public
+  # corporation of the State of Oregon. That is also what keeps the system-wide
+  # mailbox out of this row: the first run scraped askus@ohsu.edu, OHSU's
+  # general public-inquiry address, which is not this clinic's. Government orgs
+  # skip email scraping, and no clinic-specific email is published, so the
+  # email field is left empty. The cost is that the derived Org_Agency_Level
+  # reads "County" for what is really a state-level public corporation; the
+  # export has no "State" branch for this mapping.
+  # The mission below is the clinic's own verbatim access statement; the scraper
+  # otherwise picks up OHSU system boilerplate.
+  - name: "OHSU Primary Care Clinic, Scappoose"
+    aka: ["Scappoose Family Health Center", "OHSU Family Medicine at Scappoose", "OHSU Scappoose"]
+    website: "https://www.ohsu.edu/primary-care/ohsu-primary-care-clinic-scappoose"
+    address: "51377 SW Old Portland Rd, Scappoose, OR 97056"
+    phone: "(503) 418-4222"
+    city: "Scappoose"
+    county: "Columbia"
+    topics: ["maternal_health"]
+    org_type: "government"
+    keywords: ["pregnancy care", "prenatal care", "family medicine obstetrics", "rural health clinic", "reproductive health", "contraception", "sliding scale"]
+    mission: >-
+      This clinic is a federally recognized Rural Health Clinic. We welcome and
+      treat patients of all ages regardless of ability to pay, insurance,
+      income, background or preferred language.
+    notes: >-
+      Rural health clinic in Scappoose and Columbia County's main source of
+      pregnancy care, staffed by family medicine obstetrics physicians who
+      follow patients from conception through delivery and postpartum care.
+      Also provides full-scope reproductive health, primary care for all ages,
+      behavioural health, addiction medicine, lab, X-ray and mammography, and
+      hosts an OHSU immediate care clinic at the same address.
+    verification_status: "web_verified"
+
+  # Sources: oregonlawcenter.org's own St. Helens office page and the
+  # OregonLawHelp referral listing, which agree on 270 S 1st St and
+  # (503) 397-1628. A satellite of OLC's Hillsboro regional office, but with its
+  # own published St. Helens address and walk-in hours, so it meets the
+  # physical-office rule. The only published email, hillsbororegional@
+  # oregonlawcenter.org, belongs to the Hillsboro regional office rather than
+  # this one, so no email is recorded. No separate EIN: OLC is one statewide
+  # nonprofit.
+  # The mission below is OLC's own mission statement in full; the first run's
+  # extractor returned a lower-cased mid-sentence fragment of it ("our mission
+  # is to achieve justice...").
+  - name: "Oregon Law Center - St. Helens Office"
+    aka: ["Oregon Law Center", "OLC St. Helens", "Legal Aid St. Helens"]
+    website: "https://oregonlawcenter.org/how-to-get-help/olc-offices/st-helens/"
+    address: "270 S 1st St, St. Helens, OR 97051"
+    phone: "(503) 397-1628"
+    city: "St. Helens"
+    county: "Columbia"
+    topics: ["dsv", "housing"]
+    org_type: "nonprofit"
+    keywords: ["civil legal aid", "restraining orders", "domestic violence", "sexual assault", "stalking", "eviction defense", "tenant rights", "subsidized housing", "housing discrimination"]
+    mission: >-
+      The mission of the Oregon Law Center is to achieve justice for the
+      low-income communities of Oregon by providing a full range of the highest
+      quality civil legal services.
+    notes: >-
+      Legal aid office serving low-income residents and seniors in Columbia
+      County, part of the Oregon Law Center's Hillsboro regional office. Free
+      civil legal help concentrated in family law with a focus on domestic
+      violence, sexual assault and stalking; housing, including eviction
+      defense, subsidized housing and discrimination; and public benefits.
+      Bilingual English and Spanish staff and interpreters are available.
+    verification_status: "web_verified"
