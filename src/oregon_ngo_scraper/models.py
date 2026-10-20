@@ -56,6 +56,10 @@ class OrgType(str, Enum):
 #: therefore not be collapsed together by the host-based dedup key.
 SHARED_HOST_ORG_TYPES = frozenset({OrgType.GOVERNMENT, OrgType.TRIBAL_GOVERNMENT})
 
+#: Values allowed in the export's ``Org_Agency_Level`` column. City, County,
+#: State and Federal come from the workbook; Tribal is this project's addition.
+AGENCY_LEVELS: tuple[str, ...] = ("City", "County", "State", "Federal", "Tribal")
+
 
 @dataclass
 class Organization:
@@ -76,6 +80,10 @@ class Organization:
     keywords: list[str] = field(default_factory=list)
     notes: str | None = None
     org_type: OrgType = OrgType.UNKNOWN
+    #: Explicit ``Org_Agency_Level`` (one of :data:`AGENCY_LEVELS`). ``None``
+    #: means the export derives it from ``org_type``, which can't tell a state
+    #: university or state agency office from a county department.
+    agency_level: str | None = None
     verification_status: str | None = None
     discovered_via: list[str] = field(default_factory=list)
     source_urls: list[str] = field(default_factory=list)
@@ -111,6 +119,7 @@ class Organization:
                 if self.org_type is not OrgType.UNKNOWN
                 else other.org_type
             ),
+            agency_level=self.agency_level or other.agency_level,
             verification_status=self.verification_status or other.verification_status,
             discovered_via=_dedup(self.discovered_via + other.discovered_via),
             source_urls=_dedup(self.source_urls + other.source_urls),
@@ -137,6 +146,7 @@ class Organization:
             "keywords": list(self.keywords),
             "notes": self.notes,
             "org_type": self.org_type.value,
+            "agency_level": self.agency_level,
             "verification_status": self.verification_status,
             "discovered_via": list(self.discovered_via),
             "source_urls": list(self.source_urls),

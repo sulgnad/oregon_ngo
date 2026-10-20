@@ -73,6 +73,24 @@ def test_tribal_government_uses_the_new_tribal_level() -> None:
     assert row["Org_Agency_Level"] == "Tribal"
 
 
+def test_explicit_agency_level_overrides_the_type_default() -> None:
+    """A state university program is Public/State, not Public/County."""
+    row = snmp.to_row(_org(org_type=OrgType.GOVERNMENT, agency_level="State"))
+    assert row["Org_Agency_Type"] == "Public"
+    assert row["Org_Agency_Level"] == "State"
+
+
+def test_type_default_level_is_unchanged_without_an_override() -> None:
+    assert snmp.to_row(_org(org_type=OrgType.GOVERNMENT))["Org_Agency_Level"] == "County"
+    assert snmp.to_row(_org(org_type=OrgType.NONPROFIT))["Org_Agency_Level"] == "City"
+
+
+def test_invalid_agency_level_falls_back_to_the_default() -> None:
+    """Only the controlled vocabulary may reach the sheet."""
+    row = snmp.to_row(_org(org_type=OrgType.GOVERNMENT, agency_level="Statewide"))
+    assert row["Org_Agency_Level"] == "County"
+
+
 def test_unknown_org_type_leaves_type_columns_blank() -> None:
     row = snmp.to_row(_org(org_type=OrgType.UNKNOWN))
     assert row["Org_Agency_Type"] == ""
@@ -154,6 +172,47 @@ def test_contact_fields_are_written() -> None:
     assert row["Phone"] == "(541) 475-1234"
     assert row["Email"] == "info@example.org"
     assert row["URL"] == "https://example.org"
+
+
+# --- PO Boxes ---------------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    ("address", "postal"),
+    [
+        ("PO BOX 811, Philomath, OR 97370-0811", True),
+        ("P.O. Box 22, St. Helens, OR 97051", True),
+        ("po box 5, Coos Bay, OR 97420", True),
+        ("Post Office Box 9, Madras, OR 97741", True),
+        # A street line that merely appends a box is a real location.
+        ("1233 Veterans St PO Box C, Warm Springs, OR 97761", False),
+        ("2745 Broadway St, Baker City, OR 97814", False),
+        # "Pobox" inside a street name must not trip the check.
+        ("12 Poboxer Rd, Corvallis, OR 97330", False),
+        ("", False),
+        (None, False),
+    ],
+)
+def test_is_postal_address(address, postal) -> None:
+    assert snmp.is_postal_address(address) is postal
+
+
+def test_po_box_is_not_exported_as_a_mappable_address() -> None:
+    row = snmp.to_row(_org(address="PO BOX 22, Saint Helens, OR 97051-0022"))
+    assert row["Primary_Location_Address"] == ""
+
+
+def test_street_address_is_still_exported() -> None:
+    row = snmp.to_row(_org(address="164 SE D St, Madras, OR 97741"))
+    assert row["Primary_Location_Address"] == "164 SE D St, Madras, OR 97741"
+
+
+def test_po_box_keeps_its_location_id() -> None:
+    """Blanking the flat column must not change identity derived from it."""
+    from oregon_ngo_scraper import ids
+
+    org = _org(address="PO BOX 22, Saint Helens, OR 97051-0022")
+    assert snmp.to_row(org)["Location_ID"] == ids.location_id(org)
 
 
 # --- storage ----------------------------------------------------------------

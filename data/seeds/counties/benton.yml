@@ -86,9 +86,11 @@ organizations:
   # and OSU's Clery Act "Resources for Survivors and Respondents" handout, which
   # agree on 120 NW 4th Street and 541-766-6688. 541-766-6815 on the same county
   # page is the DA's main line, not this program.
+  # URL updated 2026-10-20: the old www.bentoncountyor.gov/da/page/... address
+  # now redirects to the DA's own subdomain, recorded below.
   - name: "Benton County District Attorney Victim Assistance Program"
     aka: ["Benton County Victim Services", "Benton County Victims' Assistance Program"]
-    website: "https://www.bentoncountyor.gov/da/page/victim-assistance-program"
+    website: "https://da.bentoncountyor.gov/victim-assistance-program/"
     address: "120 NW 4th St, Corvallis, OR 97330"
     phone: "(541) 766-6688"
     email: "victimservices@bentoncountyor.gov"
@@ -112,7 +114,8 @@ organizations:
   # Education in Student Experience Center 350. Older OSU PDFs still say SARC.
   # The ZIP below is the OSU Corvallis campus ZIP; CAPE's own page gives the
   # street address without one.
-  # A university is a public body, so org_type is "government".
+  # A university is a public body, so org_type is "government". OSU is a state
+  # university, so agency_level is State rather than the County default.
   # The homepage leads with a crisis-line banner, so the mission is seeded from
   # CAPE's own "who we are" paragraph on that page.
   - name: "Oregon State University Center for Advocacy, Prevention & Education"
@@ -125,6 +128,7 @@ organizations:
     county: "Benton"
     topics: ["dsv"]
     org_type: "government"
+    agency_level: "State"
     keywords: ["survivor advocacy", "gender-based violence", "sexual assault", "dating violence", "stalking", "safety planning", "medical advocacy", "prevention education"]
     mission: >-
       The Center for Advocacy, Prevention & Education (CAPE) cultivates a

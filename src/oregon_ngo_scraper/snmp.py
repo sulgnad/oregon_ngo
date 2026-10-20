@@ -17,8 +17,10 @@ internally inconsistent — it spells the housing service three different ways
 
 from __future__ import annotations
 
+import re
+
 from .ids import location_id, organization_id
-from .models import Organization, OrgType, Topic
+from .models import AGENCY_LEVELS, Organization, OrgType, Topic
 
 
 #: Column order of the ``Map Database`` sheet. Must stay byte-identical to the
@@ -137,7 +139,32 @@ def agency_type(org: Organization) -> str:
 
 
 def agency_level(org: Organization) -> str:
+    """An explicit seeded level wins; otherwise the default for the org type.
+
+    The default maps every government body to ``County``, which is wrong for a
+    state university program or a state agency office, hence the override.
+    """
+    if org.agency_level in AGENCY_LEVELS:
+        return org.agency_level
     return ORG_TYPE_TO_AGENCY_LEVEL.get(org.org_type, "")
+
+
+#: An address that is *only* a post-office box. Anchored at the start, so a
+#: street line that merely appends a box ("1233 Veterans St PO Box C, ...")
+#: still counts as a physical address.
+_POSTAL_ONLY_RE = re.compile(r"(?i)^\s*(?:p\.?\s*o\.?\s*box|post\s+office\s+box)\b")
+
+
+def is_postal_address(address: str | None) -> bool:
+    """True when ``address`` is a PO Box rather than a place.
+
+    A box is a real address but not a location anyone can visit or map. The
+    Codebook's ``location_type`` has a ``Postal`` value for exactly this, and
+    says such locations don't show on the map, so the flat Map Database sheet
+    leaves ``Primary_Location_Address`` blank for them while the Location
+    table keeps the box (see :func:`.relational.to_location_row`).
+    """
+    return bool(address) and bool(_POSTAL_ONLY_RE.match(address))
 
 
 def county_label(org: Organization) -> str:
@@ -191,7 +218,11 @@ def to_row(org: Organization) -> dict[str, str]:
             "Primary_Resources_Services": primary_services(org),
             "Services_Summary": summary,
             "Operations_Status": DEFAULT_OPERATIONS_STATUS,
-            "Primary_Location_Address": org.address or "",
+            # A PO Box can't be mapped; the Location table records it as a
+            # Postal location instead.
+            "Primary_Location_Address": (
+                "" if is_postal_address(org.address) else (org.address or "")
+            ),
             "Phone": org.phone or "",
             "Email": org.email or "",
             "URL": org.website or "",

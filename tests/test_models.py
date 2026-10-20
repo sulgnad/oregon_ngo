@@ -84,3 +84,20 @@ def test_merge_prefers_self_org_type_when_known() -> None:
 def test_org_type_is_serialized_to_json() -> None:
     org = Organization(name="X", org_type=OrgType.GOVERNMENT)
     assert org.to_jsonable()["org_type"] == "government"
+
+
+def test_agency_level_defaults_to_none() -> None:
+    assert Organization(name="X").agency_level is None
+
+
+def test_merge_prefers_self_agency_level_and_falls_back_to_other() -> None:
+    seeded = Organization(name="X", agency_level="State")
+    scraped = Organization(name="X", agency_level="County")
+    assert seeded.merge(scraped).agency_level == "State"
+    assert Organization(name="X").merge(seeded).agency_level == "State"
+
+
+def test_agency_level_is_serialized_to_json() -> None:
+    payload = Organization(name="X", agency_level="State").to_jsonable()
+    assert payload["agency_level"] == "State"
+    assert Organization(name="X").to_jsonable()["agency_level"] is None

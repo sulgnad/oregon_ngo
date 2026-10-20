@@ -21,7 +21,7 @@ from __future__ import annotations
 
 from .ids import location_id, organization_id
 from .models import Organization
-from .snmp import DEFAULT_LANGUAGES, services_summary
+from .snmp import DEFAULT_LANGUAGES, is_postal_address, services_summary
 
 
 #: ``Organization Table`` header, verbatim. Note that ``organization_name`` is
@@ -69,11 +69,15 @@ MANUAL_LOCATION_COLUMNS: frozenset[str] = frozenset(
     }
 )
 
-#: Allowed values are ``Physical/Virtual/Postal``. Every row in this dataset is
-#: ``Physical``: the county scoping rule only admits organizations with a
-#: physical office in Jefferson or Tillamook, so a virtual or postal-only
-#: presence would have been filtered out before reaching this point.
+#: Allowed values are ``Physical/Virtual/Postal``. The county scoping rule only
+#: admits organizations with a physical presence in the county, so locations
+#: are ``Physical`` by default.
 DEFAULT_LOCATION_TYPE = "Physical"
+
+#: Used when the only known address is a PO Box, typically an organization
+#: whose office or shelter location is confidential. The Codebook says postal
+#: locations don't appear on the map but their data is still collected.
+POSTAL_LOCATION_TYPE = "Postal"
 
 #: Allowed values are ``Active/Incative`` (sic). Rows are written only for
 #: organizations whose sites responded during collection.
@@ -110,7 +114,11 @@ def to_location_row(org: Organization) -> dict[str, str]:
         {
             "location_id": location_id(org),
             "organization_id": organization_id(org),
-            "location_type": DEFAULT_LOCATION_TYPE,
+            "location_type": (
+                POSTAL_LOCATION_TYPE
+                if is_postal_address(org.address)
+                else DEFAULT_LOCATION_TYPE
+            ),
             "location_name": org.name or "",
             "location_description": services_summary(org),
             "location_adress": org.address or "",

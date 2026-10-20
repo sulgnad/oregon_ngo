@@ -289,9 +289,11 @@ organizations:
   # Sources: thedevereuxcenter.org (own pages) and the Coos Health & Wellness
   # community resource lists, which agree on 1200 Newmark Ave and
   # (541) 888-3202. Also listed in the housing authority's own referral list.
+  # URL fixed 2026-10-20: the www. host has no DNS record, so the earlier
+  # https://www.thedevereuxcenter.org did not load. The bare domain works.
   - name: "The Devereux Center"
     aka: ["Nancy Devereux Center"]
-    website: "https://www.thedevereuxcenter.org"
+    website: "https://thedevereuxcenter.org"
     address: "1200 Newmark Ave, Coos Bay, OR 97420"
     phone: "(541) 888-3202"
     city: "Coos Bay"

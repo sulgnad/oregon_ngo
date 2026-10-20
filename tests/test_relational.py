@@ -109,6 +109,28 @@ def test_location_controlled_vocabulary_values() -> None:
     assert row["location_languages"] == "English"
 
 
+def test_po_box_becomes_a_postal_location() -> None:
+    """The Codebook's location_type allows Postal for exactly this case."""
+    row = relational.to_location_row(
+        _org(address="PO BOX 811, Philomath, OR 97370-0811")
+    )
+    assert row["location_type"] == "Postal"
+    # The box is still recorded; it is only kept off the map.
+    assert row["location_adress"] == "PO BOX 811, Philomath, OR 97370-0811"
+
+
+def test_street_address_stays_a_physical_location() -> None:
+    row = relational.to_location_row(
+        _org(address="1902 Second St, Tillamook, OR 97141")
+    )
+    assert row["location_type"] == "Physical"
+
+
+def test_missing_address_stays_physical() -> None:
+    """Unknown is not the same as postal-only."""
+    assert relational.to_location_row(_org())["location_type"] == "Physical"
+
+
 def test_unscrapable_location_fields_are_left_blank() -> None:
     row = relational.to_location_row(
         _org(address="1902 Second St, Tillamook, OR 97141", mission="Text.")

@@ -24,16 +24,28 @@ they are preserved verbatim rather than re-derived.
 no usable text — a hero banner, a placeholder page, or a parent health
 system's boilerplate — so the scraped value would be wrong rather than merely
 absent. A seeded mission is never overwritten by the extractor.
+
+``agency_level`` sets the export's ``Org_Agency_Level`` directly (City,
+County, State, Federal or Tribal, case-insensitive). Use it when the default
+derived from ``org_type`` is wrong, e.g. a state university program or a state
+agency office, which would otherwise read "County". Unknown values are
+ignored with a warning rather than failing the whole seed file.
 """
 
 from __future__ import annotations
 
+import logging
 from pathlib import Path
 from typing import Iterable, Protocol
 
 import yaml
 
-from ..models import Organization, OrgType, Topic
+from ..models import AGENCY_LEVELS, Organization, OrgType, Topic
+
+
+logger = logging.getLogger(__name__)
+
+_LEVELS_BY_KEY = {level.lower(): level for level in AGENCY_LEVELS}
 
 
 class SeedReader(Protocol):
@@ -83,6 +95,26 @@ def _clean_text(value: object) -> str:
     return " ".join(str(value).split()) if value else ""
 
 
+def _agency_level(value: object, org_name: str) -> str | None:
+    """Canonical agency level for a seed value, or ``None``.
+
+    A typo must not take down the whole seed file (a discovery source that
+    raises is skipped entirely), so an unknown value is logged and dropped,
+    which leaves the export's default level in place.
+    """
+    if value is None or not str(value).strip():
+        return None
+    level = _LEVELS_BY_KEY.get(str(value).strip().lower())
+    if level is None:
+        logger.warning(
+            "seed %r: unknown agency_level %r ignored (allowed: %s)",
+            org_name,
+            value,
+            ", ".join(AGENCY_LEVELS),
+        )
+    return level
+
+
 def _to_org(raw: dict, *, source_url: str, via: str = "seeds") -> Organization | None:
     name = (raw.get("name") or "").strip()
     if not name:
@@ -114,6 +146,7 @@ def _to_org(raw: dict, *, source_url: str, via: str = "seeds") -> Organization |
         keywords=[str(k) for k in (raw.get("keywords") or [])],
         notes=(raw.get("notes") or None),
         org_type=org_type,
+        agency_level=_agency_level(raw.get("agency_level"), name),
         verification_status=(raw.get("verification_status") or None),
         mission=(_clean_text(raw.get("mission")) or None),
         discovered_via=[via],

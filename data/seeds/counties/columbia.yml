@@ -319,9 +319,8 @@ organizations:
   # mailbox out of this row: the first run scraped askus@ohsu.edu, OHSU's
   # general public-inquiry address, which is not this clinic's. Government orgs
   # skip email scraping, and no clinic-specific email is published, so the
-  # email field is left empty. The cost is that the derived Org_Agency_Level
-  # reads "County" for what is really a state-level public corporation; the
-  # export has no "State" branch for this mapping.
+  # email field is left empty. agency_level is set to State because the
+  # type-derived default ("County") is wrong for a state public corporation.
   # The mission below is the clinic's own verbatim access statement; the scraper
   # otherwise picks up OHSU system boilerplate.
   - name: "OHSU Primary Care Clinic, Scappoose"
@@ -333,6 +332,7 @@ organizations:
     county: "Columbia"
     topics: ["maternal_health"]
     org_type: "government"
+    agency_level: "State"
     keywords: ["pregnancy care", "prenatal care", "family medicine obstetrics", "rural health clinic", "reproductive health", "contraception", "sliding scale"]
     mission: >-
       This clinic is a federally recognized Rural Health Clinic. We welcome and

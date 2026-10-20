@@ -54,6 +54,34 @@ def test_mission_is_none_when_not_seeded() -> None:
     assert org.mission is None
 
 
+def _one(content: str):
+    return list(SeedDiscovery(Path("s.yml"), reader=_FakeReader(content)).discover())[0]
+
+
+def test_agency_level_is_read_and_canonicalized() -> None:
+    org = _one('organizations:\n  - name: "Clinic"\n    agency_level: "state"\n')
+    assert org.agency_level == "State"
+
+
+def test_agency_level_is_none_when_not_seeded() -> None:
+    assert _one('organizations:\n  - name: "Clinic"\n').agency_level is None
+
+
+def test_unknown_agency_level_is_dropped_with_a_warning(caplog) -> None:
+    """A typo must not discard the record or the rest of the file."""
+    content = (
+        "organizations:\n"
+        '  - name: "Clinic"\n'
+        '    agency_level: "Statewide"\n'
+        '  - name: "Other"\n'
+    )
+    with caplog.at_level("WARNING"):
+        orgs = list(SeedDiscovery(Path("s.yml"), reader=_FakeReader(content)).discover())
+    assert [o.name for o in orgs] == ["Clinic", "Other"]
+    assert orgs[0].agency_level is None
+    assert "Statewide" in caplog.text
+
+
 def test_blank_mission_is_treated_as_absent() -> None:
     content = 'organizations:\n  - name: "Clinic"\n    mission: "   "\n'
     org = list(SeedDiscovery(Path("s.yml"), reader=_FakeReader(content)).discover())[0]
